@@ -2,16 +2,12 @@ package eu.yeger.prf
 
 import eu.yeger.prf.exception.FunctionException
 
-import java.util.Objects
 import kotlin.math.max
 
 class Recursion constructor(private val baseCaseFunction: Function, private val recursiveCaseFunction: Function) :
     Function() {
 
     init {
-        Objects.requireNonNull(baseCaseFunction)
-        Objects.requireNonNull(recursiveCaseFunction)
-
         setArity(
             max(
                 baseCaseFunction.arity + 1,
@@ -28,5 +24,4 @@ class Recursion constructor(private val baseCaseFunction: Function, private val 
             recursiveCaseFunction.apply(*arguments)
         }
     }
-
 }
