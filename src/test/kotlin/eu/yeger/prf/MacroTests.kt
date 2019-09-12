@@ -6,7 +6,7 @@ import eu.yeger.prf.Macros.subtractFrom
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class IntegrationTests {
+class MacroTests {
 
     @Test
     fun testAddition() {
