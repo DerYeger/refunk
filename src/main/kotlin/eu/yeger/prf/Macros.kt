@@ -20,7 +20,7 @@ object Macros {
 
     //(x,y) -> x + y
     fun addition(): Function {
-        val first = p(1)
+        val first = p(0)
         return Recursion(
             first,
             first.andThen(successor())
@@ -30,7 +30,7 @@ object Macros {
     //x -> x + value
     fun add(value: Long): Function {
         return addition().compose(
-            p(1),
+            p(0),
             c(value)
         )
     }
@@ -39,27 +39,27 @@ object Macros {
     fun predecessor(): Function {
         return Recursion(
             c(0),
-            p(2)
+            p(1)
         )
     }
 
     //(x,y) -> x - y
     fun subtraction(): Function {
-        val first = p(1)
+        val first = p(0)
         return Recursion(
             first,
             first.andThen(predecessor())
         )
             .compose(
-                p(2),
-                p(1)
+                p(1),
+                p(0)
             )
     }
 
     @Throws(FunctionException::class)
     fun subtract(value: Long): Function {
         return subtraction().compose(
-            p(1),
+            p(0),
             c(value)
         )
     }
@@ -68,7 +68,7 @@ object Macros {
     fun subtractFrom(value: Long): Function {
         return subtraction().compose(
             c(value),
-            p(1)
+            p(0)
         )
     }
 
@@ -77,8 +77,8 @@ object Macros {
         return Recursion(
             c(0),
             addition().compose(
-                p(1),
-                p(3)
+                p(0),
+                p(2)
             )
         )
     }
@@ -87,7 +87,7 @@ object Macros {
     @Throws(FunctionException::class)
     fun multiplyBy(value: Long): Function {
         return multiplication().compose(
-            p(1),
+            p(0),
             c(value)
         )
     }
@@ -96,8 +96,8 @@ object Macros {
     @Throws(FunctionException::class)
     fun square(): Function {
         return multiplication().compose(
-            p(1),
-            p(1)
+            p(0),
+            p(0)
         )
     }
 
@@ -106,11 +106,11 @@ object Macros {
         return Recursion(
             c(1),
             multiplication().compose(
-                p(1),
-                p(3)
+                p(0),
+                p(2)
             )
         )
-            .compose(p(2), p(1))
+            .compose(p(1), p(0))
     }
 
     fun caseDifferentiation(
@@ -142,9 +142,9 @@ object Macros {
             c(0),
             caseDifferentiation(
                 boundedMuOperatorDifferentiationFunction(function),
-                p(2)
-                    .andThen(successor()),
                 p(1)
+                    .andThen(successor()),
+                p(0)
             )
         )
     }
@@ -152,12 +152,12 @@ object Macros {
     @Throws(FunctionException::class)
     private fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
         //first test function: function(m+1, x1, ..., xk)
-        val firstTestArguments = Array<Function>(function.requiredArgumentCount) { p(it + 2)}
-        firstTestArguments[0] = p(2).andThen(successor())
+        val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
+        firstTestArguments[0] = p(1).andThen(successor())
         val firstTestFunction = function.compose(*firstTestArguments)
 
         //second test function: boundedMuOperator(m, x1, ..., xk)
-        val secondTestFunction = p(1)
+        val secondTestFunction = p(0)
 
         //third test function: function(0, x1, ..., xk)
         val thirdTestArguments = firstTestArguments.clone()
@@ -184,17 +184,17 @@ object Macros {
     fun ceilingDivision(): Function {
         //(n,x,y) -> x - n * y
         val g = subtraction().compose(
-            p(2),
+            p(1),
             multiplication().compose(
-                p(1),
-                p(3)
+                p(0),
+                p(2)
             )
         )
 
         return boundedMuOperator(g).compose(
-            p(1),
-            p(1),
-            p(2)
+            p(0),
+            p(0),
+            p(1)
         )
     }
 
@@ -206,9 +206,9 @@ object Macros {
         val differentiationFunction = subtraction().compose(
             multiplication().compose(
                 ceilingDivision,
-                p(2)
+                p(1)
             ),
-            p(1)
+            p(0)
         )
 
         return caseDifferentiation(
@@ -224,25 +224,25 @@ object Macros {
         //(n,x,y) -> (x - n * y) + (n * y - x)
         val g = addition().compose(
             subtraction().compose(
-                p(2),
+                p(1),
                 multiplication().compose(
-                    p(1),
-                    p(3)
+                    p(0),
+                    p(2)
                 )
             ),
             subtraction().compose(
                 multiplication().compose(
-                    p(1),
-                    p(3)
+                    p(0),
+                    p(2)
                 ),
-                p(2)
+                p(1)
             )
         )
 
         return boundedMuOperator(g).compose(
-            p(1),
-            p(1),
-            p(2)
+            p(0),
+            p(0),
+            p(1)
         )
     }
 
@@ -252,19 +252,19 @@ object Macros {
     @Throws(FunctionException::class)
     fun log(base: Long): Function {
         val firstTestFunction = subtraction().compose(
-            p(2),
+            p(1),
             exp().compose(
                 c(base),
-                p(1)
+                p(0)
             )
         )
 
         val secondTestFunction = subtraction().compose(
             exp().compose(
                 c(base),
-                p(1)
+                p(0)
             ),
-            p(2)
+            p(1)
         )
 
 
@@ -274,8 +274,8 @@ object Macros {
                 secondTestFunction
             )
         ).compose(
-            p(1),
-            p(1)
+            p(0),
+            p(0)
         )
     }
 }
