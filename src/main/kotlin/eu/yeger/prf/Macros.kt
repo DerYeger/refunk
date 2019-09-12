@@ -1,6 +1,7 @@
 package eu.yeger.prf
 
 import eu.yeger.prf.exception.FunctionException
+import eu.yeger.prf.exception.ProjectionException
 
 @Suppress("Never used")
 object Macros {
@@ -9,7 +10,6 @@ object Macros {
         return Constant(value)
     }
 
-    @Throws(FunctionException::class)
     fun p(index: Int): Projection {
         return Projection(index)
     }
