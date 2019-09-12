@@ -5,7 +5,7 @@ import eu.yeger.prf.exception.FunctionException
 class Successor : Function() {
     init {
         try {
-            setRequiredArgumentCount(1)
+            setArity(1)
         } catch (e: FunctionException) {
             e.printStackTrace()
         }

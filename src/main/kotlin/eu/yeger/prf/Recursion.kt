@@ -12,10 +12,10 @@ class Recursion constructor(private val baseCaseFunction: Function, private val 
         Objects.requireNonNull(baseCaseFunction)
         Objects.requireNonNull(recursiveCaseFunction)
 
-        setRequiredArgumentCount(
+        setArity(
             max(
-                baseCaseFunction.requiredArgumentCount + 1,
-                recursiveCaseFunction.requiredArgumentCount - 1
+                baseCaseFunction.arity + 1,
+                recursiveCaseFunction.arity - 1
             )
         )
     }

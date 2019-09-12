@@ -5,7 +5,7 @@ import eu.yeger.prf.exception.FunctionException
 class Composition constructor(private val evaluator: Function, private vararg val functions: Function) : Function() {
 
     init {
-        setRequiredArgumentCount(functions.map { it.requiredArgumentCount }.max() ?: 0)
+        setArity(functions.map { it.arity }.max() ?: 0)
     }
 
     @Throws(FunctionException::class)
