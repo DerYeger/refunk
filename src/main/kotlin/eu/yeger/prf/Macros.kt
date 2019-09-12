@@ -5,16 +5,16 @@ import eu.yeger.prf.exception.FunctionException
 @Suppress("Never used")
 object Macros {
 
-    fun c(value: Long): Function {
+    fun c(value: Long): Constant {
         return Constant(value)
     }
 
     @Throws(FunctionException::class)
-    fun p(index: Int): Function {
+    fun p(index: Int): Projection {
         return Projection(index)
     }
 
-    fun s(): Function {
+    fun s(): Successor {
         return Successor()
     }
 
@@ -152,7 +152,7 @@ object Macros {
     @Throws(FunctionException::class)
     private fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
         //first test function: function(m+1, x1, ..., xk)
-        val firstTestArguments = Array(function.requiredArgumentCount) { p(it + 2)}
+        val firstTestArguments = Array<Function>(function.requiredArgumentCount) { p(it + 2)}
         firstTestArguments[0] = p(2).andThen(s())
         val firstTestFunction = function.compose(*firstTestArguments)
 
