@@ -1,7 +1,6 @@
 package eu.yeger.prf
 
 import eu.yeger.prf.exception.FunctionException
-import eu.yeger.prf.exception.ProjectionException
 
 @Suppress("Never used")
 object Macros {
