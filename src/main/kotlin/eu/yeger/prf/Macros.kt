@@ -14,7 +14,7 @@ object Macros {
         return Projection(index)
     }
 
-    fun successor(): Successor {
+    fun s(): Successor {
         return Successor()
     }
 
@@ -23,7 +23,7 @@ object Macros {
         val first = p(0)
         return Recursion(
             first,
-            first.andThen(successor())
+            first.andThen(s())
         )
     }
 
@@ -143,7 +143,7 @@ object Macros {
             caseDifferentiation(
                 boundedMuOperatorDifferentiationFunction(function),
                 p(1)
-                    .andThen(successor()),
+                    .andThen(s()),
                 p(0)
             )
         )
@@ -153,7 +153,7 @@ object Macros {
     private fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
         //first test function: function(m+1, x1, ..., xk)
         val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
-        firstTestArguments[0] = p(1).andThen(successor())
+        firstTestArguments[0] = p(1).andThen(s())
         val firstTestFunction = function.compose(*firstTestArguments)
 
         //second test function: boundedMuOperator(m, x1, ..., xk)
