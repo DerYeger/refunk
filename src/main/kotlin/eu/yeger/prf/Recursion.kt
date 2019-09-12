@@ -1,7 +1,5 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.exception.FunctionException
-
 import kotlin.math.max
 
 class Recursion(private val baseCaseFunction: Function, private val recursiveCaseFunction: Function) : Function() {
@@ -14,7 +12,7 @@ class Recursion(private val baseCaseFunction: Function, private val recursiveCas
             )
         )
     }
-    
+
     override fun evaluate(vararg arguments: Long): Long = when(arguments[0]) {
         0L -> baseCaseFunction.apply(*arguments)
         else -> recursiveCaseFunction.apply(*arguments)
