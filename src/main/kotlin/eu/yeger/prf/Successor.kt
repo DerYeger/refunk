@@ -1,18 +1,10 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.exception.FunctionException
-
 class Successor : Function() {
+
     init {
-        try {
-            setArity(1)
-        } catch (e: FunctionException) {
-            e.printStackTrace()
-        }
-
+        setArity(1)
     }
 
-    override fun evaluate(vararg arguments: Long): Long {
-        return arguments[0] + 1
-    }
+    override fun evaluate(vararg arguments: Long): Long = arguments[0] + 1
 }
