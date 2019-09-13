@@ -1,5 +1,6 @@
 # Primitive Recursive Functions
-![Release](https://jitpack.io/v/DerYeger/primitive-recursive-functions.svg)
+[![Release](https://jitpack.io/v/DerYeger/primitive-recursive-functions.svg)](https://jitpack.io/#DerYeger/primitive-recursive-functions)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 A small library for creating primitive recursive functions in Kotlin
 
