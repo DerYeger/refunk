@@ -37,7 +37,7 @@ dependencies {
 <dependency>
   <groupId>com.github.DerYeger</groupId>
     <artifactId>primitive-recursive-functions</artifactId>
-  <version>Tag</version>
+  <version>v1.0.1</version>
 </dependency>
 ```
 
