@@ -1,23 +1,5 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.Macros.add
-import eu.yeger.prf.Macros.addition
-import eu.yeger.prf.Macros.boundedMuOperator
-import eu.yeger.prf.Macros.c
-import eu.yeger.prf.Macros.caseDifferentiation
-import eu.yeger.prf.Macros.ceilingDivision
-import eu.yeger.prf.Macros.division
-import eu.yeger.prf.Macros.exp
-import eu.yeger.prf.Macros.floorDivision
-import eu.yeger.prf.Macros.log
-import eu.yeger.prf.Macros.multiplication
-import eu.yeger.prf.Macros.multiplyBy
-import eu.yeger.prf.Macros.p
-import eu.yeger.prf.Macros.predecessor
-import eu.yeger.prf.Macros.square
-import eu.yeger.prf.Macros.subtract
-import eu.yeger.prf.Macros.subtractFrom
-import eu.yeger.prf.Macros.subtraction
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -1,6 +1,5 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.Macros.c
 import eu.yeger.prf.exception.NaturalNumberException
 import org.junit.Assert
 import org.junit.Assert.assertEquals

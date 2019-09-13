@@ -1,6 +1,5 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.Macros.p
 import eu.yeger.prf.exception.ProjectionException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail

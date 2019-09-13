@@ -1,6 +1,5 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.Macros.c
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
