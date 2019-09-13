@@ -36,4 +36,24 @@ class FunctionTests {
         }
         fail()
     }
+
+    @Test
+    fun testNegative() {
+        try {
+            Successor().andThen(Successor()).apply(Long.MAX_VALUE)
+        } catch (e : NaturalNumberException) {
+            return
+        }
+        fail()
+    }
+
+    @Test
+    fun testNegativeReturn() {
+        try {
+            Successor().apply(Long.MAX_VALUE)
+        } catch (e : NaturalNumberException) {
+            return
+        }
+        fail()
+    }
 }
