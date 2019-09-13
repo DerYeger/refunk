@@ -2,6 +2,7 @@ package eu.yeger.prf
 
 import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
+import eu.yeger.prf.exception.ParameterException
 
 abstract class Function {
 
@@ -17,6 +18,8 @@ abstract class Function {
     internal fun apply(vararg arguments: Long): Long =
         if (arity > arguments.size)
             throw ArityException(arity, arguments.size)
+        else if (arguments.any { it < 0 })
+            throw ParameterException("Primitive recursive functions are only defined for natural numbers")
         else
             evaluate(*arguments)
 
