@@ -42,4 +42,4 @@ dependencies {
 
 ## Usage
 
-Multiple exampes can be found in this [test](src/test/kotlin/eu/yeger/prf/ComplexFunctionTests.kt).
+Multiple examples can be found in this [test](src/test/kotlin/eu/yeger/prf/ComplexFunctionTests.kt).
