@@ -242,7 +242,7 @@ fun division(): Function {
     )
 }
 
-
+//WARNING Due to the nature of recursive functions using log will likely result in a StackOverflowError
 //x -> logBase(x); if logBase(x) is a natural number
 //x -> 0; else
 @Throws(FunctionException::class)
