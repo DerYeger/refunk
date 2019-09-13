@@ -1,12 +1,9 @@
 package eu.yeger.prf.exception
 
-class CompositionException : FunctionException {
+class CompositionException(message: String) : FunctionException(message) {
 
     constructor(
-        requiredFunctionCount: Int,
-        receivedFunctionCount: Int
-    ) : super("Composition requires $requiredFunctionCount functions but only received $receivedFunctionCount") {
-    }
-
-    constructor(message: String) : super(message) {}
+        arity: Int,
+        functionCount: Int
+    ) : this("Composition requires $arity function(s) but only received $functionCount")
 }
