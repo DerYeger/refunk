@@ -91,5 +91,4 @@ class MacroTests {
 //        assertEquals(5, log(2).apply(32))
 //        assertEquals(0, log(2).apply(5))
 //    }
-
 }
