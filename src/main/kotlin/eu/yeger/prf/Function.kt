@@ -15,11 +15,11 @@ abstract class Function {
         this.arity = arity
     }
 
-    internal fun apply(vararg arguments: Long): Long =
+    fun apply(vararg arguments: Long): Long =
         when {
             arity > arguments.size -> throw ArityException(arity, arguments.size)
             arguments.any { it < 0 } -> throw NaturalNumberException()
-            else -> evaluate(*arguments)
+            else -> evaluate(arguments)
         }
 
     fun compose(vararg functions: Function): Function =
@@ -35,5 +35,5 @@ abstract class Function {
             function.compose(this)
 
 
-    protected abstract fun evaluate(vararg arguments: Long): Long
+    protected abstract fun evaluate(arguments: LongArray): Long
 }

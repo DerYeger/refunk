@@ -14,7 +14,7 @@ class Recursion(private val baseCaseFunction: Function, private val recursiveCas
         )
     }
 
-    override fun evaluate(vararg arguments: Long): Long = when(arguments[0]) {
+    override fun evaluate(arguments: LongArray): Long = when(arguments[0]) {
         0L -> baseCaseFunction.apply(*arguments.slice(1 until arguments.size).toLongArray())
         else -> recursiveCaseFunction.apply(*recursiveCaseFunctionArguments(arguments))
     }

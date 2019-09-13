@@ -9,6 +9,6 @@ class Composition constructor(private val evaluator: Function, private vararg va
     }
 
     @Throws(FunctionException::class)
-    override fun evaluate(vararg arguments: Long): Long =
+    override fun evaluate(arguments: LongArray): Long =
         evaluator.apply(*functions.map { it.apply(*arguments) }.toLongArray())
 }

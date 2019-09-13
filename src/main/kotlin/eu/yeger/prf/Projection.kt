@@ -9,5 +9,5 @@ class Projection(private val index: Int) : Function() {
         setArity(index + 1)
     }
 
-    override fun evaluate(vararg arguments: Long): Long = arguments[index]
+    override fun evaluate(arguments: LongArray): Long = arguments[index]
 }
