@@ -15,7 +15,9 @@ abstract class Function {
         this.arity = arity
     }
 
-    fun apply(vararg arguments: Long): Long =
+    fun apply(vararg argument: Long):Long = applyArray(argument)
+
+    internal fun applyArray(arguments: LongArray): Long =
         when {
             arity > arguments.size -> throw ArityException(arity, arguments.size)
             arguments.any { it < 0 } -> throw NaturalNumberException()
