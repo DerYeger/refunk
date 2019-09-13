@@ -1,8 +1,9 @@
 # Primitive Recursive Functions
-[![Release](https://jitpack.io/v/DerYeger/primitive-recursive-functions.svg)](https://jitpack.io/#DerYeger/primitive-recursive-functions)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-A small library for creating primitive recursive functions in Kotlin
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Release](https://jitpack.io/v/DerYeger/primitive-recursive-functions.svg)](https://jitpack.io/#DerYeger/primitive-recursive-functions)
+
+A small and lightweight library for creating primitive recursive functions in Kotlin.
 
 ## Installation
 
@@ -18,7 +19,7 @@ allprojects {
 ```
 ```
 dependencies {
-  implementation 'com.github.DerYeger:primitive-recursive-functions:Tag'
+  implementation 'com.github.DerYeger:primitive-recursive-functions:v1.0.1'
 }
 ```
 
@@ -42,4 +43,16 @@ dependencies {
 
 ## Usage
 
-Multiple examples can be found in this [test](src/test/kotlin/eu/yeger/prf/ComplexFunctionTests.kt).
+```
+val f = multiplyBy(3).andThen(add(6))
+val firstResult = f.apply(4) //18
+val secondResult = f.apply(1) //9
+```
+
+Additional examples can be found [here](src/test/kotlin/eu/yeger/prf/ComplexFunctionTests.kt).
+
+
+## Disclaimer
+
+This library is intended as a tool for studying primitive recursive functions, since evaluating them by hand can be quite tedious.\
+Due to the nature of primitive **recursive** functions, the performance is not great and using them in production code is not recommended. 
