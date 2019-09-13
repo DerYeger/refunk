@@ -21,7 +21,10 @@ abstract class Function {
         when {
             arity > arguments.size -> throw ArityException(arity, arguments.size)
             arguments.any { it < 0 } -> throw NaturalNumberException()
-            else -> evaluate(arguments)
+            else -> {
+                val result = evaluate(arguments)
+                if (result >= 0) result else throw NaturalNumberException()
+            }
         }
 
     fun compose(vararg functions: Function): Function =
