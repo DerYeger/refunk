@@ -85,10 +85,10 @@ class MacroTests {
         assertEquals(0, division().apply(5, 2))
     }
 
-//    TODO FIX java.lang.StackOverflowError
-//    @Test
-//    fun testLog() {
-//        assertEquals(5, log(2).apply(32))
-//        assertEquals(0, log(2).apply(5))
-//    }
+    @Test
+    fun testLog() {
+        assertEquals(2, log(2).apply(4))
+        assertEquals(0, log(2).apply(1))
+        assertEquals(0, log(2).apply(5))
+    }
 }
