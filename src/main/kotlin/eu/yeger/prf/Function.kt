@@ -19,7 +19,7 @@ abstract class Function {
         if (arity > arguments.size)
             throw ArityException(arity, arguments.size)
         else if (arguments.any { it < 0 })
-            throw NaturalNumberException("Primitive recursive functions are only defined for natural numbers")
+            throw NaturalNumberException()
         else
             evaluate(*arguments)
 
