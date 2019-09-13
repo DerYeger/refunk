@@ -10,7 +10,7 @@ abstract class Function {
 
     internal fun setArity(arity: Int) {
         if (arity < 0)
-            throw ArityException("Function can not have a negative arity")
+            throw ArityException("Function $this can not have a negative arity")
 
         this.arity = arity
     }
@@ -30,7 +30,7 @@ abstract class Function {
 
     fun andThen(function: Function): Function =
         if (function.arity > 1)
-            throw CompositionException("Function requires more than 1 argument")
+            throw CompositionException("Function $function requires more than 1 argument")
         else
             function.compose(this)
 
