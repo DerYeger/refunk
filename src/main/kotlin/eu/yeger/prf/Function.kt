@@ -16,12 +16,11 @@ abstract class Function {
     }
 
     internal fun apply(vararg arguments: Long): Long =
-        if (arity > arguments.size)
-            throw ArityException(arity, arguments.size)
-        else if (arguments.any { it < 0 })
-            throw NaturalNumberException()
-        else
-            evaluate(*arguments)
+        when {
+            arity > arguments.size -> throw ArityException(arity, arguments.size)
+            arguments.any { it < 0 } -> throw NaturalNumberException()
+            else -> evaluate(*arguments)
+        }
 
     fun compose(vararg functions: Function): Function =
         if (arity > functions.size)
