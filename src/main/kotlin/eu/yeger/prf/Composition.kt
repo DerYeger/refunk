@@ -6,7 +6,7 @@ class Composition constructor(
     private val evaluator: Function,
     private vararg val functions: Function,
     private val lazy: Boolean = false
-    ) : Function() {
+) : Function() {
 
     init {
         if (evaluator.arity > functions.size) throw CompositionException(evaluator.arity, functions.size)

@@ -7,7 +7,7 @@ class Recursion(
     private val baseCaseFunction: Function,
     private val recursiveCaseFunction: Function,
     private val lazy: Boolean = false
-    ) : Function() {
+) : Function() {
 
     init {
         setArity(
