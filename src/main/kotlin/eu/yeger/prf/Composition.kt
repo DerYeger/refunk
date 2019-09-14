@@ -9,6 +9,11 @@ class Composition constructor(private val evaluator: Function, private vararg va
     }
 
     @Throws(FunctionException::class)
-    override fun evaluate(arguments: LongArray): Long =
-        evaluator.applyArray(functions.map { it.applyArray(arguments) }.toLongArray())
+    override fun evaluate(arguments: Array<Argument>) =
+        evaluator.applyArguments(
+            functions
+                .slice(0 until evaluator.arity)
+                .map { it.applyArguments(arguments).toNaturalNumber() }
+                .toTypedArray()
+        )
 }
