@@ -1,16 +1,10 @@
 package eu.yeger.prf
 
-fun c(value: Long): Constant {
-    return Constant(value)
-}
+fun c(value: Long) = Constant(value)
 
-fun p(index: Int): Projection {
-    return Projection(index)
-}
+fun p(index: Int) = Projection(index)
 
-fun s(): Successor {
-    return Successor()
-}
+fun s(): Successor = Successor()
 
 //(x,y) -> x + y
 fun addition(): Function {
@@ -22,20 +16,10 @@ fun addition(): Function {
 }
 
 //x -> x + value
-fun add(value: Long): Function {
-    return addition().compose(
-        p(0),
-        c(value)
-    )
-}
+fun add(value: Long) = addition().compose(p(0), c(value))
 
 //x -> x - 1
-fun predecessor(): Function {
-    return Recursion(
-        c(0),
-        p(1)
-    )
-}
+fun predecessor() = Recursion(c(0), p(1))
 
 //(x,y) -> x - y
 fun subtraction(): Function {
@@ -51,51 +35,23 @@ fun subtraction(): Function {
 }
 
 //x -> x - value
-fun subtract(value: Long): Function {
-    return subtraction().compose(
-        p(0),
-        c(value)
-    )
-}
+fun subtract(value: Long) = subtraction().compose(p(0), c(value))
 
 //x -> value - x
-fun subtractFrom(value: Long): Function {
-    return subtraction().compose(
-        c(value),
-        p(0)
-    )
-}
+fun subtractFrom(value: Long) = subtraction().compose(c(value), p(0))
 
 //(x,y) -> x * y
-fun multiplication(): Function {
-    return Recursion(
-        c(0),
-        addition().compose(
-            p(0),
-            p(2)
-        )
-    )
-}
+fun multiplication() = Recursion(c(0), addition().compose(p(0), p(2)))
 
 //x -> x * value
-fun multiplyBy(value: Long): Function {
-    return multiplication().compose(
-        p(0),
-        c(value)
-    )
-}
+fun multiplyBy(value: Long) =  multiplication().compose(p(0), c(value))
 
 //x -> x²
-fun square(): Function {
-    return multiplication().compose(
-        p(0),
-        p(0)
-    )
-}
+fun square() =  multiplication().compose(p(0), p(0))
 
 //(x,y) -> x^y
-fun exp(): Function {
-    return Recursion(
+fun exp() =
+    Recursion(
         c(1),
         multiplication().compose(
             p(0),
@@ -105,7 +61,6 @@ fun exp(): Function {
         p(1),
         p(0)
     )
-}
 
 fun caseDifferentiation(
     differentiationFunction: Function,
@@ -133,18 +88,17 @@ fun caseDifferentiation(
     )
 }
 
-fun boundedMuOperator(function: Function): Function {
-    return Recursion(
+fun boundedMuOperator(function: Function) =
+    Recursion(
         c(0),
         caseDifferentiation(
-            boundedMuOperatorDifferentiationFunction(function, addition(), subtraction()),
+            boundedMuOperatorDifferentiationFunction(function),
             p(1).andThen(s()),
             p(0)
         )
     )
-}
 
-internal fun boundedMuOperatorDifferentiationFunction(function: Function, add: Function, sub: Function): Function {
+internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
     firstTestArguments[0] = p(1).andThen(s())
     val firstTestFunction = function.compose(*firstTestArguments)
@@ -154,6 +108,9 @@ internal fun boundedMuOperatorDifferentiationFunction(function: Function, add: F
     val thirdTestArguments = firstTestArguments.clone()
     thirdTestArguments[0] = c(0)
     val thirdTestFunction = function.compose(*thirdTestArguments)
+
+    val add = addition()
+    val sub = subtraction()
 
     return add.compose(
         firstTestFunction,
