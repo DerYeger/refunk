@@ -1,7 +1,5 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.exception.FunctionException
-
 fun c(value: Long): Constant {
     return Constant(value)
 }
@@ -42,17 +40,17 @@ fun predecessor(): Function {
 //(x,y) -> x - y
 fun subtraction(): Function {
     val first = p(0)
+
     return Recursion(
         first,
         first.andThen(predecessor())
+    ).compose(
+        p(1),
+        p(0)
     )
-        .compose(
-            p(1),
-            p(0)
-        )
 }
 
-@Throws(FunctionException::class)
+//x -> x - value
 fun subtract(value: Long): Function {
     return subtraction().compose(
         p(0),
@@ -60,7 +58,7 @@ fun subtract(value: Long): Function {
     )
 }
 
-@Throws(FunctionException::class)
+//x -> value - x
 fun subtractFrom(value: Long): Function {
     return subtraction().compose(
         c(value),
@@ -80,7 +78,6 @@ fun multiplication(): Function {
 }
 
 //x -> x * value
-@Throws(FunctionException::class)
 fun multiplyBy(value: Long): Function {
     return multiplication().compose(
         p(0),
@@ -89,7 +86,6 @@ fun multiplyBy(value: Long): Function {
 }
 
 //x -> x²
-@Throws(FunctionException::class)
 fun square(): Function {
     return multiplication().compose(
         p(0),
@@ -105,8 +101,10 @@ fun exp(): Function {
             p(0),
             p(2)
         )
+    ).compose(
+        p(1),
+        p(0)
     )
-        .compose(p(1), p(0))
 }
 
 fun caseDifferentiation(
@@ -114,17 +112,19 @@ fun caseDifferentiation(
     zeroCaseFunction: Function,
     otherCaseFunction: Function
 ): Function {
+    val subtractFromOne = subtractFrom(1)
+
     val zeroCaseTestFunction = multiplication().compose(
         zeroCaseFunction,
         differentiationFunction
-            .andThen(subtractFrom(1))
+            .andThen(subtractFromOne)
     )
 
     val otherCaseTestFunction = multiplication().compose(
         otherCaseFunction,
         differentiationFunction
-            .andThen(subtractFrom(1))
-            .andThen(subtractFrom(1))
+            .andThen(subtractFromOne)
+            .andThen(subtractFromOne)
     )
 
     return addition().compose(
@@ -138,14 +138,12 @@ fun boundedMuOperator(function: Function): Function {
         c(0),
         caseDifferentiation(
             boundedMuOperatorDifferentiationFunction(function),
-            p(1)
-                .andThen(s()),
+            p(1).andThen(s()),
             p(0)
         )
     )
 }
 
-@Throws(FunctionException::class)
 private fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     //first test function: function(m+1, x1, ..., xk)
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
@@ -245,7 +243,6 @@ fun division(): Function {
 //WARNING Due to the nature of recursive functions using log will likely result in a StackOverflowError
 //x -> logBase(x); if logBase(x) is a natural number
 //x -> 0; else
-@Throws(FunctionException::class)
 fun log(base: Long): Function {
     val firstTestFunction = subtraction().compose(
         p(1),
@@ -262,7 +259,6 @@ fun log(base: Long): Function {
         ),
         p(1)
     )
-
 
     return boundedMuOperator(
         addition().compose(
