@@ -26,6 +26,7 @@ class NonRecursiveMacroTests {
     @Test
     fun testSubtraction() {
         assertEquals(42, subtraction().apply(50, 8))
+        assertEquals(0, subtraction().apply(5, 10))
     }
 
     @Test
