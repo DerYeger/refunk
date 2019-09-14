@@ -17,7 +17,7 @@ class Composition constructor(
     override fun evaluate(arguments: Array<Argument>) =
         evaluator.applyArguments(
             functions
-                .slice(0 until min(evaluator.arity, functions.size))
+                .slice(0 until evaluator.arity)
                 .map { it.asArgument(arguments, lazy) }
                 .toTypedArray()
         )
