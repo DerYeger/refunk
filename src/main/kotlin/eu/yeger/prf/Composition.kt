@@ -1,5 +1,6 @@
 package eu.yeger.prf
 
+import eu.yeger.prf.exception.CompositionException
 import kotlin.math.min
 
 class Composition constructor(
@@ -9,6 +10,7 @@ class Composition constructor(
     ) : Function() {
 
     init {
+        if (evaluator.arity > functions.size) throw CompositionException(evaluator.arity, functions.size)
         setArity(functions.map { it.arity }.max() ?: 0)
     }
 
