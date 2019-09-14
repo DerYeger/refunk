@@ -137,31 +137,24 @@ fun boundedMuOperator(function: Function): Function {
     return Recursion(
         c(0),
         caseDifferentiation(
-            boundedMuOperatorDifferentiationFunction(function),
+            boundedMuOperatorDifferentiationFunction(function, addition(), subtraction()),
             p(1).andThen(s()),
             p(0)
         )
     )
 }
 
-private fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
-    //first test function: function(m+1, x1, ..., xk)
+internal fun boundedMuOperatorDifferentiationFunction(function: Function, add: Function, sub: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
     firstTestArguments[0] = p(1).andThen(s())
     val firstTestFunction = function.compose(*firstTestArguments)
 
-    //second test function: boundedMuOperator(m, x1, ..., xk)
     val secondTestFunction = p(0)
 
-    //third test function: function(0, x1, ..., xk)
     val thirdTestArguments = firstTestArguments.clone()
     thirdTestArguments[0] = c(0)
     val thirdTestFunction = function.compose(*thirdTestArguments)
 
-    val add = addition()
-    val sub = subtraction()
-
-    //differentiationFunction is 0 if first and second test functions return 0 and the third test function does not
     return add.compose(
         firstTestFunction,
         add.compose(

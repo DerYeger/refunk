@@ -17,11 +17,8 @@ internal fun Function.asArgument(arguments: Array<Argument>) = ArgumentFunction(
 internal inline class NaturalNumber(private val value: Long) : Argument {
 
     override fun evaluated() = value
-
-    fun decremented() = if (value > 0) (value - 1).toNaturalNumber() else NaturalNumber(0)
 }
 
 internal fun Long.toNaturalNumber() = if (this >= 0) NaturalNumber(this) else throw NaturalNumberException()
 
 internal fun Argument.incremented() = (this.evaluated() + 1).toNaturalNumber()
-internal fun Argument.decremented() = this.evaluated().toNaturalNumber().decremented()

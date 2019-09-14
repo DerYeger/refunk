@@ -1,5 +1,6 @@
 package eu.yeger.prf
 
+import eu.yeger.prf.non_recursive.bounded
 import kotlin.math.max
 
 class Recursion(private val baseCaseFunction: Function, private val recursiveCaseFunction: Function) : Function() {
@@ -21,7 +22,7 @@ class Recursion(private val baseCaseFunction: Function, private val recursiveCas
     private fun recursiveCaseFunctionArguments(arguments: Array<Argument>): Array<Argument> {
         //decrement the recursion parameter for the next recursive call
         val recursionArguments = arguments.clone()
-        recursionArguments[0] = recursionArguments[0].decremented()
+        recursionArguments[0] = (recursionArguments[0].evaluated() - 1).bounded().toNaturalNumber()
 
         return arrayOf(this.asArgument(recursionArguments).evaluated().toNaturalNumber(), *recursionArguments)
     }
