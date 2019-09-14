@@ -2,7 +2,7 @@ package eu.yeger.prf
 
 import eu.yeger.prf.exception.CompositionException
 
-class Composition constructor(
+class Composition(
     private val evaluator: Function,
     private vararg val functions: Function,
     private val lazy: Boolean = false
