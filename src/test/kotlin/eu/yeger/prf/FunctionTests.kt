@@ -8,6 +8,16 @@ import org.junit.Test
 class FunctionTests {
 
     @Test
+    fun testArityException() {
+        try {
+            Projection(0).apply()
+        } catch (e : NaturalNumberException) {
+            return
+        }
+        fail()
+    }
+
+    @Test
     fun testApplyException() {
         try {
             Successor().apply(-1)
