@@ -1,11 +1,23 @@
 package eu.yeger.prf
 
-class Composition constructor(private val evaluator: Function, private vararg val functions: Function) : Function() {
+import eu.yeger.prf.exception.CompositionException
+
+class Composition constructor(
+    private val evaluator: Function,
+    private vararg val functions: Function,
+    private val lazy: Boolean = false
+) : Function() {
 
     init {
+        if (evaluator.arity > functions.size) throw CompositionException(evaluator.arity, functions.size)
         setArity(functions.map { it.arity }.max() ?: 0)
     }
 
-    override fun evaluate(arguments: LongArray): Long =
-        evaluator.applyArray(functions.map { it.applyArray(arguments) }.toLongArray())
+    override fun evaluate(arguments: Array<Argument>) =
+        evaluator.applyArguments(
+            functions
+                .slice(0 until evaluator.arity)
+                .map { it.asArgument(arguments, lazy) }
+                .toTypedArray()
+        )
 }
