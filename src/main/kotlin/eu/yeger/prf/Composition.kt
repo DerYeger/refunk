@@ -12,7 +12,7 @@ class Composition constructor(private val evaluator: Function, private vararg va
         evaluator.applyArguments(
             functions
                 .slice(0 until min(evaluator.arity, functions.size))
-                .map { it.asArgument(arguments) }
+                .map { it.asArgument(arguments).evaluated().toNaturalNumber() }
                 .toTypedArray()
         )
 }

@@ -23,6 +23,6 @@ class Recursion(private val baseCaseFunction: Function, private val recursiveCas
         val recursionArguments = arguments.clone()
         recursionArguments[0] = recursionArguments[0].decremented()
 
-        return arrayOf(this.asArgument(recursionArguments), *recursionArguments)
+        return arrayOf(this.asArgument(recursionArguments).evaluated().toNaturalNumber(), *recursionArguments)
     }
 }
