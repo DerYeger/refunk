@@ -78,15 +78,23 @@ fun caseDifferentiation(
     )
 }
 
-fun boundedMuOperator(function: Function): Function {
-    return Recursion(
-        c(0),
-        caseDifferentiation(
-            boundedMuOperatorDifferentiationFunction(function, addition(), subtraction()),
-            p(1).andThen(s()),
-            p(0)
-        )
-    )
+fun boundedMuOperator(function: Function) = object : Function() {
+    init { setArity(function.arity) }
+
+    override fun evaluate(arguments: Array<Argument>): Long {
+        for (x in 0..arguments[0].evaluated()) {
+            if (function.applyArguments(
+                        arrayOf(
+                            x.toNaturalNumber(),
+                            *arguments
+                                .slice(1 until arguments.size)
+                                .toTypedArray())
+                ) == 0L) {
+                return x
+            }
+        }
+        return 0
+    }
 }
 
 fun ceilingDivision() = object : Function() {
