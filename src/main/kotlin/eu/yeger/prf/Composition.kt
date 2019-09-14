@@ -1,7 +1,6 @@
 package eu.yeger.prf
 
 import eu.yeger.prf.exception.CompositionException
-import kotlin.math.min
 
 class Composition constructor(
     private val evaluator: Function,
