@@ -18,6 +18,7 @@ class MacroTests {
     @Test
     fun testPredecessor() {
         assertEquals(42, predecessor().apply(43))
+        assertEquals(0, predecessor().apply(0))
     }
 
     @Test
