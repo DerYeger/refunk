@@ -62,11 +62,11 @@ class MacroTests {
         assertEquals(42, caseDifferentiation(p(0), c(42), c(10)).apply(0, 1))
     }
 
-//    TODO FIX
-//    @Test
-//    fun testBoundedMuOperator() {
-//        assertEquals(10, boundedMuOperator(predecessor()).apply(3, 2, 1))
-//    }
+    @Test
+    fun testBoundedMuOperator() {
+        assertEquals(2, boundedMuOperator(subtractFrom(2)).apply(2))
+        assertEquals(0, boundedMuOperator(subtractFrom(2)).apply(1))
+    }
 
     @Test
     fun testCeilingDivision() {
