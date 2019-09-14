@@ -12,11 +12,11 @@ internal class ArgumentFunction(private val function: Function, private val argu
     override fun evaluated(): Long = function.applyArguments(arguments)
 }
 
+internal fun Function.asArgument(arguments: Array<Argument>) = ArgumentFunction(this, arguments)
+
 internal inline class NaturalNumber(private val value: Long) : Argument {
 
     override fun evaluated(): Long = value
 }
 
 internal fun Long.toNaturalNumber() = if (this >= 0) NaturalNumber(this) else throw NaturalNumberException()
-
-
