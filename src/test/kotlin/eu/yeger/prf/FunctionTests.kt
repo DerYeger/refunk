@@ -1,5 +1,6 @@
 package eu.yeger.prf
 
+import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
 import eu.yeger.prf.exception.NaturalNumberException
 import org.junit.Assert.fail
@@ -11,7 +12,7 @@ class FunctionTests {
     fun testArityException() {
         try {
             Projection(0).apply()
-        } catch (e : NaturalNumberException) {
+        } catch (e : ArityException) {
             return
         }
         fail()
