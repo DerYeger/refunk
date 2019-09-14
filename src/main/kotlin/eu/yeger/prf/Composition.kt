@@ -1,6 +1,6 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.exception.FunctionException
+import kotlin.math.min
 
 class Composition constructor(private val evaluator: Function, private vararg val functions: Function) : Function() {
 
@@ -8,12 +8,11 @@ class Composition constructor(private val evaluator: Function, private vararg va
         setArity(functions.map { it.arity }.max() ?: 0)
     }
 
-    @Throws(FunctionException::class)
     override fun evaluate(arguments: Array<Argument>) =
         evaluator.applyArguments(
             functions
-                .slice(0 until evaluator.arity)
-                .map { it.applyArguments(arguments).toNaturalNumber() }
+                .slice(0 until min(evaluator.arity, functions.size))
+                .map { it.asArgument(arguments) }
                 .toTypedArray()
         )
 }
