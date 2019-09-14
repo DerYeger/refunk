@@ -3,6 +3,7 @@ package eu.yeger.prf
 import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
 import eu.yeger.prf.exception.NaturalNumberException
+import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
 
@@ -10,6 +11,19 @@ class FunctionTests {
 
     @Test
     fun testArityException() {
+        try {
+            object : Function() {
+                init { setArity(-1) }
+                override fun evaluate(arguments: Array<Argument>) = 0L
+            }
+        } catch (e : ArityException) {
+            return
+        }
+        fail()
+    }
+
+    @Test
+    fun testArgumentArityException() {
         try {
             Projection(0).apply()
         } catch (e : ArityException) {
@@ -66,5 +80,19 @@ class FunctionTests {
             return
         }
         fail()
+    }
+
+    @Test
+    fun testLazyEvaluation() {
+        val failingFunction = object : Function() {
+            init { setArity(0) }
+
+            override fun evaluate(arguments: Array<Argument>): Long {
+                fail()
+                return 0
+            }
+        }
+
+        assertEquals(1, addition().compose(Constant(1), Constant(0), failingFunction, lazy = true).apply())
     }
 }
