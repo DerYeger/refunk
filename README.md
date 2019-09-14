@@ -94,14 +94,14 @@ They are interchangeable with the recursive implementations and provide improved
 ## Exceptions
 
 - Evaluating a function will throw an `ArityException` if not enough arguments were passed.
-- Setting the arity of a function will throw an `ArityException` if it's negative.
-- Projection will throw a `ProjectionException` if the projection index is negative.
+- Setting the arity of a function to a negative value will throw an `ArityException`.
+- Projecting a negative index will throw a `ProjectionException`.
 - Composing functions will throw a `CompositionException` if the arity of the evaluating function is not met.
 - Composing with `andThen` will throw a `CompositionException` if the parameter is not an unary function.
 - Negative values will, at any point during the evaluation and instantiation, throw a `NaturalNumberException`.
-- Successor will throw a `NaturalNumberException` if it will cause an overflow. **Note**: None of the non-recursive macros will throw an exception in this case, and instead set the value to 0.
+- Evaluating a `Successor` function will throw a `NaturalNumberException` if it would cause an overflow. **Note**: None of the non-recursive macros will throw an exception in this case, and instead set the value to 0.
 
-## Disclaimer
+## Intention
 
 This library is intended as a tool for studying primitive recursive functions, since evaluating them by hand can be quite tedious.\
 Because the implementation is based on experimental Kotlin features, using them in production is not recommended.
