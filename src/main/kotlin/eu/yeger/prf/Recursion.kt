@@ -3,7 +3,11 @@ package eu.yeger.prf
 import eu.yeger.prf.non_recursive.bounded
 import kotlin.math.max
 
-class Recursion(private val baseCaseFunction: Function, private val recursiveCaseFunction: Function) : Function() {
+class Recursion(
+    private val baseCaseFunction: Function,
+    private val recursiveCaseFunction: Function,
+    private val lazy: Boolean = false
+    ) : Function() {
 
     init {
         setArity(
@@ -24,6 +28,6 @@ class Recursion(private val baseCaseFunction: Function, private val recursiveCas
         val recursionArguments = arguments.clone()
         recursionArguments[0] = (recursionArguments[0].evaluated() - 1).bounded().toNaturalNumber()
 
-        return arrayOf(this.asArgument(recursionArguments).evaluated().toNaturalNumber(), *recursionArguments)
+        return arrayOf(this.asArgument(recursionArguments, lazy), *recursionArguments)
     }
 }
