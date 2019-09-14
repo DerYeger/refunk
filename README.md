@@ -21,7 +21,7 @@ allprojects {
 ```
 ```
 dependencies {
-  implementation 'com.github.DerYeger:primitive-recursive-functions:v1.0.1'
+  implementation 'com.github.DerYeger:primitive-recursive-functions:v1.1.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.DerYeger</groupId>
     <artifactId>primitive-recursive-functions</artifactId>
-  <version>v1.0.1</version>
+  <version>v1.1.0</version>
 </dependency>
 ```
 
