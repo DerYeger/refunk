@@ -15,30 +15,25 @@ abstract class Function {
         this.arity = arity
     }
 
-    fun apply(vararg argument: Long):Long = applyArray(argument)
+    fun apply(vararg arguments: Long) = applyArguments(arguments.map { it.toNaturalNumber() }.toTypedArray())
 
-    internal fun applyArray(arguments: LongArray): Long =
+    internal fun applyArguments(arguments: Array<Argument>) =
         when {
             arity > arguments.size -> throw ArityException(arity, arguments.size)
-            arguments.any { it < 0 } -> throw NaturalNumberException()
             else -> {
                 val result = evaluate(arguments)
                 if (result >= 0) result else throw NaturalNumberException()
             }
         }
 
-    fun compose(vararg functions: Function): Function =
-        if (arity > functions.size)
-            throw CompositionException(arity, functions.size)
-        else
-            Composition(this, *functions)
+    fun compose(vararg functions: Function, lazy: Boolean = false) = Composition(this, *functions, lazy = lazy)
 
-    fun andThen(function: Function): Function =
+    fun andThen(function: Function, lazy: Boolean = false) =
         if (function.arity > 1)
             throw CompositionException("Function $function requires more than 1 argument")
         else
-            function.compose(this)
+            function.compose(this, lazy = lazy)
 
 
-    protected abstract fun evaluate(arguments: LongArray): Long
+    protected abstract fun evaluate(arguments: Array<Argument>): Long
 }

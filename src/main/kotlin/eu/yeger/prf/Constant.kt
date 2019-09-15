@@ -8,5 +8,5 @@ class Constant(private val value: Long) : Function() {
         if (value < 0) throw NaturalNumberException()
     }
 
-    override fun evaluate(arguments: LongArray): Long = value
+    override fun evaluate(arguments: Array<Argument>) = value
 }

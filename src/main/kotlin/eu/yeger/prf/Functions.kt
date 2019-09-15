@@ -1,18 +1,10 @@
 package eu.yeger.prf
 
-import eu.yeger.prf.exception.FunctionException
+fun c(value: Long) = Constant(value)
 
-fun c(value: Long): Constant {
-    return Constant(value)
-}
+fun p(index: Int) = Projection(index)
 
-fun p(index: Int): Projection {
-    return Projection(index)
-}
-
-fun s(): Successor {
-    return Successor()
-}
+fun s(): Successor = Successor()
 
 //(x,y) -> x + y
 fun addition(): Function {
@@ -24,107 +16,70 @@ fun addition(): Function {
 }
 
 //x -> x + value
-fun add(value: Long): Function {
-    return addition().compose(
-        p(0),
-        c(value)
-    )
-}
+fun add(value: Long) = addition().compose(p(0), c(value))
 
 //x -> x - 1
-fun predecessor(): Function {
-    return Recursion(
-        c(0),
-        p(1)
-    )
-}
+fun predecessor() = Recursion(c(0), p(1))
 
 //(x,y) -> x - y
 fun subtraction(): Function {
     val first = p(0)
+
     return Recursion(
         first,
         first.andThen(predecessor())
-    )
-        .compose(
-            p(1),
-            p(0)
-        )
-}
-
-@Throws(FunctionException::class)
-fun subtract(value: Long): Function {
-    return subtraction().compose(
-        p(0),
-        c(value)
-    )
-}
-
-@Throws(FunctionException::class)
-fun subtractFrom(value: Long): Function {
-    return subtraction().compose(
-        c(value),
+    ).compose(
+        p(1),
         p(0)
     )
 }
+
+//x -> x - value
+fun subtract(value: Long) = subtraction().compose(p(0), c(value))
+
+//x -> value - x
+fun subtractFrom(value: Long) = subtraction().compose(c(value), p(0))
 
 //(x,y) -> x * y
-fun multiplication(): Function {
-    return Recursion(
-        c(0),
-        addition().compose(
-            p(0),
-            p(2)
-        )
-    )
-}
+fun multiplication() = Recursion(c(0), addition().compose(p(0), p(2)))
 
 //x -> x * value
-@Throws(FunctionException::class)
-fun multiplyBy(value: Long): Function {
-    return multiplication().compose(
-        p(0),
-        c(value)
-    )
-}
+fun multiplyBy(value: Long) =  multiplication().compose(p(0), c(value))
 
 //x -> x²
-@Throws(FunctionException::class)
-fun square(): Function {
-    return multiplication().compose(
-        p(0),
-        p(0)
-    )
-}
+fun square() =  multiplication().compose(p(0), p(0))
 
 //(x,y) -> x^y
-fun exp(): Function {
-    return Recursion(
+fun exp() =
+    Recursion(
         c(1),
         multiplication().compose(
             p(0),
             p(2)
         )
+    ).compose(
+        p(1),
+        p(0)
     )
-        .compose(p(1), p(0))
-}
 
 fun caseDifferentiation(
     differentiationFunction: Function,
     zeroCaseFunction: Function,
     otherCaseFunction: Function
 ): Function {
+    val subtractFromOne = subtractFrom(1)
+
     val zeroCaseTestFunction = multiplication().compose(
         zeroCaseFunction,
         differentiationFunction
-            .andThen(subtractFrom(1))
+            .andThen(subtractFromOne)
     )
 
     val otherCaseTestFunction = multiplication().compose(
         otherCaseFunction,
         differentiationFunction
-            .andThen(subtractFrom(1))
-            .andThen(subtractFrom(1))
+            .andThen(subtractFromOne)
+            .andThen(subtractFromOne)
     )
 
     return addition().compose(
@@ -133,29 +88,23 @@ fun caseDifferentiation(
     )
 }
 
-fun boundedMuOperator(function: Function): Function {
-    return Recursion(
+fun boundedMuOperator(function: Function) =
+    Recursion(
         c(0),
         caseDifferentiation(
             boundedMuOperatorDifferentiationFunction(function),
-            p(1)
-                .andThen(s()),
+            p(1).andThen(s()),
             p(0)
         )
     )
-}
 
-@Throws(FunctionException::class)
-private fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
-    //first test function: function(m+1, x1, ..., xk)
+internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
     firstTestArguments[0] = p(1).andThen(s())
     val firstTestFunction = function.compose(*firstTestArguments)
 
-    //second test function: boundedMuOperator(m, x1, ..., xk)
     val secondTestFunction = p(0)
 
-    //third test function: function(0, x1, ..., xk)
     val thirdTestArguments = firstTestArguments.clone()
     thirdTestArguments[0] = c(0)
     val thirdTestFunction = function.compose(*thirdTestArguments)
@@ -163,7 +112,6 @@ private fun boundedMuOperatorDifferentiationFunction(function: Function): Functi
     val add = addition()
     val sub = subtraction()
 
-    //differentiationFunction is 0 if first and second test functions return 0 and the third test function does not
     return add.compose(
         firstTestFunction,
         add.compose(
@@ -245,7 +193,6 @@ fun division(): Function {
 //WARNING Due to the nature of recursive functions using log will likely result in a StackOverflowError
 //x -> logBase(x); if logBase(x) is a natural number
 //x -> 0; else
-@Throws(FunctionException::class)
 fun log(base: Long): Function {
     val firstTestFunction = subtraction().compose(
         p(1),
@@ -262,7 +209,6 @@ fun log(base: Long): Function {
         ),
         p(1)
     )
-
 
     return boundedMuOperator(
         addition().compose(
