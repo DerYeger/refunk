@@ -34,7 +34,7 @@ abstract class Function {
 
     infix fun andThen(function: Function) =
         if (function.arity > 1)
-            throw CompositionException("Function $function requires more than 1 argument")
+            throw CompositionException("Parameter $function is not a unary function")
         else
             function.compose(this, lazy = true)
 
