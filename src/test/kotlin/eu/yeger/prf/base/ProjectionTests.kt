@@ -15,13 +15,6 @@ class ProjectionTests {
     }
 
     @Test
-    fun testProjectionMacro() {
-        assertEquals(5, p(0).apply(5, 10, 20))
-        assertEquals(10, p(1).apply(5, 10, 20))
-        assertEquals(20, p(2).apply(5, 10, 20))
-    }
-
-    @Test
     fun testProjectionException() {
         try {
             p(-1).apply(10)

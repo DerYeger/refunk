@@ -8,4 +8,4 @@ fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(inde
 
 fun s(): Successor = Successor()
 
-fun successorOf(collector: () -> Array<Function>) = Successor().of(collector)
+fun successorOf(function: Function) = Successor().of(function)

@@ -14,12 +14,6 @@ class ConstantTests {
     }
 
     @Test
-    fun testConstantMacro() {
-        assertEquals(10, c(10).apply())
-        assertEquals(10, c(10).apply(1, 2, 3, 4, 5))
-    }
-
-    @Test
     fun testConstantException() {
         try {
             c(-42)
