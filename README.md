@@ -54,17 +54,15 @@ dependencies {
 
 ### Composition
 
-Composed functions like `(args) -> f(g1(args), ..., gn(args))` can be created with the `Composition` class 
+Composed functions like `(args) -> f(g1(args), ..., gn(args))` can be created with the `Composition` class and various other methods
 ```
 val f = ... 
 val g1 = ... 
 ...
 val gn = ...
-val myComposition = Composition(f, g1, ..., gn)
-```
-or by using `Function::compose`.
-```
-val myComposition = f.compose(g1, ..., gn)
+val myExplicitComposition = Composition(f, g1, ..., gn)
+val myMethodComposition = f.compose(g1, ..., gn)
+val myInfixComposition = f of { g1 and ... and gn }
 ```
 Unary functions can also be composed by using `Function::andThen`
 ```
@@ -81,13 +79,13 @@ println(plusTwo.apply(0)) //prints 2
 println(plusTwo.apply(40)) //prints 42
 ```
 Projection, Successor and composition with andThen are evaluated lazily, meaning only the required argument is evaluated.\
-By default, Composition and and Recursion are not lazy. However, both can be set to evaluate lazily as well.
+By default, Composition and and Recursion are not lazy. However, all of them (with the exception of infix compositions) can be set to evaluate lazily as well.
 ```
 val myLazyComposition = Composition(myEvaluator, myFunctions, lazy = true)
 ...                   = myEvaluator.compose(myFunctions, lazy = true)
 val myLazyRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction, lazy = true)
 ```
-Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/prf/Functions.kt).\
+Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/prf/recursive/RecursiveFunctions.kt).\
 Non-recursive [implementations](src/main/kotlin/eu/yeger/prf/non_recursive/NonRecursiveFunctions.kt) of all macros are included as well.\
 They are interchangeable with the recursive implementations and provide improved performance (and less StackOverflowErrors).
 
