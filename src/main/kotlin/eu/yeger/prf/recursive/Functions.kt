@@ -1,10 +1,7 @@
-package eu.yeger.prf
+package eu.yeger.prf.recursive
 
-fun c(value: Long) = Constant(value)
-
-fun p(index: Int) = Projection(index)
-
-fun s(): Successor = Successor()
+import eu.yeger.prf.base.*
+import eu.yeger.prf.base.Function
 
 //(x,y) -> x + y
 fun addition(): Function {
@@ -33,7 +30,7 @@ fun subtraction(): Function {
 fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
 //x -> x - value
-fun subtract(value: Long) = subtractionOf{ p(0) and c(value) }
+fun subtract(value: Long) = subtractionOf { p(0) and c(value) }
 
 //x -> value - x
 fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
@@ -41,15 +38,17 @@ fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
 fun not() = subtractFrom(1)
 
 //(x,y) -> x * y
-fun multiplication() = Recursion(c(0), additionOf { p(0) and p(2) })
+fun multiplication() = Recursion(
+    c(0),
+    additionOf { p(0) and p(2) })
 
 fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
 //x -> x * value
-fun multiplyBy(value: Long) =  multiplicationOf{ p(0) and c(value) }
+fun multiplyBy(value: Long) = multiplicationOf { p(0) and c(value) }
 
 //x -> x²
-fun square() =  multiplicationOf { p(0) and p(0) }
+fun square() = multiplicationOf { p(0) and p(0) }
 
 //(x,y) -> x^y
 fun exp() =
@@ -86,10 +85,12 @@ fun boundedMuOperator(function: Function) =
         )
     )
 
-fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
+fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(
+    function
+).of(collector)
 
 internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
-    val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
+    val firstTestArguments = Array<Function>(function.arity) { p(it + 1) }
     firstTestArguments[0] = p(1) andThen s()
     val firstTestFunction = function of { firstTestArguments }
 
@@ -100,7 +101,13 @@ internal fun boundedMuOperatorDifferentiationFunction(function: Function): Funct
     val thirdTestFunction = function of { thirdTestArguments }
 
     return additionOf {
-        firstTestFunction and additionOf { secondTestFunction and subtractionOf { c(1) and thirdTestFunction } }
+        firstTestFunction and additionOf {
+            secondTestFunction and subtractionOf {
+                c(
+                    1
+                ) and thirdTestFunction
+            }
+        }
     }
 }
 
@@ -155,9 +162,15 @@ fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 //x -> logBase(x); if logBase(x) is a natural number
 //x -> 0; else
 fun log(base: Long): Function {
-    val firstTestFunction = subtractionOf { p(1) and (expOf { c(base) and p(0) }) }
+    val firstTestFunction = subtractionOf {
+        p(1) and (expOf {
+            c(base) and p(0)
+        })
+    }
 
-    val secondTestFunction = subtractionOf { expOf { c(base) and p(0) } and p(1) }
+    val secondTestFunction = subtractionOf {
+        expOf { c(base) and p(0) } and p(1)
+    }
 
     val testFunction = additionOf { firstTestFunction and secondTestFunction }
 

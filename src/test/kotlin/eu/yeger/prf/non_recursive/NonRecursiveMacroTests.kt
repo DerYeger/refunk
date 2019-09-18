@@ -1,7 +1,7 @@
 package eu.yeger.prf.non_recursive
 
-import eu.yeger.prf.c
-import eu.yeger.prf.p
+import eu.yeger.prf.base.c
+import eu.yeger.prf.base.p
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

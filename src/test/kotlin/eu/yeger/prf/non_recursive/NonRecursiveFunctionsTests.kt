@@ -1,10 +1,10 @@
 package eu.yeger.prf.non_recursive
 
-import eu.yeger.prf.p
+import eu.yeger.prf.base.p
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class NonRecursiveComplexFunctionTests {
+class NonRecursiveFunctionsTests {
 
     @Test
     fun tests() {

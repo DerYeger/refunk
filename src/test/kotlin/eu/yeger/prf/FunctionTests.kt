@@ -1,5 +1,7 @@
 package eu.yeger.prf
 
+import eu.yeger.prf.base.*
+import eu.yeger.prf.base.Function
 import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
 import eu.yeger.prf.exception.NaturalNumberException
@@ -93,6 +95,6 @@ class FunctionTests {
             }
         }
 
-        assertEquals(1, addition().compose(Constant(1), Constant(0), failingFunction, lazy = true).apply())
+        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true).apply())
     }
 }

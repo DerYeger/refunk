@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import eu.yeger.prf.exception.NaturalNumberException
 
@@ -7,7 +7,8 @@ interface Argument {
     fun evaluated() : Long
 }
 
-internal class ArgumentFunction(private val function: Function, private val arguments: Array<Argument>) : Argument {
+internal class ArgumentFunction(private val function: Function, private val arguments: Array<Argument>) :
+    Argument {
 
     override fun evaluated() = function.applyArguments(arguments)
 }

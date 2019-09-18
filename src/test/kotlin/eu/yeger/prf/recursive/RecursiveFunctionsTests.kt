@@ -1,9 +1,10 @@
-package eu.yeger.prf
+package eu.yeger.prf.recursive
 
+import eu.yeger.prf.base.p
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ComplexFunctionTests {
+class RecursiveFunctionsTests {
 
     @Test
     fun tests() {
@@ -104,7 +105,9 @@ class ComplexFunctionTests {
         //n: N² -> N
         //(x,y) -> 2 * x / y + 42; if y != 0
         //(x,y) -> 42; else
-        val n = floorDivision() andThen multiplyBy(2) andThen add(42)
+        val n = floorDivision() andThen multiplyBy(2) andThen add(
+            42
+        )
 
         assertEquals(42, n.apply(10, 0))
     }

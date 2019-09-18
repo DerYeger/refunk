@@ -1,6 +1,10 @@
-package eu.yeger.prf
+package eu.yeger.prf.recursive
 
+import eu.yeger.prf.base.Argument
+import eu.yeger.prf.base.Function
+import eu.yeger.prf.base.asArgument
 import eu.yeger.prf.non_recursive.bounded
+import eu.yeger.prf.base.toNaturalNumber
 import kotlin.math.max
 
 class Recursion(

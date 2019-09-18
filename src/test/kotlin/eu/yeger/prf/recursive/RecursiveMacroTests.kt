@@ -1,9 +1,11 @@
-package eu.yeger.prf
+package eu.yeger.prf.recursive
 
+import eu.yeger.prf.base.c
+import eu.yeger.prf.base.p
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class MacroTests {
+class RecursiveMacroTests {
 
     @Test
     fun testAddition() {

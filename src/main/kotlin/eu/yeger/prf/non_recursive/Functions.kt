@@ -1,7 +1,10 @@
 package eu.yeger.prf.non_recursive
 
-import eu.yeger.prf.*
-import eu.yeger.prf.Function
+import eu.yeger.prf.base.Function
+import eu.yeger.prf.base.Argument
+import eu.yeger.prf.base.c
+import eu.yeger.prf.base.p
+import eu.yeger.prf.base.toNaturalNumber
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.pow
@@ -37,6 +40,8 @@ fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector
 fun subtract(value: Long) = subtractionOf { p(0) and c(value) }
 
 fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
+
+fun not() = subtractFrom(1)
 
 fun multiplication() = object : Function() {
 

@@ -1,5 +1,7 @@
 package eu.yeger.prf
 
+import eu.yeger.prf.base.Successor
+import eu.yeger.prf.base.s
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

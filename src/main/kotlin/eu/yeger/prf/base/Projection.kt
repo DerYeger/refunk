@@ -1,5 +1,7 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
+import eu.yeger.prf.base.Argument
+import eu.yeger.prf.base.Function
 import eu.yeger.prf.exception.ProjectionException
 
 class Projection(private val index: Int) : Function() {
