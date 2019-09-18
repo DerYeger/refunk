@@ -69,22 +69,22 @@ val myComposition = f.compose(g1, ..., gn)
 Unary functions can also be composed by using `Function::andThen`
 ```
 val myComposition = myFunction.andThen(myUnaryFunction)
+val myInfixComposition = myFunction andThen myUnaryFunction
 ```
 
 ### Evaluation
 
 `Function::apply` returns the result for the given arguments.
 ```
-val plusTwo = Successor().andThen(Successor())
+val plusTwo = Successor() andThen Successor()
 println(plusTwo.apply(0)) //prints 2
 println(plusTwo.apply(40)) //prints 42
 ```
-Projection and Successor are evaluated lazily, meaning only the required argument is evaluated.\
+Projection, Successor and composition with andThen are evaluated lazily, meaning only the required argument is evaluated.\
 By default, Composition and and Recursion are not lazy. However, both can be set to evaluate lazily as well.
 ```
 val myLazyComposition = Composition(myEvaluator, myFunctions, lazy = true)
 ...                   = myEvaluator.compose(myFunctions, lazy = true)
-...                   = myFunction.andThen(myUnaryFunction, lazy = true)
 val myLazyRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction, lazy = true)
 ```
 Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/prf/Functions.kt).\
