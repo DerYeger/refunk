@@ -1,7 +1,10 @@
 package eu.yeger.prf.non_recursive
 
-import eu.yeger.prf.*
-import eu.yeger.prf.Function
+import eu.yeger.prf.base.Function
+import eu.yeger.prf.base.Argument
+import eu.yeger.prf.base.c
+import eu.yeger.prf.base.p
+import eu.yeger.prf.base.toNaturalNumber
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.pow
@@ -15,7 +18,9 @@ fun addition() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() + arguments[1].evaluated()).bounded()
 }
 
-fun add(value: Long) = addition().compose(p(0), c(value))
+fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
+
+fun add(value: Long) = additionOf { p(0) and c(value) }
 
 fun predecessor() = object : Function() {
     init { setArity(1) }
@@ -30,9 +35,13 @@ fun subtraction() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() - arguments[1].evaluated()).bounded()
 }
 
-fun subtract(value: Long) = subtraction().compose(p(0), c(value))
+fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
-fun subtractFrom(value: Long) = subtraction().compose(c(value), p(0))
+fun subtract(value: Long) = subtractionOf { p(0) and c(value) }
+
+fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
+
+fun not() = subtractFrom(1)
 
 fun multiplication() = object : Function() {
 
@@ -41,9 +50,11 @@ fun multiplication() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() * arguments[1].evaluated()).bounded()
 }
 
-fun multiplyBy(value: Long) = multiplication().compose(p(0), c(value))
+fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
-fun square() = multiplication().compose(p(0), p(0))
+fun multiplyBy(value: Long) =  multiplicationOf{ p(0) and c(value) }
+
+fun square() =  multiplicationOf { p(0) and p(0) }
 
 fun exp() = object : Function() {
     init { setArity(2) }
@@ -52,27 +63,22 @@ fun exp() = object : Function() {
         arguments[0].evaluated().toDouble().pow(arguments[1].evaluated().toDouble()).toLong().bounded()
 }
 
+fun expOf(collector: () -> Array<Function>) = exp().of(collector)
+
 fun caseDifferentiation(
     differentiationFunction: Function,
     zeroCaseFunction: Function,
     otherCaseFunction: Function
 ): Function {
-    val subtractFromOne = subtractFrom(1)
+    val zeroCaseTestFunction = multiplicationOf {
+        zeroCaseFunction and (differentiationFunction andThen not())
+    }
 
-    val zeroCaseTestFunction = multiplication().compose(
-        zeroCaseFunction,
-        differentiationFunction andThen subtractFromOne
-    )
+    val otherCaseTestFunction = multiplicationOf {
+        otherCaseFunction and (differentiationFunction andThen not() andThen not())
+    }
 
-    val otherCaseTestFunction = multiplication().compose(
-        otherCaseFunction,
-        differentiationFunction andThen subtractFromOne andThen subtractFromOne
-    )
-
-    return addition().compose(
-        zeroCaseTestFunction,
-        otherCaseTestFunction
-    )
+    return additionOf { zeroCaseTestFunction and otherCaseTestFunction }
 }
 
 fun boundedMuOperator(function: Function) = object : Function() {
@@ -94,6 +100,8 @@ fun boundedMuOperator(function: Function) = object : Function() {
     }
 }
 
+fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
+
 fun ceilingDivision() = object : Function() {
     init { setArity(2) }
 
@@ -101,12 +109,16 @@ fun ceilingDivision() = object : Function() {
         ceil(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
 }
 
+fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
+
 fun floorDivision() = object : Function() {
     init { setArity(2) }
 
     override fun evaluate(arguments: Array<Argument>) =
         floor(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
 }
+
+fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
 
 fun division() = object : Function() {
     init { setArity(2) }
@@ -121,30 +133,18 @@ fun division() = object : Function() {
     }
 }
 
+fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
+
 fun log(base: Long): Function {
-    val firstTestFunction = subtraction().compose(
-        p(1),
-        exp().compose(
-            c(base),
-            p(0)
-        )
-    )
+    val firstTestFunction = subtractionOf {
+        p(1) and expOf { c(base) and p(0) }
+    }
 
-    val secondTestFunction = subtraction().compose(
-        exp().compose(
-            c(base),
-            p(0)
-        ),
-        p(1)
-    )
+    val secondTestFunction = subtractionOf {
+        expOf { c(base) and p(0) } and p(1)
+    }
 
-    return boundedMuOperator(
-        addition().compose(
-            firstTestFunction,
-            secondTestFunction
-        )
-    ).compose(
-        p(0),
-        p(0)
-    )
+    val testFunction = additionOf {firstTestFunction and secondTestFunction}
+
+    return boundedMuOperatorOf(testFunction) { p(0) and p(0) }
 }

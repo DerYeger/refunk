@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import eu.yeger.prf.exception.NaturalNumberException
 

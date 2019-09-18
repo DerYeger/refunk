@@ -1,9 +1,10 @@
-package eu.yeger.prf
+package eu.yeger.prf.non_recursive
 
+import eu.yeger.prf.base.p
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ComplexFunctionTests {
+class NonRecursiveFunctionsTests {
 
     @Test
     fun tests() {
@@ -19,13 +20,7 @@ class ComplexFunctionTests {
 
         //g: N³ -> N
         //(x,y,z) -> x * y + z
-        val g = addition().compose(
-            multiplication().compose(
-                p(0),
-                p(1)
-            ),
-            p(2)
-        )
+        val g = additionOf { multiplicationOf { p(0) and p(1) } and p(2) }
 
         assertEquals(42, g.apply(2, 12, 18))
 
@@ -34,13 +29,7 @@ class ComplexFunctionTests {
 
         //h: N³ -> N
         //(x,y,z) -> x * y * z
-        val h = multiplication().compose(
-            multiplication().compose(
-                p(0),
-                p(1)
-            ),
-            p(2)
-        )
+        val h = multiplicationOf { multiplicationOf { p(0) and p(1) } and p(2) }
 
         assertEquals(42, h.apply(2, 3, 7))
 
@@ -49,10 +38,7 @@ class ComplexFunctionTests {
 
         //i: N² -> N
         //(x,y) -> 2x - y
-        val i = subtraction().compose(
-            multiplyBy(2),
-            p(1)
-        )
+        val i = subtractionOf { multiplyBy(2) and p(1) }
 
         assertEquals(42, i.apply(25, 8))
 
@@ -61,10 +47,7 @@ class ComplexFunctionTests {
 
         //j: N -> N
         //x -> (2x + 42) - x²
-        val j = subtraction().compose(
-            multiplyBy(2) andThen add(42),
-            square()
-        )
+        val j = subtractionOf { multiplyBy(2) andThen add(42) and square() }
 
         assertEquals(42, j.apply(0))
 

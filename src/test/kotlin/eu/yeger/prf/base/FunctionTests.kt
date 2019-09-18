@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
@@ -93,6 +93,6 @@ class FunctionTests {
             }
         }
 
-        assertEquals(1, addition().compose(Constant(1), Constant(0), failingFunction, lazy = true).apply())
+        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true).apply())
     }
 }

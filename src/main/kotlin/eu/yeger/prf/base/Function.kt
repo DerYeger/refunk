@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
@@ -26,14 +26,24 @@ abstract class Function {
             }
         }
 
-    fun compose(vararg functions: Function, lazy: Boolean = false) = Composition(this, *functions, lazy = lazy)
+    fun compose(vararg functions: Function, lazy: Boolean = false) =
+        Composition(this, *functions, lazy = lazy)
+
+    infix fun of(collector: () -> Array<Function>) =
+        Composition(this, *collector.invoke(), lazy = false)
+
+    infix fun of(function: Function) =
+        Composition(this, function, lazy = false)
+
+    infix fun and(function: Function): Array<Function> = arrayOf(this, function)
 
     infix fun andThen(function: Function) =
         if (function.arity > 1)
-            throw CompositionException("Function $function requires more than 1 argument")
+            throw CompositionException("Parameter $function is not a unary function")
         else
             function.compose(this, lazy = true)
 
-
     protected abstract fun evaluate(arguments: Array<Argument>): Long
 }
+
+infix fun Array<Function>.and(function: Function): Array<Function> = arrayOf(*this, function)

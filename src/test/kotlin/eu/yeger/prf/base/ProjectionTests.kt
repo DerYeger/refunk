@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import eu.yeger.prf.exception.ProjectionException
 import org.junit.Assert.assertEquals
@@ -12,13 +12,6 @@ class ProjectionTests {
         assertEquals(5, Projection(0).apply(5, 10, 20))
         assertEquals(10, Projection(1).apply(5, 10, 20))
         assertEquals(20, Projection(2).apply(5, 10, 20))
-    }
-
-    @Test
-    fun testProjectionMacro() {
-        assertEquals(5, p(0).apply(5, 10, 20))
-        assertEquals(10, p(1).apply(5, 10, 20))
-        assertEquals(20, p(2).apply(5, 10, 20))
     }
 
     @Test

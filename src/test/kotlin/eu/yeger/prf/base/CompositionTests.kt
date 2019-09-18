@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

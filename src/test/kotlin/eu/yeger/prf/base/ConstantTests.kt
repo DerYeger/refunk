@@ -1,4 +1,4 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
 import eu.yeger.prf.exception.NaturalNumberException
 import org.junit.Assert
@@ -11,12 +11,6 @@ class ConstantTests {
     fun testConstant() {
         assertEquals(10, Constant(10).apply())
         assertEquals(10, Constant(10).apply(1, 2, 3, 4, 5))
-    }
-
-    @Test
-    fun testConstantMacro() {
-        assertEquals(10, c(10).apply())
-        assertEquals(10, c(10).apply(1, 2, 3, 4, 5))
     }
 
     @Test
