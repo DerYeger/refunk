@@ -28,11 +28,11 @@ abstract class Function {
 
     fun compose(vararg functions: Function, lazy: Boolean = false) = Composition(this, *functions, lazy = lazy)
 
-    fun andThen(function: Function, lazy: Boolean = false) =
+    infix fun andThen(function: Function) =
         if (function.arity > 1)
             throw CompositionException("Function $function requires more than 1 argument")
         else
-            function.compose(this, lazy = lazy)
+            function.compose(this, lazy = true)
 
 
     protected abstract fun evaluate(arguments: Array<Argument>): Long

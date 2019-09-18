@@ -55,7 +55,7 @@ class FunctionTests {
     @Test
     fun testAndThenException() {
         try {
-            Successor().andThen(p(1))
+            Successor() andThen Projection(1)
         } catch (e : CompositionException) {
             return
         }
@@ -65,7 +65,7 @@ class FunctionTests {
     @Test
     fun testNegative() {
         try {
-            Successor().andThen(Successor()).apply(Long.MAX_VALUE)
+            (Successor() andThen Successor()).apply(Long.MAX_VALUE)
         } catch (e : NaturalNumberException) {
             return
         }

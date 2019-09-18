@@ -11,7 +11,7 @@ fun addition(): Function {
     val first = p(0)
     return Recursion(
         first,
-        first.andThen(s())
+        first andThen s()
     )
 }
 
@@ -27,7 +27,7 @@ fun subtraction(): Function {
 
     return Recursion(
         first,
-        first.andThen(predecessor())
+        first andThen predecessor()
     ).compose(
         p(1),
         p(0)
@@ -71,15 +71,12 @@ fun caseDifferentiation(
 
     val zeroCaseTestFunction = multiplication().compose(
         zeroCaseFunction,
-        differentiationFunction
-            .andThen(subtractFromOne)
+        differentiationFunction andThen subtractFromOne
     )
 
     val otherCaseTestFunction = multiplication().compose(
         otherCaseFunction,
-        differentiationFunction
-            .andThen(subtractFromOne)
-            .andThen(subtractFromOne)
+        differentiationFunction andThen subtractFromOne andThen subtractFromOne
     )
 
     return addition().compose(
@@ -93,14 +90,14 @@ fun boundedMuOperator(function: Function) =
         c(0),
         caseDifferentiation(
             boundedMuOperatorDifferentiationFunction(function),
-            p(1).andThen(s()),
+            p(1) andThen s(),
             p(0)
         )
     )
 
 internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
-    firstTestArguments[0] = p(1).andThen(s())
+    firstTestArguments[0] = p(1) andThen s()
     val firstTestFunction = function.compose(*firstTestArguments)
 
     val secondTestFunction = p(0)
@@ -158,7 +155,7 @@ fun floorDivision(): Function {
     return caseDifferentiation(
         differentiationFunction,
         ceilingDivision,
-        ceilingDivision.andThen(predecessor())
+        ceilingDivision andThen predecessor()
     )
 }
 

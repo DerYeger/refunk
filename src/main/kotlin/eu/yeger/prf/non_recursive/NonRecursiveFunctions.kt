@@ -61,15 +61,12 @@ fun caseDifferentiation(
 
     val zeroCaseTestFunction = multiplication().compose(
         zeroCaseFunction,
-        differentiationFunction
-            .andThen(subtractFromOne)
+        differentiationFunction andThen subtractFromOne
     )
 
     val otherCaseTestFunction = multiplication().compose(
         otherCaseFunction,
-        differentiationFunction
-            .andThen(subtractFromOne)
-            .andThen(subtractFromOne)
+        differentiationFunction andThen subtractFromOne andThen subtractFromOne
     )
 
     return addition().compose(
