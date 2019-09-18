@@ -15,8 +15,10 @@ fun addition(): Function {
     )
 }
 
+fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
+
 //x -> x + value
-fun add(value: Long) = addition().compose(p(0), c(value))
+fun add(value: Long) = additionOf { p(0) and c(value) }
 
 //x -> x - 1
 fun predecessor() = Recursion(c(0), p(1))
@@ -25,64 +27,53 @@ fun predecessor() = Recursion(c(0), p(1))
 fun subtraction(): Function {
     val first = p(0)
 
-    return Recursion(
-        first,
-        first andThen predecessor()
-    ).compose(
-        p(1),
-        p(0)
-    )
+    return Recursion(first, first andThen predecessor()) of { p(1) and first }
 }
 
+fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
+
 //x -> x - value
-fun subtract(value: Long) = subtraction().compose(p(0), c(value))
+fun subtract(value: Long) = subtractionOf{ p(0) and c(value) }
 
 //x -> value - x
-fun subtractFrom(value: Long) = subtraction().compose(c(value), p(0))
+fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
+
+fun not() = subtractFrom(1)
 
 //(x,y) -> x * y
-fun multiplication() = Recursion(c(0), addition().compose(p(0), p(2)))
+fun multiplication() = Recursion(c(0), additionOf { p(0) and p(2) })
+
+fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
 //x -> x * value
-fun multiplyBy(value: Long) =  multiplication().compose(p(0), c(value))
+fun multiplyBy(value: Long) =  multiplicationOf{ p(0) and c(value) }
 
 //x -> x²
-fun square() =  multiplication().compose(p(0), p(0))
+fun square() =  multiplicationOf { p(0) and p(0) }
 
 //(x,y) -> x^y
 fun exp() =
     Recursion(
         c(1),
-        multiplication().compose(
-            p(0),
-            p(2)
-        )
-    ).compose(
-        p(1),
-        p(0)
-    )
+        multiplicationOf { p(0) and p(2) }
+    ) of { p(1) and p(0) }
+
+fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
 fun caseDifferentiation(
     differentiationFunction: Function,
     zeroCaseFunction: Function,
     otherCaseFunction: Function
 ): Function {
-    val subtractFromOne = subtractFrom(1)
+    val zeroCaseTestFunction = multiplicationOf {
+        zeroCaseFunction and (differentiationFunction andThen not())
+    }
 
-    val zeroCaseTestFunction = multiplication().compose(
-        zeroCaseFunction,
-        differentiationFunction andThen subtractFromOne
-    )
+    val otherCaseTestFunction = multiplicationOf {
+        otherCaseFunction and (differentiationFunction andThen not() andThen not())
+    }
 
-    val otherCaseTestFunction = multiplication().compose(
-        otherCaseFunction,
-        differentiationFunction andThen subtractFromOne andThen subtractFromOne
-    )
-
-    return addition().compose(
-        zeroCaseTestFunction,
-        otherCaseTestFunction
-    )
+    return additionOf { zeroCaseTestFunction and otherCaseTestFunction }
 }
 
 fun boundedMuOperator(function: Function) =
@@ -95,48 +86,32 @@ fun boundedMuOperator(function: Function) =
         )
     )
 
+fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
+
 internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1)}
     firstTestArguments[0] = p(1) andThen s()
-    val firstTestFunction = function.compose(*firstTestArguments)
+    val firstTestFunction = function of { firstTestArguments }
 
     val secondTestFunction = p(0)
 
     val thirdTestArguments = firstTestArguments.clone()
     thirdTestArguments[0] = c(0)
-    val thirdTestFunction = function.compose(*thirdTestArguments)
+    val thirdTestFunction = function of { thirdTestArguments }
 
-    val add = addition()
-    val sub = subtraction()
-
-    return add.compose(
-        firstTestFunction,
-        add.compose(
-            secondTestFunction,
-            sub.compose(
-                c(1),
-                thirdTestFunction
-            )
-        )
-    )
+    return additionOf {
+        firstTestFunction and additionOf { secondTestFunction and subtractionOf { c(1) and thirdTestFunction } }
+    }
 }
 
 //(x,y) -> ceiling(x / y)
 fun ceilingDivision(): Function {
     //(n,x,y) -> x - n * y
-    val g = subtraction().compose(
-        p(1),
-        multiplication().compose(
-            p(0),
-            p(2)
-        )
-    )
+    val g = subtractionOf {
+        p(1) and (multiplicationOf { p(0) and p(2) })
+    }
 
-    return boundedMuOperator(g).compose(
-        p(0),
-        p(0),
-        p(1)
-    )
+    return boundedMuOperatorOf(g) { p(0) and p(0) and p(1) }
 }
 
 //(x,y) -> floor(x / y)
@@ -144,13 +119,9 @@ fun ceilingDivision(): Function {
 fun floorDivision(): Function {
     val ceilingDivision = ceilingDivision()
 
-    val differentiationFunction = subtraction().compose(
-        multiplication().compose(
-            ceilingDivision,
-            p(1)
-        ),
-        p(0)
-    )
+    val differentiationFunction = subtractionOf {
+        multiplicationOf { ceilingDivision and p(1) } and p(0)
+    }
 
     return caseDifferentiation(
         differentiationFunction,
@@ -163,57 +134,26 @@ fun floorDivision(): Function {
 //(x,y) -> 0; else
 fun division(): Function {
     //(n,x,y) -> (x - n * y) + (n * y - x)
-    val g = addition().compose(
-        subtraction().compose(
-            p(1),
-            multiplication().compose(
-                p(0),
-                p(2)
-            )
-        ),
-        subtraction().compose(
-            multiplication().compose(
-                p(0),
-                p(2)
-            ),
-            p(1)
-        )
-    )
+    val g = additionOf {
+        subtractionOf {
+            p(1) and multiplicationOf { p(0) and p(2) }
+        } and subtractionOf {
+            multiplication() of { p(0) and p(2) } and p(1)
+        }
+    }
 
-    return boundedMuOperator(g).compose(
-        p(0),
-        p(0),
-        p(1)
-    )
+    return boundedMuOperatorOf(g) { p(0) and p(0) and p(1) }
 }
 
 //WARNING Due to the nature of recursive functions using log will likely result in a StackOverflowError
 //x -> logBase(x); if logBase(x) is a natural number
 //x -> 0; else
 fun log(base: Long): Function {
-    val firstTestFunction = subtraction().compose(
-        p(1),
-        exp().compose(
-            c(base),
-            p(0)
-        )
-    )
+    val firstTestFunction = subtractionOf { p(1) and (expOf { c(base) and p(0) }) }
 
-    val secondTestFunction = subtraction().compose(
-        exp().compose(
-            c(base),
-            p(0)
-        ),
-        p(1)
-    )
+    val secondTestFunction = subtractionOf { expOf { c(base) and p(0) } and p(1) }
 
-    return boundedMuOperator(
-        addition().compose(
-            firstTestFunction,
-            secondTestFunction
-        )
-    ).compose(
-        p(0),
-        p(0)
-    )
+    val testFunction = additionOf { firstTestFunction and secondTestFunction }
+
+    return boundedMuOperatorOf(testFunction) { p(0) and p(0) }
 }

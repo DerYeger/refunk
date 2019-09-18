@@ -28,7 +28,7 @@ abstract class Function {
 
     fun compose(vararg functions: Function, lazy: Boolean = false) = Composition(this, *functions, lazy = lazy)
 
-    infix fun of(collector:() -> Array<Function>) = Composition(this, *collector.invoke(), lazy = false)
+    infix fun of(collector: () -> Array<Function>) = Composition(this, *collector.invoke(), lazy = false)
 
     infix fun and(function: Function): Array<Function> = arrayOf(this, function)
 
