@@ -114,6 +114,8 @@ fun ceilingDivision(): Function {
     return boundedMuOperatorOf(g) { p(0) and p(0) and p(1) }
 }
 
+fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
+
 //(x,y) -> floor(x / y)
 //or 0 if y == 0
 fun floorDivision(): Function {
@@ -130,6 +132,8 @@ fun floorDivision(): Function {
     )
 }
 
+fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
+
 //(x,y) -> x / y; if x / y is a natural number
 //(x,y) -> 0; else
 fun division(): Function {
@@ -144,6 +148,8 @@ fun division(): Function {
 
     return boundedMuOperatorOf(g) { p(0) and p(0) and p(1) }
 }
+
+fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
 //WARNING Due to the nature of recursive functions using log will likely result in a StackOverflowError
 //x -> logBase(x); if logBase(x) is a natural number
