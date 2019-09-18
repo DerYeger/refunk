@@ -1,7 +1,5 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
-import eu.yeger.prf.base.p
-import eu.yeger.prf.base.s
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

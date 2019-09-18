@@ -1,6 +1,5 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
-import eu.yeger.prf.base.c
 import eu.yeger.prf.recursive.Recursion
 import org.junit.Assert.assertEquals
 import org.junit.Test

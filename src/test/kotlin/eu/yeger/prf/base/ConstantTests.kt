@@ -1,7 +1,5 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
-import eu.yeger.prf.base.Constant
-import eu.yeger.prf.base.c
 import eu.yeger.prf.exception.NaturalNumberException
 import org.junit.Assert
 import org.junit.Assert.assertEquals

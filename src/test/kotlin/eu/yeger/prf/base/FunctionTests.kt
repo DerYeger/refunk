@@ -1,7 +1,5 @@
-package eu.yeger.prf
+package eu.yeger.prf.base
 
-import eu.yeger.prf.base.*
-import eu.yeger.prf.base.Function
 import eu.yeger.prf.exception.ArityException
 import eu.yeger.prf.exception.CompositionException
 import eu.yeger.prf.exception.NaturalNumberException

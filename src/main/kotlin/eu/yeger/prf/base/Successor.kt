@@ -1,9 +1,5 @@
 package eu.yeger.prf.base
 
-import eu.yeger.prf.base.Argument
-import eu.yeger.prf.base.Function
-import eu.yeger.prf.base.incremented
-
 class Successor : Function() {
 
     init {
