@@ -14,7 +14,17 @@ infix fun Array<Function>.and(function: Function): Array<Function> = this.plus(f
 
 fun c(value: Long) = Constant(value)
 
+fun zero() = Constant(0)
+
+fun one() = Constant(1)
+
 fun p(index: Int) = Projection(index)
+
+fun first() = Projection(0)
+
+fun second() = Projection(1)
+
+fun third() = Projection(2)
 
 fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(index).of(collector)
 
