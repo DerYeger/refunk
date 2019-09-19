@@ -1,48 +1,53 @@
-# *REFUNK*
-
-> Primitive recursive functions made simple with Kotlin
+![refunk logo](doc/logo_transparent.png)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Release](https://jitpack.io/v/DerYeger/refunk.svg)](https://jitpack.io/#DerYeger/refunk)
 
-*REFUNK* is small and lightweight library for studying and evaluating primitive recursive functions in Kotlin.
+***REFUNK*** is small and lightweight library for studying and evaluating **primitive recursive functions** in Kotlin.
 It provides 
 
 ## Installation
 
 ### Gradle
 
-```
+<details>
+<summary>Show instructions</summary>
+<pre>
 allprojects {
   repositories {
     ...
     maven { url 'https://jitpack.io' }
   }
 }
-```
-```
+</pre>
+<pre>
 dependencies {
   implementation 'com.github.DerYeger:refunk:v2.0.1'
 }
-```
+</pre>
+</details>
+
 
 ### Maven
 
-```
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-```
-```
-<dependency>
-  <groupId>com.github.DerYeger</groupId>
-    <artifactId>refunk</artifactId>
-  <version>v2.0.1</version>
-</dependency>
-```
+<details>
+<summary>Show instructions</summary>
+<pre>
+&lt;repositories&gt;
+  &lt;repository&gt;
+    &lt;id&gt;jitpack.io&lt;/id&gt;
+    &lt;url&gt;https://jitpack.io&lt;/url&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;
+</pre>
+<pre>
+&lt;dependency&gt;
+  &lt;groupId&gt;com.github.DerYeger&lt;/groupId&gt;
+    &lt;artifactId&gt;refunk&lt;/artifactId&gt;
+  &lt;version&gt;v2.0.1&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+</details>
 
 ## Usage
 
