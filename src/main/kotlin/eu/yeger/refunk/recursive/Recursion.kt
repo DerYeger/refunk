@@ -14,11 +14,9 @@ class Recursion(
 ) : Function() {
 
     init {
-        setArity(
-            max(
-                baseCaseFunction.arity + 1,
-                recursiveCaseFunction.arity - 1
-            )
+        arity = max(
+            baseCaseFunction.arity + 1,
+            recursiveCaseFunction.arity - 1
         )
     }
 

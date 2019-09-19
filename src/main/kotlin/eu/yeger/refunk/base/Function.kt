@@ -6,14 +6,13 @@ import eu.yeger.refunk.exception.NaturalNumberException
 
 abstract class Function {
 
-    var arity = 0
-
-    internal fun setArity(arity: Int) {
-        if (arity < 0)
-            throw ArityException("Function $this can not have a negative arity")
-
-        this.arity = arity
-    }
+    internal var arity = 0
+        internal set(value) {
+            if (value >= 0)
+                field = value
+            else
+                throw ArityException("Function $this can not have a negative arity")
+        }
 
     fun apply(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
 

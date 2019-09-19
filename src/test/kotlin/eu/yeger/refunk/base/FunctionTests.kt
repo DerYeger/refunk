@@ -13,7 +13,7 @@ class FunctionTests {
     fun testArityException() {
         try {
             object : Function() {
-                init { setArity(-1) }
+                init { arity = -1 }
                 override fun evaluate(arguments: Array<Argument>) = 0L
             }
         } catch (e : ArityException) {
@@ -85,8 +85,6 @@ class FunctionTests {
     @Test
     fun testLazyEvaluation() {
         val failingFunction = object : Function() {
-            init { setArity(0) }
-
             override fun evaluate(arguments: Array<Argument>): Long {
                 fail()
                 return 0

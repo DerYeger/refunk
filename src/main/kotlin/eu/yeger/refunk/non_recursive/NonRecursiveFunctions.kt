@@ -12,9 +12,7 @@ import kotlin.math.pow
 internal fun Long.bounded() = if (this >= 0) this else 0
 
 fun addition() = object : Function() {
-
-    init { setArity(2) }
-
+    init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() + arguments[1].evaluated()).bounded()
 }
 
@@ -23,15 +21,12 @@ fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
 fun add(value: Long) = additionOf { p(0) and c(value) }
 
 fun predecessor() = object : Function() {
-    init { setArity(1) }
-
+    init { arity = 1 }
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() - 1).bounded()
 }
 
 fun subtraction() = object : Function() {
-
-    init { setArity(2) }
-
+    init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() - arguments[1].evaluated()).bounded()
 }
 
@@ -44,9 +39,7 @@ fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
 fun not() = subtractFrom(1)
 
 fun multiplication() = object : Function() {
-
-    init { setArity(2) }
-
+    init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() * arguments[1].evaluated()).bounded()
 }
 
@@ -57,8 +50,7 @@ fun multiplyBy(value: Long) =  multiplicationOf{ p(0) and c(value) }
 fun square() =  multiplicationOf { p(0) and p(0) }
 
 fun exp() = object : Function() {
-    init { setArity(2) }
-
+    init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) =
         arguments[0].evaluated().toDouble().pow(arguments[1].evaluated().toDouble()).toLong().bounded()
 }
@@ -82,7 +74,7 @@ fun caseDifferentiation(
 }
 
 fun boundedMuOperator(function: Function) = object : Function() {
-    init { setArity(function.arity) }
+    init { arity = function.arity }
 
     override fun evaluate(arguments: Array<Argument>): Long {
         for (x in 0..arguments[0].evaluated()) {
@@ -104,7 +96,7 @@ fun boundedMuOperator(function: Function) = object : Function() {
 fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
 
 fun ceilingDivision() = object : Function() {
-    init { setArity(2) }
+    init { arity = 2 }
 
     override fun evaluate(arguments: Array<Argument>) =
         ceil(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
@@ -113,7 +105,7 @@ fun ceilingDivision() = object : Function() {
 fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
 
 fun floorDivision() = object : Function() {
-    init { setArity(2) }
+    init { arity = 2 }
 
     override fun evaluate(arguments: Array<Argument>) =
         floor(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
@@ -122,7 +114,7 @@ fun floorDivision() = object : Function() {
 fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
 
 fun division() = object : Function() {
-    init { setArity(2) }
+    init { arity = 2 }
 
     override fun evaluate(arguments: Array<Argument>): Long {
         val a = arguments[0].evaluated()

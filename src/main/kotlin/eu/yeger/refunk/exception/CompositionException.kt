@@ -1,9 +1,11 @@
 package eu.yeger.refunk.exception
 
+import eu.yeger.refunk.base.Function
+
 class CompositionException(message: String) : FunctionException(message) {
 
     constructor(
-        arity: Int,
+        function: Function,
         functionCount: Int
-    ) : this("Composition requires $arity function(s) but received $functionCount")
+    ) : this("Function $function is of arity ${function.arity} but composition provided $functionCount function(s)")
 }
