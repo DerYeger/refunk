@@ -72,18 +72,21 @@ class RecursiveMacroTests {
 
     @Test
     fun testCeilingDivision() {
+        assertEquals(0, ceilingDivision().apply(42, 0))
         assertEquals(2, ceilingDivisionOf { c(4) and first()}.apply(2))
         assertEquals(3, ceilingDivisionOf { c(5) and first() }.apply(2))
     }
 
     @Test
     fun testFloorDivision() {
+        assertEquals(0, floorDivision().apply(42, 0))
         assertEquals(2, floorDivisionOf { c(4) and first() }.apply(2))
         assertEquals(2, floorDivisionOf { c(5) and first() }.apply(2))
     }
 
     @Test
     fun testDivision() {
+        assertEquals(0, division().apply(42, 0))
         assertEquals(2, divisionOf { c(4) and first() }.apply(2))
         assertEquals(0, divisionOf { c(5) and first() }.apply(2))
     }
