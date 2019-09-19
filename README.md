@@ -1,10 +1,10 @@
-<p align="center"><img src="doc/logo_transparent.png"></p>
+<p align="center"><img alt="REFUNK" src="doc/logo_transparent.png"></p>
 
 <p align="center">
-    <img alt="GitHub" src="https://img.shields.io/github/license/DerYeger/refunk?color=40aef6&style=for-the-badge">
+    <img alt="License" src="https://img.shields.io/github/license/DerYeger/refunk?color=40aef6&style=for-the-badge">
     <img alt="JitPack" src="https://img.shields.io/jitpack/v/github/DerYeger/refunk?color=7963dc&style=for-the-badge">
-    <img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-da4c99?style=for-the-badge">
-    <img alt="JitPack - Downloads" src="https://img.shields.io/jitpack/dm/github/DerYeger/refunk?color=eaa232&style=for-the-badge">
+    <img alt="Contributions" src="https://img.shields.io/badge/contributions-welcome-da4c99?style=for-the-badge">
+    <img alt="Downloads" src="https://img.shields.io/jitpack/dm/github/DerYeger/refunk?color=eaa232&style=for-the-badge">
 </p>
 
 ***REFUNK*** is small and lightweight library for studying and evaluating **primitive recursive functions** in Kotlin.\
