@@ -1,11 +1,6 @@
 package eu.yeger.refunk.recursive
 
 import eu.yeger.refunk.base.Function
-import eu.yeger.refunk.base.of
-
-inline fun recursionOf(baseCase: Function,
-                       recursiveCase: Function,
-                       collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
 
 class RecursionBuilder(val recursiveCase: Function)
 

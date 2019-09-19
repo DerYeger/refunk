@@ -12,7 +12,7 @@ inline fun additionOf(collector: () -> Array<Function>) = addition().of(collecto
 fun add(value: Long) = additionOf { first() and c(value) }
 
 //x -> x - 1
-fun predecessor() = recursive { second() } withBaseCase zero()
+fun predecessor() = recursive(second()) withBaseCase zero()
 
 //(x,y) -> x - y
 fun subtraction(): Function = recursive { first() andThen predecessor() } withBaseCase first() of { second() and first() }
@@ -28,7 +28,7 @@ fun subtractFrom(value: Long) = subtractionOf { c(value) and first() }
 fun not() = subtractFrom(1)
 
 //(x,y) -> x * y
-fun multiplication() = recursive { additionOf { first() and third() } } withBaseCase zero()
+fun multiplication() = recursive(additionOf { first() and third() }) withBaseCase zero()
 
 inline fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
@@ -39,7 +39,7 @@ fun multiplyBy(value: Long) = multiplicationOf { first() and c(value) }
 fun square() = multiplicationOf { first() and first() }
 
 //(x,y) -> x^y
-fun exp() = recursive { multiplicationOf { first() and third() } } withBaseCase one() of { second() and first() }
+fun exp() = recursive(multiplicationOf { first() and third() }) withBaseCase one() of { second() and first() }
 
 inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
@@ -60,12 +60,12 @@ fun caseDifferentiation(
 }
 
 fun boundedMuOperator(function: Function) =
-    recursive {
+    recursive(
         caseDifferentiation(
             boundedMuOperatorDifferentiationFunction(function),
             second() andThen s(),
             first()
-        ) } withBaseCase zero()
+        )) withBaseCase zero()
 
 inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
 
