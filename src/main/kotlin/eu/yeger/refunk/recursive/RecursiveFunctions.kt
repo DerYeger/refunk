@@ -12,9 +12,7 @@ inline fun recursionOf(baseCase: Function,
                 collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
 
 //(x,y) -> x + y
-fun addition(): Function {
-    return recursion { first() with (first() andThen s()) }
-}
+fun addition(): Function = recursion { first() with (first() andThen s()) }
 
 inline fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
 
@@ -53,9 +51,11 @@ fun exp() = recursionOf(one(), multiplicationOf { first() and third() }) { secon
 
 inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
-fun caseDifferentiation(differentiationFunction: Function,
-                        zeroCaseFunction: Function,
-                        otherCaseFunction: Function): Function {
+fun caseDifferentiation(
+    differentiationFunction: Function,
+    zeroCaseFunction: Function,
+    otherCaseFunction: Function
+): Function {
     val zeroCaseTestFunction = multiplicationOf {
         zeroCaseFunction and (differentiationFunction andThen not())
     }
@@ -82,15 +82,13 @@ internal fun boundedMuOperatorDifferentiationFunction(function: Function): Funct
     firstTestArguments[0] = second() andThen s()
     val firstTestFunction = function of { firstTestArguments }
 
-    val secondTestFunction = first()
-
-    val thirdTestArguments = firstTestArguments.clone()
-    thirdTestArguments[0] = zero()
-    val thirdTestFunction = function of { thirdTestArguments }
+    val secondTestArguments = firstTestArguments.clone()
+    secondTestArguments[0] = zero()
+    val secondTestFunction = function of { secondTestArguments }
 
     return additionOf {
         firstTestFunction and additionOf {
-            secondTestFunction and subtractionOf { one() and thirdTestFunction }
+            first() and subtractionOf { one() and secondTestFunction }
         }
     }
 }
@@ -144,15 +142,9 @@ inline fun divisionOf(collector: () -> Array<Function>) = division().of(collecto
 //x -> logBase(x); if logBase(x) is a natural number
 //x -> 0; else
 fun log(base: Long): Function {
-    val firstTestFunction = subtractionOf {
-        second() and (expOf {
-            c(base) and first()
-        })
-    }
+    val firstTestFunction = subtractionOf { second() and expOf { c(base) and first() } }
 
-    val secondTestFunction = subtractionOf {
-        expOf { c(base) and first() } and second()
-    }
+    val secondTestFunction = subtractionOf { expOf { c(base) and first() } and second() }
 
     val testFunction = additionOf { firstTestFunction and secondTestFunction }
 

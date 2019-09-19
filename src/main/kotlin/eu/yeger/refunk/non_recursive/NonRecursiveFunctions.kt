@@ -11,7 +11,6 @@ internal fun Long.bounded() = if (this >= 0) this else 0
 
 fun addition() = object : Function() {
     init { arity = 2 }
-
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() + arguments[1].evaluated()).bounded()
 }
 
@@ -126,13 +125,9 @@ fun division() = object : Function() {
 inline fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
 fun log(base: Long): Function {
-    val firstTestFunction = subtractionOf {
-        second() and expOf { c(base) and first() }
-    }
+    val firstTestFunction = subtractionOf { second() and expOf { c(base) and first() } }
 
-    val secondTestFunction = subtractionOf {
-        expOf { c(base) and first() } and second()
-    }
+    val secondTestFunction = subtractionOf { expOf { c(base) and first() } and second() }
 
     val testFunction = additionOf {firstTestFunction and secondTestFunction}
 
