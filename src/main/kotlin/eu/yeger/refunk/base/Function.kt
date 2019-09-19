@@ -1,7 +1,6 @@
 package eu.yeger.refunk.base
 
 import eu.yeger.refunk.exception.ArityException
-import eu.yeger.refunk.exception.CompositionException
 import eu.yeger.refunk.exception.NaturalNumberException
 
 abstract class Function {

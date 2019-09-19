@@ -1,9 +1,7 @@
 package eu.yeger.refunk.non_recursive
 
 import eu.yeger.refunk.base.*
-import eu.yeger.refunk.exception.NaturalNumberException
 import eu.yeger.refunk.exception.OverflowException
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
