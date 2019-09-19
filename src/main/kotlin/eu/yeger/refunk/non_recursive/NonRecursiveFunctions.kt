@@ -15,7 +15,7 @@ fun addition() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() + arguments[1].evaluated()).bounded()
 }
 
-fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
+inline fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
 
 fun add(value: Long) = additionOf { first() and c(value) }
 
@@ -29,7 +29,7 @@ fun subtraction() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() - arguments[1].evaluated()).bounded()
 }
 
-fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
+inline fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
 fun subtract(value: Long) = subtractionOf { first() and c(value) }
 
@@ -43,7 +43,7 @@ fun multiplication() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() * arguments[1].evaluated()).bounded()
 }
 
-fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
+inline fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
 fun multiplyBy(value: Long) =  multiplicationOf{ first() and c(value) }
 
@@ -55,7 +55,7 @@ fun exp() = object : Function() {
         arguments[0].evaluated().toDouble().pow(arguments[1].evaluated().toDouble()).toLong().bounded()
 }
 
-fun expOf(collector: () -> Array<Function>) = exp().of(collector)
+inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
 fun caseDifferentiation(
     differentiationFunction: Function,
@@ -93,7 +93,7 @@ fun boundedMuOperator(function: Function) = object : Function() {
     }
 }
 
-fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
+inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
 
 fun ceilingDivision() = object : Function() {
     init { arity = 2 }
@@ -101,7 +101,7 @@ fun ceilingDivision() = object : Function() {
         ceil(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
 }
 
-fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
+inline fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
 
 fun floorDivision() = object : Function() {
     init { arity = 2 }
@@ -109,7 +109,7 @@ fun floorDivision() = object : Function() {
         floor(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
 }
 
-fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
+inline fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
 
 fun division() = object : Function() {
     init { arity = 2 }
@@ -123,7 +123,7 @@ fun division() = object : Function() {
     }
 }
 
-fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
+inline fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
 fun log(base: Long): Function {
     val firstTestFunction = subtractionOf {

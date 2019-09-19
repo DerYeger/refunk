@@ -5,9 +5,9 @@ import eu.yeger.refunk.base.Function
 
 infix fun Function.with(other: Function) = Pair(this, other)
 
-fun recursion(block: () -> Pair<Function, Function>) = with(block.invoke()) { Recursion(first, second) }
+inline fun recursion(block: () -> Pair<Function, Function>) = with(block.invoke()) { Recursion(first, second) }
 
-fun recursionOf(baseCase: Function,
+inline fun recursionOf(baseCase: Function,
                 recursiveCase: Function,
                 collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
 
@@ -16,7 +16,7 @@ fun addition(): Function {
     return recursion { first() with (first() andThen s()) }
 }
 
-fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
+inline fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
 
 //x -> x + value
 fun add(value: Long) = additionOf { first() and c(value) }
@@ -25,13 +25,9 @@ fun add(value: Long) = additionOf { first() and c(value) }
 fun predecessor() = recursion { zero() with second() }
 
 //(x,y) -> x - y
-fun subtraction(): Function {
-    val first = first()
+fun subtraction(): Function = recursionOf(first(), first() andThen predecessor()) { second() and first() }
 
-    return recursionOf(first, first andThen predecessor()) { second() and first }
-}
-
-fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
+inline fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
 //x -> x - value
 fun subtract(value: Long) = subtractionOf { first() and c(value) }
@@ -44,7 +40,7 @@ fun not() = subtractFrom(1)
 //(x,y) -> x * y
 fun multiplication() = recursion { zero() with additionOf { first() and third() } }
 
-fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
+inline fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
 //x -> x * value
 fun multiplyBy(value: Long) = multiplicationOf { first() and c(value) }
@@ -55,7 +51,7 @@ fun square() = multiplicationOf { first() and first() }
 //(x,y) -> x^y
 fun exp() = recursionOf(one(), multiplicationOf { first() and third() }) { second() and first() }
 
-fun expOf(collector: () -> Array<Function>) = exp().of(collector)
+inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
 fun caseDifferentiation(differentiationFunction: Function,
                         zeroCaseFunction: Function,
@@ -79,7 +75,7 @@ fun boundedMuOperator(function: Function) =
                 first()
             ) }
 
-fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
+inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
 
 internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1) }
@@ -107,7 +103,7 @@ fun ceilingDivision(): Function {
     return boundedMuOperatorOf(g) { first() and first() and second() }
 }
 
-fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
+inline fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
 
 //(x,y) -> floor(x / y)
 //or 0 if y == 0
@@ -125,7 +121,7 @@ fun floorDivision(): Function {
     )
 }
 
-fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
+inline fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
 
 //(x,y) -> x / y; if x / y is a natural number
 //(x,y) -> 0; else
@@ -142,7 +138,7 @@ fun division(): Function {
     return boundedMuOperatorOf(g) { first() and first() and second() }
 }
 
-fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
+inline fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
 //WARNING Due to the nature of recursive functions using log will likely result in a StackOverflowError
 //x -> logBase(x); if logBase(x) is a natural number

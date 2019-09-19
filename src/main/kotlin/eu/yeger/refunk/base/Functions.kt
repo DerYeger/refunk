@@ -4,7 +4,7 @@ fun Function.compose(vararg functions: Function, lazy: Boolean = false) = Compos
 
 infix fun Function.andThen(function: Function) = function.compose(this, lazy = true)
 
-infix fun Function.of(collector: () -> Array<Function>) = Composition(this, *collector.invoke(), lazy = false)
+inline infix fun Function.of(collector: () -> Array<Function>) = Composition(this, *collector.invoke(), lazy = false)
 
 infix fun Function.of(function: Function) = Composition(this, function, lazy = false)
 
@@ -26,7 +26,7 @@ fun second() = Projection(1)
 
 fun third() = Projection(2)
 
-fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(index).of(collector)
+inline fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(index).of(collector)
 
 fun s(): Successor = Successor()
 
