@@ -9,8 +9,8 @@ class Composition(
 ) : Function() {
 
     init {
-        if (evaluator.arity > functions.size) throw CompositionException(evaluator.arity, functions.size)
-        setArity(functions.map { it.arity }.max() ?: 0)
+        if (evaluator.arity != functions.size) throw CompositionException(evaluator, functions.size)
+        arity = functions.map { it.arity }.max() ?: 0
     }
 
     override fun evaluate(arguments: Array<Argument>) =
