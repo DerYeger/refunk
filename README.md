@@ -78,28 +78,27 @@ val plusTwo = Successor() andThen Successor()
 println(plusTwo.apply(0)) //prints 2
 println(plusTwo.apply(40)) //prints 42
 ```
-Projection, Successor and composition with andThen are evaluated lazily, meaning only the required argument is evaluated.\
-By default, Composition and and Recursion are not lazy. However, all of them (with the exception of infix compositions) can be set to evaluate lazily as well.
+Projection, Successor, Recursion and composition with andThen are evaluated lazily, meaning only the required arguments are evaluated.\
+In order to avoid StackOverflowErrors, Composition is not lazy. However, compositions (with the exception of infix compositions) can be set to evaluate lazily as well.
 ```
 val myLazyComposition = Composition(myEvaluator, myFunctions, lazy = true)
 ...                   = myEvaluator.compose(myFunctions, lazy = true)
-val myLazyRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction, lazy = true)
 ```
 Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/refunk/recursive/RecursiveFunctions.kt).\
 Non-recursive [implementations](src/main/kotlin/eu/yeger/refunk/non_recursive/NonRecursiveFunctions.kt) of all macros are included as well.\
-They are interchangeable with the recursive implementations and provide improved performance (and less StackOverflowErrors).
+They are interchangeable with the recursive implementations and provide improved performance (and less StackOverflowErrors).\
+Using the non-recursive implementations of macros is highly recommended.
 
 ## Exceptions
 
 - Evaluating a function will throw an `ArityException` if not enough arguments were passed.
 - Setting the arity of a function to a negative value will throw an `ArityException`.
 - Projecting a negative index will throw a `ProjectionException`.
-- Composing functions will throw a `CompositionException` if the arity of the evaluating function is not met.
-- Composing with `andThen` will throw a `CompositionException` if the parameter is not an unary function.
-- Negative values will, at any point during the evaluation and instantiation, throw a `NaturalNumberException`.
-- Evaluating a `Successor` function will throw a `NaturalNumberException` if it would cause an overflow. **Note**: None of the non-recursive macros will throw an exception in this case, and instead set the value to 0.
+- Composing functions will throw a `CompositionException` if the arity of the evaluating function and the number of provided functions do not match.
+- Applying or creating constants with negative values will throw a `NaturalNumberException`.
+- Any provided method will throw an `OverflowException` if an overflow occurs during evaluation.
 
-## Intention
+## Disclaimer
 
-This library is intended as a tool for studying primitive recursive functions, since evaluating them by hand can be quite tedious.\
+This library is intended as a tool for studying primitive recursive functions.\
 Because the implementation is based on experimental Kotlin features, using them in production is not recommended.
