@@ -1,5 +1,6 @@
 package eu.yeger.refunk.recursive
 
+import eu.yeger.refunk.base.and
 import eu.yeger.refunk.base.c
 import eu.yeger.refunk.base.p
 import org.junit.Assert.assertEquals
@@ -73,19 +74,19 @@ class RecursiveMacroTests {
 
     @Test
     fun testCeilingDivision() {
-        assertEquals(2, ceilingDivisionOf { c(4) and p(0)}.apply(2))
+        assertEquals(2, ceilingDivision().apply(4, 2))
         assertEquals(3, ceilingDivisionOf { c(5) and p(0) }.apply(2))
     }
 
     @Test
     fun testFloorDivision() {
-        assertEquals(2, floorDivisionOf { c(4) and p(0) }.apply(2))
+        assertEquals(2, floorDivision().apply(4, 2))
         assertEquals(2, floorDivisionOf { c(5) and p(0) }.apply(2))
     }
 
     @Test
     fun testDivision() {
-        assertEquals(2, divisionOf { c(4) and p(0) }.apply(2))
+        assertEquals(2, division().apply(4, 2))
         assertEquals(0, divisionOf { c(5) and p(0) }.apply(2))
     }
 

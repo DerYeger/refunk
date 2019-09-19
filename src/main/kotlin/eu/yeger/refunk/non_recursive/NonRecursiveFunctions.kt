@@ -1,9 +1,7 @@
 package eu.yeger.refunk.non_recursive
 
+import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
-import eu.yeger.refunk.base.Argument
-import eu.yeger.refunk.base.c
-import eu.yeger.refunk.base.p
 import eu.yeger.refunk.base.toNaturalNumber
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -13,6 +11,7 @@ internal fun Long.bounded() = if (this >= 0) this else 0
 
 fun addition() = object : Function() {
     init { arity = 2 }
+
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() + arguments[1].evaluated()).bounded()
 }
 
@@ -40,6 +39,7 @@ fun not() = subtractFrom(1)
 
 fun multiplication() = object : Function() {
     init { arity = 2 }
+
     override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() * arguments[1].evaluated()).bounded()
 }
 
@@ -97,7 +97,6 @@ fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = 
 
 fun ceilingDivision() = object : Function() {
     init { arity = 2 }
-
     override fun evaluate(arguments: Array<Argument>) =
         ceil(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
 }
@@ -106,7 +105,6 @@ fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(c
 
 fun floorDivision() = object : Function() {
     init { arity = 2 }
-
     override fun evaluate(arguments: Array<Argument>) =
         floor(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
 }
@@ -115,7 +113,6 @@ fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(colle
 
 fun division() = object : Function() {
     init { arity = 2 }
-
     override fun evaluate(arguments: Array<Argument>): Long {
         val a = arguments[0].evaluated()
         val b = arguments[1].evaluated()

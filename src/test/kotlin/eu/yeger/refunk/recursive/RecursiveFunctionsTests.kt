@@ -1,5 +1,7 @@
 package eu.yeger.refunk.recursive
 
+import eu.yeger.refunk.base.and
+import eu.yeger.refunk.base.andThen
 import eu.yeger.refunk.base.p
 import org.junit.Assert.assertEquals
 import org.junit.Test
