@@ -20,7 +20,7 @@ class RecursiveFunctionsTests {
 
         //g: N³ -> N
         //(x,y,z) -> x * y + z
-        val g = additionOf { multiplicationOf { p(0) and p(1) } and p(2) }
+        val g = additionOf { multiplication() and p(2) }
 
         assertEquals(42, g.apply(2, 12, 18))
 
@@ -29,7 +29,7 @@ class RecursiveFunctionsTests {
 
         //h: N³ -> N
         //(x,y,z) -> x * y * z
-        val h = multiplicationOf { multiplicationOf { p(0) and p(1) } and p(2) }
+        val h = multiplicationOf { multiplication() and p(2) }
 
         assertEquals(42, h.apply(2, 3, 7))
 
