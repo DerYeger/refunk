@@ -9,7 +9,7 @@ import kotlin.math.max
 class Recursion(
     private val baseCase: Function,
     private val recursiveCase: Function,
-    private val lazy: Boolean = false
+    private val lazy: Boolean = true
 ) : Function() {
 
     init {
