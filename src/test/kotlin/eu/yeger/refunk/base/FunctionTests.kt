@@ -43,9 +43,19 @@ class FunctionTests {
     }
 
     @Test
-    fun testComposeException() {
+    fun testTooFewCompositionException() {
         try {
             Successor().compose()
+        } catch (e : CompositionException) {
+            return
+        }
+        fail()
+    }
+
+    @Test
+    fun testTooManyCompositionException() {
+        try {
+            Successor().compose(Successor(), Successor())
         } catch (e : CompositionException) {
             return
         }
