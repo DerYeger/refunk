@@ -1,6 +1,6 @@
-package eu.yeger.refunk.base
+package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.recursive.Recursion
+import eu.yeger.refunk.base.c
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

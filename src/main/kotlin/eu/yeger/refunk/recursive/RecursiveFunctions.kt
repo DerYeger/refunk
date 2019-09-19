@@ -3,14 +3,6 @@ package eu.yeger.refunk.recursive
 import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 
-//infix fun Function.withBaseCase(other: Function) = Pair(this, other)
-//
-//inline fun recursive(block: () -> Pair<Function, Function>) = with(block.invoke()) { Recursion(second, first) }
-//
-//inline fun recursionOf(baseCase: Function,
-//                recursiveCase: Function,
-//                collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
-
 //(x,y) -> x + y
 fun addition(): Function = recursive { first() andThen s() } withBaseCase first()
 
@@ -23,7 +15,7 @@ fun add(value: Long) = additionOf { first() and c(value) }
 fun predecessor() = recursive { second() } withBaseCase zero()
 
 //(x,y) -> x - y
-fun subtraction(): Function = recursionOf(first(), first() andThen predecessor()) { second() and first() }
+fun subtraction(): Function = recursive { first() andThen predecessor() } withBaseCase first() of { second() and first() }
 
 inline fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
@@ -47,7 +39,7 @@ fun multiplyBy(value: Long) = multiplicationOf { first() and c(value) }
 fun square() = multiplicationOf { first() and first() }
 
 //(x,y) -> x^y
-fun exp() = recursionOf(one(), multiplicationOf { first() and third() }) { second() and first() }
+fun exp() = recursive { multiplicationOf { first() and third() } } withBaseCase one() of { second() and first() }
 
 inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
