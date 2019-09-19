@@ -1,8 +1,6 @@
 package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.base.and
-import eu.yeger.refunk.base.c
-import eu.yeger.refunk.base.p
+import eu.yeger.refunk.base.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -62,8 +60,8 @@ class RecursiveMacroTests {
 
     @Test
     fun testCaseDifferentiation() {
-        assertEquals(10, caseDifferentiation(p(1), c(42), c(10)).apply(0, 1))
-        assertEquals(42, caseDifferentiation(p(0), c(42), c(10)).apply(0, 1))
+        assertEquals(10, caseDifferentiation(second(), c(42), c(10)).apply(0, 1))
+        assertEquals(42, caseDifferentiation(first(), c(42), c(10)).apply(0, 1))
     }
 
     @Test
@@ -74,20 +72,20 @@ class RecursiveMacroTests {
 
     @Test
     fun testCeilingDivision() {
-        assertEquals(2, ceilingDivision().apply(4, 2))
-        assertEquals(3, ceilingDivisionOf { c(5) and p(0) }.apply(2))
+        assertEquals(2, ceilingDivisionOf { c(4) and first()}.apply(2))
+        assertEquals(3, ceilingDivisionOf { c(5) and first() }.apply(2))
     }
 
     @Test
     fun testFloorDivision() {
-        assertEquals(2, floorDivision().apply(4, 2))
-        assertEquals(2, floorDivisionOf { c(5) and p(0) }.apply(2))
+        assertEquals(2, floorDivisionOf { c(4) and first() }.apply(2))
+        assertEquals(2, floorDivisionOf { c(5) and first() }.apply(2))
     }
 
     @Test
     fun testDivision() {
-        assertEquals(2, division().apply(4, 2))
-        assertEquals(0, divisionOf { c(5) and p(0) }.apply(2))
+        assertEquals(2, divisionOf { c(4) and first() }.apply(2))
+        assertEquals(0, divisionOf { c(5) and first() }.apply(2))
     }
 
     @Test

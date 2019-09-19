@@ -17,7 +17,7 @@ fun addition() = object : Function() {
 
 fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
 
-fun add(value: Long) = additionOf { p(0) and c(value) }
+fun add(value: Long) = additionOf { first() and c(value) }
 
 fun predecessor() = object : Function() {
     init { arity = 1 }
@@ -31,9 +31,9 @@ fun subtraction() = object : Function() {
 
 fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
-fun subtract(value: Long) = subtractionOf { p(0) and c(value) }
+fun subtract(value: Long) = subtractionOf { first() and c(value) }
 
-fun subtractFrom(value: Long) = subtractionOf { c(value) and p(0) }
+fun subtractFrom(value: Long) = subtractionOf { c(value) and first() }
 
 fun not() = subtractFrom(1)
 
@@ -45,9 +45,9 @@ fun multiplication() = object : Function() {
 
 fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
-fun multiplyBy(value: Long) =  multiplicationOf{ p(0) and c(value) }
+fun multiplyBy(value: Long) =  multiplicationOf{ first() and c(value) }
 
-fun square() =  multiplicationOf { p(0) and p(0) }
+fun square() =  multiplicationOf { first() and first() }
 
 fun exp() = object : Function() {
     init { arity = 2 }
@@ -127,14 +127,14 @@ fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
 fun log(base: Long): Function {
     val firstTestFunction = subtractionOf {
-        p(1) and expOf { c(base) and p(0) }
+        second() and expOf { c(base) and first() }
     }
 
     val secondTestFunction = subtractionOf {
-        expOf { c(base) and p(0) } and p(1)
+        expOf { c(base) and first() } and second()
     }
 
     val testFunction = additionOf {firstTestFunction and secondTestFunction}
 
-    return boundedMuOperatorOf(testFunction) { p(0) and p(0) }
+    return boundedMuOperatorOf(testFunction) { first() and first() }
 }
