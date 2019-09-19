@@ -9,27 +9,6 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.pow
 
-internal fun bounded(value: Long) = if (value >= 0) value else 0
-
-private infix fun Argument.add(other: Argument) = add(this.evaluated(), other.evaluated())
-
-private fun add(first: Long, second: Long) =
-    if (first + second < max(first, second))
-        throw OverflowException()
-    else
-        first + second
-
-private infix fun Argument.multiplyBy(other: Argument) = multiply(this.evaluated(), other.evaluated())
-
-private fun multiply(first: Long, second: Long) =
-    if (first == 0L || second == 0L)
-        0L
-    else if (first * second / first != second)
-        throw OverflowException()
-    else
-        first * second
-
-
 fun addition() = object : Function() {
     init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) = arguments[0] add arguments[1]
@@ -162,6 +141,26 @@ fun log(base: Long) = object : Function() {
     init { arity = 1 }
     override fun evaluate(arguments: Array<Argument>) = log(arguments[0].evaluated(), base)
 }
+
+private fun bounded(value: Long) = if (value >= 0) value else 0
+
+private infix fun Argument.add(other: Argument) = add(this.evaluated(), other.evaluated())
+
+private fun add(first: Long, second: Long) =
+    if (first + second < max(first, second))
+        throw OverflowException()
+    else
+        first + second
+
+private infix fun Argument.multiplyBy(other: Argument) = multiply(this.evaluated(), other.evaluated())
+
+private fun multiply(first: Long, second: Long) =
+    if (first == 0L || second == 0L)
+        0L
+    else if (first * second / first != second)
+        throw OverflowException()
+    else
+        first * second
 
 private fun log(x: Long, base: Long): Long {
     if (x < 0L || base <= 0L) return 0L
