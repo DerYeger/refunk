@@ -17,13 +17,13 @@ internal fun Function.asArgument(arguments: Array<Argument>, lazy: Boolean) =
     if (lazy)
         ArgumentFunction(this, arguments)
     else
-        this.applyArguments(arguments).toNaturalNumber()
+        toNaturalNumber(this.applyArguments(arguments))
 
 internal inline class NaturalNumber(private val value: Long) : Argument {
 
     override fun evaluated() = value
 }
 
-internal fun Long.toNaturalNumber() = if (this >= 0) NaturalNumber(this) else throw NaturalNumberException()
+internal fun toNaturalNumber(value: Long) = if (value >= 0) NaturalNumber(value) else throw NaturalNumberException()
 
-internal fun Argument.incremented() = (this.evaluated() + 1).toNaturalNumber()
+internal fun Argument.incremented() = toNaturalNumber(this.evaluated() + 1)

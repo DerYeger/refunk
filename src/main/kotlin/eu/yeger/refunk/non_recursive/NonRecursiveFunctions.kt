@@ -88,10 +88,11 @@ fun boundedMuOperator(function: Function) = object : Function() {
         for (x in 0..arguments[0].evaluated()) {
             if (function.applyArguments(
                         arrayOf(
-                            x.toNaturalNumber(),
+                            toNaturalNumber(x),
                             *arguments
                                 .slice(1 until arguments.size)
-                                .toTypedArray())
+                                .toTypedArray()
+                        )
                 ) == 0L) {
                 return x
             }

@@ -15,7 +15,7 @@ abstract class Function {
         this.arity = arity
     }
 
-    fun apply(vararg arguments: Long) = applyArguments(arguments.map { it.toNaturalNumber() }.toTypedArray())
+    fun apply(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
 
     internal fun applyArguments(arguments: Array<Argument>) =
         when {

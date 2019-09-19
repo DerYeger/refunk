@@ -30,7 +30,7 @@ class Recursion(
     private fun recursiveCaseFunctionArguments(arguments: Array<Argument>): Array<Argument> {
         //decrement the recursion parameter for the next recursive call
         val recursionArguments = arguments.clone()
-        recursionArguments[0] = (recursionArguments[0].evaluated() - 1).bounded().toNaturalNumber()
+        recursionArguments[0] = toNaturalNumber((recursionArguments[0].evaluated() - 1).bounded())
 
         return arrayOf(this.asArgument(recursionArguments, lazy), *recursionArguments)
     }
