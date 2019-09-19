@@ -1,9 +1,8 @@
 package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.base.Argument
+import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 import eu.yeger.refunk.base.asArgument
-import eu.yeger.refunk.non_recursive.bounded
 import eu.yeger.refunk.base.toNaturalNumber
 import kotlin.math.max
 

@@ -3,16 +3,16 @@ package eu.yeger.refunk.recursive
 import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 
-infix fun Function.with(other: Function) = Pair(this, other)
-
-inline fun recursion(block: () -> Pair<Function, Function>) = with(block.invoke()) { Recursion(first, second) }
-
-inline fun recursionOf(baseCase: Function,
-                recursiveCase: Function,
-                collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
+//infix fun Function.withBaseCase(other: Function) = Pair(this, other)
+//
+//inline fun recursive(block: () -> Pair<Function, Function>) = with(block.invoke()) { Recursion(second, first) }
+//
+//inline fun recursionOf(baseCase: Function,
+//                recursiveCase: Function,
+//                collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
 
 //(x,y) -> x + y
-fun addition(): Function = recursion { first() with (first() andThen s()) }
+fun addition(): Function = recursive { first() andThen s() } withBaseCase first()
 
 inline fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
 
@@ -20,7 +20,7 @@ inline fun additionOf(collector: () -> Array<Function>) = addition().of(collecto
 fun add(value: Long) = additionOf { first() and c(value) }
 
 //x -> x - 1
-fun predecessor() = recursion { zero() with second() }
+fun predecessor() = recursive { second() } withBaseCase zero()
 
 //(x,y) -> x - y
 fun subtraction(): Function = recursionOf(first(), first() andThen predecessor()) { second() and first() }
@@ -36,7 +36,7 @@ fun subtractFrom(value: Long) = subtractionOf { c(value) and first() }
 fun not() = subtractFrom(1)
 
 //(x,y) -> x * y
-fun multiplication() = recursion { zero() with additionOf { first() and third() } }
+fun multiplication() = recursive { additionOf { first() and third() } } withBaseCase zero()
 
 inline fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
 
@@ -68,12 +68,12 @@ fun caseDifferentiation(
 }
 
 fun boundedMuOperator(function: Function) =
-    recursion { zero() with
-            caseDifferentiation(
-                boundedMuOperatorDifferentiationFunction(function),
-                second() andThen s(),
-                first()
-            ) }
+    recursive {
+        caseDifferentiation(
+            boundedMuOperatorDifferentiationFunction(function),
+            second() andThen s(),
+            first()
+        ) } withBaseCase zero()
 
 inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
 
