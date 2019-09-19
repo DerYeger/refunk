@@ -57,19 +57,16 @@ fun exp() = object : Function() {
 inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
 fun caseDifferentiation(
-    differentiationFunction: Function,
-    zeroCaseFunction: Function,
-    otherCaseFunction: Function
-): Function {
-    val zeroCaseTestFunction = multiplicationOf {
-        zeroCaseFunction and (differentiationFunction andThen not())
+    differentiator: Function,
+    zeroCase: Function,
+    otherCase: Function
+) = object : Function() {
+    init { arity = maxOf(differentiator.arity, zeroCase.arity, otherCase.arity)}
+    
+    override fun evaluate(arguments: Array<Argument>) = when(differentiator.applyArguments(arguments)) {
+        0L -> zeroCase.applyArguments(arguments)
+        else -> otherCase.applyArguments(arguments)
     }
-
-    val otherCaseTestFunction = multiplicationOf {
-        otherCaseFunction and (differentiationFunction andThen not() andThen not())
-    }
-
-    return additionOf { zeroCaseTestFunction and otherCaseTestFunction }
 }
 
 fun boundedMuOperator(function: Function) = object : Function() {

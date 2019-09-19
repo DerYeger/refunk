@@ -52,16 +52,16 @@ fun exp() = recursionOf(one(), multiplicationOf { first() and third() }) { secon
 inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
 fun caseDifferentiation(
-    differentiationFunction: Function,
-    zeroCaseFunction: Function,
-    otherCaseFunction: Function
+    differentiator: Function,
+    zeroCase: Function,
+    otherCase: Function
 ): Function {
     val zeroCaseTestFunction = multiplicationOf {
-        zeroCaseFunction and (differentiationFunction andThen not())
+        zeroCase and (differentiator andThen not())
     }
 
     val otherCaseTestFunction = multiplicationOf {
-        otherCaseFunction and (differentiationFunction andThen not() andThen not())
+        otherCase and (differentiator andThen not() andThen not())
     }
 
     return additionOf { zeroCaseTestFunction and otherCaseTestFunction }
