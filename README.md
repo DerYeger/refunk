@@ -1,48 +1,53 @@
-# *REFUNK*
-
-> Primitive recursive functions made simple with Kotlin
+![refunk logo](doc/logo_transparent.png)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Release](https://jitpack.io/v/DerYeger/refunk.svg)](https://jitpack.io/#DerYeger/refunk)
 
-*REFUNK* is small and lightweight library for studying and evaluating primitive recursive functions in Kotlin.
-It provides 
+***REFUNK*** is small and lightweight library for studying and evaluating **primitive recursive functions** in Kotlin.\
+It provides a rich set of methods which enables defining functions in a more **natural** way than other functional frameworks and libraries.
 
 ## Installation
 
 ### Gradle
 
-```
+<details>
+<summary>Show instructions</summary>
+<pre>
 allprojects {
   repositories {
     ...
     maven { url 'https://jitpack.io' }
   }
 }
-```
-```
+</pre>
+<pre>
 dependencies {
   implementation 'com.github.DerYeger:refunk:v2.0.1'
 }
-```
+</pre>
+</details>
+
 
 ### Maven
 
-```
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-```
-```
-<dependency>
-  <groupId>com.github.DerYeger</groupId>
-    <artifactId>refunk</artifactId>
-  <version>v2.0.1</version>
-</dependency>
-```
+<details>
+<summary>Show instructions</summary>
+<pre>
+&lt;repositories&gt;
+  &lt;repository&gt;
+    &lt;id&gt;jitpack.io&lt;/id&gt;
+    &lt;url&gt;https://jitpack.io&lt;/url&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;
+</pre>
+<pre>
+&lt;dependency&gt;
+  &lt;groupId&gt;com.github.DerYeger&lt;/groupId&gt;
+    &lt;artifactId&gt;refunk&lt;/artifactId&gt;
+  &lt;version&gt;v2.0.1&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+</details>
 
 ## Usage
 
@@ -60,44 +65,43 @@ val f = ...
 val g1 = ... 
 ...
 val gn = ...
-val myExplicitComposition = Composition(f, g1, ..., gn)
-val myMethodComposition = f.compose(g1, ..., gn)
-val myInfixComposition = f of { g1 and ... and gn }
+val myComposition = f of { g1 and ... and gn }
 ```
-Unary functions can also be composed by using `Function::andThen`
+Unary functions can be composed with `Function::andThen`
 ```
-val myComposition = myFunction.andThen(myUnaryFunction)
-val myInfixComposition = myFunction andThen myUnaryFunction
+val myComposition = myFunction andThen myUnaryFunction
 ```
 
 ### Recursion
 
-Recursions can also be created using multiple extension methods.
-
+Recursions can be created using multiple extension methods.
 ```
-val myClassicRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction)
-...                    = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunction
-...                    = recursive { myRecursiveCaseFunction of myHelperFunction } withBaseCase { someFunction andThen someOtherFunction }
+val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunction                
+...             = recursive { 
+                        aFunction of anotherFunction 
+                  } withBaseCase { 
+                        someFunction andThen someOtherFunction 
+                  }
 ```
 
 ### Evaluation
 
-`Function::apply` returns the result for the given arguments.
+`Function::apply` evaluates the function for the given arguments.
 ```
 val plusTwo = Successor() andThen Successor()
 println(plusTwo.apply(0)) //prints 2
 println(plusTwo.apply(40)) //prints 42
 ```
-Projection, Successor, Recursion and composition with andThen are evaluated lazily, meaning only the required arguments are evaluated.\
-In order to avoid StackOverflowErrors, Composition is not lazy. However, compositions (with the exception of infix compositions) can be set to evaluate lazily as well.
-```
-val myLazyComposition = Composition(myEvaluator, myFunctions, lazy = true)
-...                   = myEvaluator.compose(myFunctions, lazy = true)
-```
-Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/refunk/recursive/RecursiveFunctions.kt).\
-Non-recursive [implementations](src/main/kotlin/eu/yeger/refunk/non_recursive/NonRecursiveFunctions.kt) of all macros are included as well.\
-They are interchangeable with the recursive implementations and provide improved performance (and less StackOverflowErrors).\
-Using the non-recursive implementations of macros is highly recommended.
+
+### Additional information
+
+More examples and various macros can be found [here](src/main/kotlin/eu/yeger/refunk/recursive/RecursiveFunctions.kt).
+
+## Non-recursive implementations
+
+***REFUNK*** also includes non-recursive [implementations](src/main/kotlin/eu/yeger/refunk/non_recursive/NonRecursiveFunctions.kt) of commonly used functions.\
+They are **interchangeable** with the recursive implementations and provide **improved performance** (and less StackOverflowErrors).\
+Using the non-recursive implementations of macros is highly **recommended**.
 
 ## Exceptions and error handling
 
