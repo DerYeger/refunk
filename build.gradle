@@ -3,7 +3,7 @@ plugins {
 }
 
 group "eu.yeger"
-version "v2.0.0"
+version "v2.0.1"
 
 repositories {
     mavenCentral()
