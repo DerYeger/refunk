@@ -3,14 +3,18 @@ package eu.yeger.refunk.base
 import eu.yeger.refunk.exception.NaturalNumberException
 
 interface Argument {
-
-    fun evaluated() : Long
+    fun evaluated(): Long
 }
 
-internal class ArgumentFunction(private val function: Function, private val arguments: Array<Argument>) :
-    Argument {
+internal class ArgumentFunction(private val function: Function, private val arguments: Array<Argument>) : Argument {
+    private var result: Long? = null
 
-    override fun evaluated() = function.applyArguments(arguments)
+    override fun evaluated(): Long {
+        if (result == null) {
+            result = function.applyArguments(arguments)
+        }
+        return result!!
+    }
 }
 
 internal fun Function.asArgument(arguments: Array<Argument>, lazy: Boolean) =

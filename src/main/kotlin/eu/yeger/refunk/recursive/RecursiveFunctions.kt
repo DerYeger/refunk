@@ -5,9 +5,11 @@ import eu.yeger.refunk.base.Function
 
 infix fun Function.with(other: Function) = Pair(this, other)
 
-fun recursionOf(baseCase: Function, recursiveCase: Function, collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
-
 fun recursion(block: () -> Pair<Function, Function>) = with(block.invoke()) { Recursion(first, second) }
+
+fun recursionOf(baseCase: Function,
+                recursiveCase: Function,
+                collector: () -> Array<Function>) = Recursion(baseCase, recursiveCase).of(collector)
 
 //(x,y) -> x + y
 fun addition(): Function {
@@ -55,11 +57,9 @@ fun exp() = recursionOf(one(), multiplicationOf { first() and third() }) { secon
 
 fun expOf(collector: () -> Array<Function>) = exp().of(collector)
 
-fun caseDifferentiation(
-    differentiationFunction: Function,
-    zeroCaseFunction: Function,
-    otherCaseFunction: Function
-): Function {
+fun caseDifferentiation(differentiationFunction: Function,
+                        zeroCaseFunction: Function,
+                        otherCaseFunction: Function): Function {
     val zeroCaseTestFunction = multiplicationOf {
         zeroCaseFunction and (differentiationFunction andThen not())
     }
