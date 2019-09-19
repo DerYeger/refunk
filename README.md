@@ -21,7 +21,7 @@ allprojects {
 ```
 ```
 dependencies {
-  implementation 'com.github.DerYeger:refunk:v1.1.0'
+  implementation 'com.github.DerYeger:refunk:v2.0.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.DerYeger</groupId>
     <artifactId>refunk</artifactId>
-  <version>v1.1.0</version>
+  <version>v2.0.0</version>
 </dependency>
 ```
 
@@ -98,7 +98,7 @@ Non-recursive [implementations](src/main/kotlin/eu/yeger/refunk/non_recursive/No
 They are interchangeable with the recursive implementations and provide improved performance (and less StackOverflowErrors).\
 Using the non-recursive implementations of macros is highly recommended.
 
-## Exceptions
+## Exceptions and error handling
 
 - Evaluating a function will throw an `ArityException` if not enough arguments were passed.
 - Setting the arity of a function to a negative value will throw an `ArityException`.
