@@ -1,9 +1,9 @@
-# Primitive Recursive Functions
+# Refunk
 
 > Primitive recursive functions made simple with Kotlin
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Release](https://jitpack.io/v/DerYeger/primitive-recursive-functions.svg)](https://jitpack.io/#DerYeger/primitive-recursive-functions)
+[![Release](https://jitpack.io/v/DerYeger/refunk.svg)](https://jitpack.io/#DerYeger/refunk)
 
 A small and lightweight library for studying and evaluating primitive recursive functions in Kotlin.
 
@@ -21,7 +21,7 @@ allprojects {
 ```
 ```
 dependencies {
-  implementation 'com.github.DerYeger:primitive-recursive-functions:v1.1.0'
+  implementation 'com.github.DerYeger:refunk:v1.1.0'
 }
 ```
 
@@ -38,7 +38,7 @@ dependencies {
 ```
 <dependency>
   <groupId>com.github.DerYeger</groupId>
-    <artifactId>primitive-recursive-functions</artifactId>
+    <artifactId>refunk</artifactId>
   <version>v1.1.0</version>
 </dependency>
 ```
@@ -85,8 +85,8 @@ val myLazyComposition = Composition(myEvaluator, myFunctions, lazy = true)
 ...                   = myEvaluator.compose(myFunctions, lazy = true)
 val myLazyRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction, lazy = true)
 ```
-Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/prf/recursive/RecursiveFunctions.kt).\
-Non-recursive [implementations](src/main/kotlin/eu/yeger/prf/non_recursive/NonRecursiveFunctions.kt) of all macros are included as well.\
+Additional examples and various macros can be found [here](src/main/kotlin/eu/yeger/refunk/recursive/RecursiveFunctions.kt).\
+Non-recursive [implementations](src/main/kotlin/eu/yeger/refunk/non_recursive/NonRecursiveFunctions.kt) of all macros are included as well.\
 They are interchangeable with the recursive implementations and provide improved performance (and less StackOverflowErrors).
 
 ## Exceptions
