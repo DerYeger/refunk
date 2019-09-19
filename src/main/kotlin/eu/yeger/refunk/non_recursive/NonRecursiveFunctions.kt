@@ -96,16 +96,20 @@ inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Functi
 
 fun ceilingDivision() = object : Function() {
     init { arity = 2 }
-    override fun evaluate(arguments: Array<Argument>) =
-        ceil(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
+    override fun evaluate(arguments: Array<Argument>) = with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+        if (second == 0L) return 0L
+        ceil(first.toDouble() / second.toDouble()).toLong().bounded()
+    }
 }
 
 inline fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
 
 fun floorDivision() = object : Function() {
     init { arity = 2 }
-    override fun evaluate(arguments: Array<Argument>) =
-        floor(arguments[0].evaluated().toDouble() / arguments[1].evaluated().toDouble()).toLong().bounded()
+    override fun evaluate(arguments: Array<Argument>) = with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+        if (second == 0L) return 0L
+        floor(first.toDouble() / second.toDouble()).toLong().bounded()
+    }
 }
 
 inline fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
@@ -115,10 +119,12 @@ fun division() = object : Function() {
     override fun evaluate(arguments: Array<Argument>): Long {
         val a = arguments[0].evaluated()
         val b = arguments[1].evaluated()
-        return if (a % b == 0L)
-            (a / b).bounded()
-        else
-            0
+
+        return when {
+            b == 0L -> 0
+            a % b == 0L -> (a / b).bounded()
+            else -> 0
+        }
     }
 }
 
