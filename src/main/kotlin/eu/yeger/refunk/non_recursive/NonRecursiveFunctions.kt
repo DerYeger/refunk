@@ -130,12 +130,18 @@ fun division() = object : Function() {
 
 inline fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
-fun log(base: Long): Function {
-    val firstTestFunction = subtractionOf { second() and expOf { c(base) and first() } }
+fun log(base: Long)= object : Function() {
+    init { arity = 1 }
+    override fun evaluate(arguments: Array<Argument>): Long {
+        val x = arguments[0].evaluated()
 
-    val secondTestFunction = subtractionOf { expOf { c(base) and first() } and second() }
+        if (x < 0L || base <= 0L) return 0L
 
-    val testFunction = additionOf {firstTestFunction and secondTestFunction}
+        val result = kotlin.math.log(x.toDouble(), base.toDouble())
 
-    return boundedMuOperatorOf(testFunction) { first() and first() }
+        return when {
+            result != floor(result) -> 0L
+            else -> result.toLong()
+        }
+    }
 }

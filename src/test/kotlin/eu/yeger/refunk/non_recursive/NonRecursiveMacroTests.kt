@@ -93,6 +93,8 @@ class NonRecursiveMacroTests {
 
     @Test
     fun testLog() {
+        assertEquals(0, log(1).apply(1))
+        assertEquals(0, log(2).apply(1))
         assertEquals(2, log(2).apply(4))
         assertEquals(0, log(2).apply(1))
         assertEquals(0, log(2).apply(5))
