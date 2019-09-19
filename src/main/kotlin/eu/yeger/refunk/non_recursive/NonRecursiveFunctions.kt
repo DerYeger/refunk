@@ -3,15 +3,36 @@ package eu.yeger.refunk.non_recursive
 import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 import eu.yeger.refunk.base.toNaturalNumber
+import eu.yeger.refunk.exception.OverflowException
 import kotlin.math.ceil
 import kotlin.math.floor
+import kotlin.math.max
 import kotlin.math.pow
 
-internal fun Long.bounded() = if (this >= 0) this else 0
+internal fun bounded(value: Long) = if (value >= 0) value else 0
+
+private infix fun Argument.add(other: Argument) = add(this.evaluated(), other.evaluated())
+
+private fun add(first: Long, second: Long) =
+    if (first + second < max(first, second))
+        throw OverflowException()
+    else
+        first + second
+
+private infix fun Argument.multiplyBy(other: Argument) = multiply(this.evaluated(), other.evaluated())
+
+private fun multiply(first: Long, second: Long) =
+    if (first == 0L || second == 0L)
+        0L
+    else if (first * second / first != second)
+        throw OverflowException()
+    else
+        first * second
+
 
 fun addition() = object : Function() {
     init { arity = 2 }
-    override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() + arguments[1].evaluated()).bounded()
+    override fun evaluate(arguments: Array<Argument>) = arguments[0] add arguments[1]
 }
 
 inline fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
@@ -20,12 +41,12 @@ fun add(value: Long) = additionOf { first() and c(value) }
 
 fun predecessor() = object : Function() {
     init { arity = 1 }
-    override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() - 1).bounded()
+    override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - 1)
 }
 
 fun subtraction() = object : Function() {
     init { arity = 2 }
-    override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() - arguments[1].evaluated()).bounded()
+    override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - arguments[1].evaluated())
 }
 
 inline fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
@@ -39,7 +60,7 @@ fun not() = subtractFrom(1)
 fun multiplication() = object : Function() {
     init { arity = 2 }
 
-    override fun evaluate(arguments: Array<Argument>) = (arguments[0].evaluated() * arguments[1].evaluated()).bounded()
+    override fun evaluate(arguments: Array<Argument>) = arguments[0] multiplyBy arguments[1]
 }
 
 inline fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
@@ -50,8 +71,18 @@ fun square() =  multiplicationOf { first() and first() }
 
 fun exp() = object : Function() {
     init { arity = 2 }
-    override fun evaluate(arguments: Array<Argument>) =
-        arguments[0].evaluated().toDouble().pow(arguments[1].evaluated().toDouble()).toLong().bounded()
+    override fun evaluate(arguments: Array<Argument>): Long {
+        val first = arguments[0].evaluated()
+        val second = arguments[1].evaluated()
+        if (second == 0L) return 1L
+        val result = first.toDouble().pow(second.toDouble()).toLong()
+
+        return if (log(result, first) == second)
+            result
+        else
+            throw OverflowException()
+    }
+
 }
 
 inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
@@ -95,7 +126,7 @@ fun ceilingDivision() = object : Function() {
     init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) = with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
         if (second == 0L) return 0L
-        ceil(first.toDouble() / second.toDouble()).toLong().bounded()
+        ceil(first.toDouble() / second.toDouble()).toLong()
     }
 }
 
@@ -105,7 +136,7 @@ fun floorDivision() = object : Function() {
     init { arity = 2 }
     override fun evaluate(arguments: Array<Argument>) = with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
         if (second == 0L) return 0L
-        floor(first.toDouble() / second.toDouble()).toLong().bounded()
+        floor(first.toDouble() / second.toDouble()).toLong()
     }
 }
 
@@ -119,7 +150,7 @@ fun division() = object : Function() {
 
         return when {
             b == 0L -> 0
-            a % b == 0L -> (a / b).bounded()
+            a % b == 0L -> a / b
             else -> 0
         }
     }
@@ -127,18 +158,18 @@ fun division() = object : Function() {
 
 inline fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
 
-fun log(base: Long)= object : Function() {
+fun log(base: Long) = object : Function() {
     init { arity = 1 }
-    override fun evaluate(arguments: Array<Argument>): Long {
-        val x = arguments[0].evaluated()
+    override fun evaluate(arguments: Array<Argument>) = log(arguments[0].evaluated(), base)
+}
 
-        if (x < 0L || base <= 0L) return 0L
+private fun log(x: Long, base: Long): Long {
+    if (x < 0L || base <= 0L) return 0L
 
-        val result = kotlin.math.log(x.toDouble(), base.toDouble())
+    val result = kotlin.math.log(x.toDouble(), base.toDouble())
 
-        return when {
-            result != floor(result) -> 0L
-            else -> result.toLong()
-        }
+    return when {
+        result != floor(result) -> 0L
+        else -> result.toLong()
     }
 }

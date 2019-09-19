@@ -1,7 +1,11 @@
 package eu.yeger.refunk.non_recursive
 
 import eu.yeger.refunk.base.*
+import eu.yeger.refunk.exception.NaturalNumberException
+import eu.yeger.refunk.exception.OverflowException
+import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
 
 class NonRecursiveMacroTests {
@@ -59,6 +63,16 @@ class NonRecursiveMacroTests {
     }
 
     @Test
+    fun testExpOverflow() {
+        try {
+            exp().apply(Long.MAX_VALUE, 2)
+        } catch (e : OverflowException) {
+            return
+        }
+        fail()
+    }
+
+    @Test
     fun testCaseDifferentiation() {
         assertEquals(10, caseDifferentiation(second(), c(42), c(10)).apply(0, 1))
         assertEquals(42, caseDifferentiation(first(), c(42), c(10)).apply(0, 1))
@@ -98,5 +112,25 @@ class NonRecursiveMacroTests {
         assertEquals(2, log(2).apply(4))
         assertEquals(0, log(2).apply(1))
         assertEquals(0, log(2).apply(5))
+    }
+
+    @Test
+    fun testAdditionOverflow() {
+        try {
+            addition().apply(Long.MAX_VALUE, 1)
+        } catch (e : OverflowException) {
+            return
+        }
+        fail()
+    }
+
+    @Test
+    fun testMultiplicationOverflow() {
+        try {
+            multiplication().apply(Long.MAX_VALUE, 2)
+        } catch (e : OverflowException) {
+            return
+        }
+        fail()
     }
 }

@@ -3,6 +3,7 @@ package eu.yeger.refunk.base
 import eu.yeger.refunk.exception.ArityException
 import eu.yeger.refunk.exception.CompositionException
 import eu.yeger.refunk.exception.NaturalNumberException
+import eu.yeger.refunk.exception.OverflowException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
@@ -73,20 +74,10 @@ class FunctionTests {
     }
 
     @Test
-    fun testNegative() {
-        try {
-            (Successor() andThen Successor()).apply(Long.MAX_VALUE)
-        } catch (e : NaturalNumberException) {
-            return
-        }
-        fail()
-    }
-
-    @Test
     fun testNegativeReturn() {
         try {
             Successor().apply(Long.MAX_VALUE)
-        } catch (e : NaturalNumberException) {
+        } catch (e : OverflowException) {
             return
         }
         fail()

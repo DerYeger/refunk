@@ -1,6 +1,7 @@
 package eu.yeger.refunk.base
 
 import eu.yeger.refunk.exception.NaturalNumberException
+import eu.yeger.refunk.exception.OverflowException
 
 interface Argument {
     fun evaluated(): Long
@@ -29,4 +30,8 @@ internal inline class NaturalNumber(private val value: Long) : Argument {
 
 internal fun toNaturalNumber(value: Long) = if (value >= 0) NaturalNumber(value) else throw NaturalNumberException()
 
-internal fun Argument.incremented() = toNaturalNumber(this.evaluated() + 1)
+internal fun Argument.incremented() =
+    if (this.evaluated() == Long.MAX_VALUE)
+        throw OverflowException()
+    else
+        this.evaluated() + 1

@@ -6,5 +6,5 @@ class Successor : Function() {
         arity = 1
     }
 
-    override fun evaluate(arguments: Array<Argument>) = arguments[0].incremented().evaluated()
+    override fun evaluate(arguments: Array<Argument>) = arguments[0].incremented()
 }
