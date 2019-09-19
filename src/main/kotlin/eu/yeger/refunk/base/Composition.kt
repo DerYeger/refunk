@@ -16,7 +16,6 @@ class Composition(
     override fun evaluate(arguments: Array<Argument>) =
         evaluator.applyArguments(
             functions
-                .slice(0 until evaluator.arity)
                 .map { it.asArgument(arguments, lazy) }
                 .toTypedArray()
         )

@@ -24,7 +24,6 @@ internal fun Function.asArgument(arguments: Array<Argument>, lazy: Boolean) =
         toNaturalNumber(this.applyArguments(arguments))
 
 internal inline class NaturalNumber(private val value: Long) : Argument {
-
     override fun evaluated() = value
 }
 
