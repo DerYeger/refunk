@@ -77,7 +77,11 @@ val myComposition = myFunction andThen myUnaryFunction
 Recursions can be created using multiple extension methods.
 ```
 val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunction                
-...             = recursive { myRecursiveCaseFunction of myHelperFunction } withBaseCase { someFunction andThen someOtherFunction }
+...             = recursive { 
+                        aFunction of anotherFunction 
+                  } withBaseCase { 
+                        someFunction andThen someOtherFunction 
+                  }
 ```
 
 ### Evaluation
