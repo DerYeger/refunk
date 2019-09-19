@@ -47,14 +47,13 @@ dependencies {
 
 ### Basic functions
 
-- `val c = Constant(value)`
+- `val c = Constant(value)` with macros `c(value)`, `zero()` and `one()`.
 - `val s = Successor()`
-- `val p = Projection(index)`
-- `val myRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction)`
+- `val p = Projection(index)` with macros `p(index)`, `first()`, `second()` and `third()`.
 
 ### Composition
 
-Composed functions like `(args) -> f(g1(args), ..., gn(args))` can be created with the `Composition` class and various other methods
+Composed functions like `(args) -> f(g1(args), ..., gn(args))` can be created with the `Composition` class and various extension methods.
 ```
 val f = ... 
 val g1 = ... 
@@ -68,6 +67,16 @@ Unary functions can also be composed by using `Function::andThen`
 ```
 val myComposition = myFunction.andThen(myUnaryFunction)
 val myInfixComposition = myFunction andThen myUnaryFunction
+```
+
+### Recursion
+
+Recursions can also be created using multiple extension methods.
+
+```
+val myClassicRecursion = Recursion(myBaseCaseFunction, myRecursiveCaseFunction)
+...                    = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunction
+...                    = recursive { myRecursiveCaseFunction of myHelperFunction } withBaseCase { someFunction andThen someOtherFunction }
 ```
 
 ### Evaluation
