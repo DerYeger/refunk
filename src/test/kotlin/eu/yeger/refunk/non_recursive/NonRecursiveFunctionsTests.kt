@@ -1,8 +1,6 @@
 package eu.yeger.refunk.non_recursive
 
-import eu.yeger.refunk.base.and
-import eu.yeger.refunk.base.andThen
-import eu.yeger.refunk.base.p
+import eu.yeger.refunk.base.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -22,7 +20,7 @@ class NonRecursiveFunctionsTests {
 
         //g: N³ -> N
         //(x,y,z) -> x * y + z
-        val g = additionOf { multiplication() and p(2) }
+        val g = additionOf { multiplication() and third() }
 
         assertEquals(42, g.apply(2, 12, 18))
 
@@ -31,7 +29,7 @@ class NonRecursiveFunctionsTests {
 
         //h: N³ -> N
         //(x,y,z) -> x * y * z
-        val h = multiplicationOf { multiplication() and p(2) }
+        val h = multiplicationOf { multiplication() and third() }
 
         assertEquals(42, h.apply(2, 3, 7))
 
@@ -40,7 +38,7 @@ class NonRecursiveFunctionsTests {
 
         //i: N² -> N
         //(x,y) -> 2x - y
-        val i = subtractionOf { multiplyBy(2) and p(1) }
+        val i = subtractionOf { multiplyBy(2) and second() }
 
         assertEquals(42, i.apply(25, 8))
 
