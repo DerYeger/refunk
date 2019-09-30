@@ -1,10 +1,10 @@
 <p align="center"><img alt="REFUNK" src="doc/logo_transparent.png"></p>
 
 <p align="center">
-    <img alt="License" src="https://img.shields.io/github/license/DerYeger/refunk?color=40aef6&style=for-the-badge">
-    <img alt="JitPack" src="https://img.shields.io/jitpack/v/github/DerYeger/refunk?color=7963dc&style=for-the-badge">
+    <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="License" src="https://img.shields.io/github/license/DerYeger/refunk?color=40aef6&style=for-the-badge"></a>
+    <a href="https://jitpack.io/#eu.yeger/refunk"><img alt="JitPack" src="https://img.shields.io/jitpack/v/github/DerYeger/refunk?color=7963dc&style=for-the-badge"></a>
     <img alt="Contributions" src="https://img.shields.io/badge/contributions-welcome-da4c99?style=for-the-badge">
-    <img alt="Downloads" src="https://img.shields.io/jitpack/dm/github/DerYeger/refunk?color=eaa232&style=for-the-badge">
+    <a href="https://codecov.io/gh/DerYeger/refunk"><img alt="Downloads" src="https://img.shields.io/codecov/c/github/deryeger/refunk?color=eaa232&style=for-the-badge"></a>
 </p>
 
 ***REFUNK*** is small and lightweight library for studying and evaluating **primitive recursive functions** in Kotlin.\
@@ -26,7 +26,7 @@ allprojects {
 </pre>
 <pre>
 dependencies {
-  implementation 'eu.yeger:refunk:v2.0.1'
+  implementation 'eu.yeger:refunk:{version}'
 }
 </pre>
 </details>
@@ -48,7 +48,7 @@ dependencies {
 &lt;dependency&gt;
   &lt;groupId&gt;eu.yeger&lt;/groupId&gt;
     &lt;artifactId&gt;refunk&lt;/artifactId&gt;
-  &lt;version&gt;v2.0.1&lt;/version&gt;
+  &lt;version&gt;{version}&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
 </details>
