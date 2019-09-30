@@ -26,7 +26,7 @@ allprojects {
 </pre>
 <pre>
 dependencies {
-  implementation 'com.github.DerYeger:refunk:v2.0.1'
+  implementation 'eu.yeger:refunk:v2.0.1'
 }
 </pre>
 </details>
