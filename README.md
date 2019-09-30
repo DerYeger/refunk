@@ -46,7 +46,7 @@ dependencies {
 </pre>
 <pre>
 &lt;dependency&gt;
-  &lt;groupId&gt;com.github.DerYeger&lt;/groupId&gt;
+  &lt;groupId&gt;eu.yeger&lt;/groupId&gt;
     &lt;artifactId&gt;refunk&lt;/artifactId&gt;
   &lt;version&gt;v2.0.1&lt;/version&gt;
 &lt;/dependency&gt;
