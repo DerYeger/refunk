@@ -4,7 +4,7 @@ import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 
 //(x,y) -> x + y
-fun addition(): Function = recursive { first andThen successor } withBaseCase first
+fun addition(): Function = recursive { successor of recursionResult } withBaseCase recursionResult
 
 val addition by lazy { addition() }
 
@@ -14,13 +14,13 @@ inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
 fun add(value: Long) = additionOf { first and c(value) }
 
 //x -> x - 1
-fun predecessor() = recursive(second) withBaseCase zero
+fun predecessor() = recursive { recursionParameter } withBaseCase zero
 
 val predecessor by lazy { predecessor() }
 
 //(x,y) -> x - y
 fun subtraction(): Function =
-    recursive { first andThen predecessor() } withBaseCase first of { second and first }
+    recursive { predecessor of recursionResult } withBaseCase recursionResult of { second and first }
 
 val subtraction by lazy { subtraction() }
 
@@ -37,7 +37,7 @@ fun not() = subtractFrom(1)
 val not by lazy { not() }
 
 //(x,y) -> x * y
-fun multiplication() = recursive(additionOf { first and third }) withBaseCase zero
+fun multiplication() = recursive(additionOf { recursionResult and recursionArgument }) withBaseCase zero
 
 val multiplication by lazy { multiplication() }
 
@@ -52,7 +52,8 @@ fun square() = multiplicationOf { first and first }
 val square by lazy { square() }
 
 //(x,y) -> x^y
-fun exp() = recursive(multiplicationOf { first and third }) withBaseCase one of { second and first }
+fun exp() =
+    recursive(multiplicationOf { recursionResult and recursionArgument }) withBaseCase one of { second and first }
 
 val exp by lazy { exp() }
 
@@ -78,8 +79,8 @@ fun boundedMuOperator(function: Function) =
     recursive(
         caseDifferentiation(
             boundedMuOperatorDifferentiationFunction(function),
-            second andThen successor,
-            first
+            successor of recursionParameter,
+            recursionResult
         )
     ) withBaseCase zero
 

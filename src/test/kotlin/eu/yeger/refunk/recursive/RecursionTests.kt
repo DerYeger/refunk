@@ -1,9 +1,9 @@
 package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.base.Successor
-import eu.yeger.refunk.base.andThen
 import eu.yeger.refunk.base.c
+import eu.yeger.refunk.base.of
 import eu.yeger.refunk.base.one
+import eu.yeger.refunk.base.successor
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -17,9 +17,6 @@ class RecursionTests {
 
     @Test
     fun testRecursions() {
-        assertEquals(6, (
-                recursive { Successor() andThen Successor() }
-                        withBaseCase { one andThen Successor() }
-                )(2))
+        assertEquals(6, (recursive { successor of successor } withBaseCase { successor of one })(2))
     }
 }
