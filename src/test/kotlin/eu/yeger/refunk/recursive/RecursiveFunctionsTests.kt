@@ -4,8 +4,8 @@ import eu.yeger.refunk.base.and
 import eu.yeger.refunk.base.andThen
 import eu.yeger.refunk.base.second
 import eu.yeger.refunk.base.third
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class RecursiveFunctionsTests {
 

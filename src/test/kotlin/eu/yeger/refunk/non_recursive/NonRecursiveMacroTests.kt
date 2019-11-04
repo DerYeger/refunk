@@ -5,9 +5,9 @@ import eu.yeger.refunk.base.c
 import eu.yeger.refunk.base.first
 import eu.yeger.refunk.base.second
 import eu.yeger.refunk.exception.OverflowException
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class NonRecursiveMacroTests {
 
@@ -70,7 +70,7 @@ class NonRecursiveMacroTests {
         } catch (e: OverflowException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -122,7 +122,7 @@ class NonRecursiveMacroTests {
         } catch (e: OverflowException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -132,6 +132,6 @@ class NonRecursiveMacroTests {
         } catch (e: OverflowException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 }

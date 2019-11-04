@@ -1,9 +1,9 @@
 package eu.yeger.refunk.base
 
 import eu.yeger.refunk.exception.NaturalNumberException
-import org.junit.Assert
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class ConstantTests {
 
@@ -20,6 +20,6 @@ class ConstantTests {
         } catch (e: NaturalNumberException) {
             return
         }
-        Assert.fail()
+        fail<Any>()
     }
 }

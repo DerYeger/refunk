@@ -1,9 +1,9 @@
 package eu.yeger.refunk.base
 
 import eu.yeger.refunk.exception.ProjectionException
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class ProjectionTests {
 
@@ -21,6 +21,6 @@ class ProjectionTests {
         } catch (e: ProjectionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 }

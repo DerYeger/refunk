@@ -4,8 +4,8 @@ import eu.yeger.refunk.base.c
 import eu.yeger.refunk.base.of
 import eu.yeger.refunk.base.one
 import eu.yeger.refunk.base.successor
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class RecursionTests {
 

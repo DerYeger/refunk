@@ -4,9 +4,9 @@ import eu.yeger.refunk.exception.ArityException
 import eu.yeger.refunk.exception.CompositionException
 import eu.yeger.refunk.exception.NaturalNumberException
 import eu.yeger.refunk.exception.OverflowException
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class FunctionTests {
 
@@ -17,7 +17,7 @@ class FunctionTests {
         } catch (e: ArityException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -27,7 +27,7 @@ class FunctionTests {
         } catch (e: NaturalNumberException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -37,7 +37,7 @@ class FunctionTests {
         } catch (e: CompositionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -47,7 +47,7 @@ class FunctionTests {
         } catch (e: CompositionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -57,7 +57,7 @@ class FunctionTests {
         } catch (e: CompositionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -67,7 +67,7 @@ class FunctionTests {
         } catch (e: OverflowException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
@@ -76,7 +76,7 @@ class FunctionTests {
             override val arity = 0
 
             override fun evaluate(arguments: Array<Argument>): Long {
-                fail()
+                fail<Any>()
                 return 0
             }
         }
