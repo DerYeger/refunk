@@ -11,7 +11,7 @@ class RecursiveMacroTests {
 
     @Test
     fun testAddition() {
-        assertEquals(42, addition()(20, 22))
+        assertEquals(42, addition(20, 22))
     }
 
     @Test
@@ -21,14 +21,14 @@ class RecursiveMacroTests {
 
     @Test
     fun testPredecessor() {
-        assertEquals(42, predecessor()(43))
-        assertEquals(0, predecessor()(0))
+        assertEquals(42, predecessor(43))
+        assertEquals(0, predecessor(0))
     }
 
     @Test
     fun testSubtraction() {
-        assertEquals(42, subtraction()(50, 8))
-        assertEquals(0, subtraction()(5, 10))
+        assertEquals(42, subtraction(50, 8))
+        assertEquals(0, subtraction(5, 10))
     }
 
     @Test
@@ -43,7 +43,7 @@ class RecursiveMacroTests {
 
     @Test
     fun testMultiplication() {
-        assertEquals(42, multiplication()(2, 21))
+        assertEquals(42, multiplication(2, 21))
     }
 
     @Test
@@ -53,18 +53,18 @@ class RecursiveMacroTests {
 
     @Test
     fun testSquare() {
-        assertEquals(81, square()(9))
+        assertEquals(81, square(9))
     }
 
     @Test
     fun testExp() {
-        assertEquals(27, exp()(3, 3))
+        assertEquals(27, exp(3, 3))
     }
 
     @Test
     fun testCaseDifferentiation() {
-        assertEquals(10, caseDifferentiation(second(), c(42), c(10))(0, 1))
-        assertEquals(42, caseDifferentiation(first(), c(42), c(10))(0, 1))
+        assertEquals(10, caseDifferentiation(second, c(42), c(10))(0, 1))
+        assertEquals(42, caseDifferentiation(first, c(42), c(10))(0, 1))
     }
 
     @Test
@@ -75,23 +75,23 @@ class RecursiveMacroTests {
 
     @Test
     fun testCeilingDivision() {
-        assertEquals(0, ceilingDivision()(42, 0))
-        assertEquals(2, ceilingDivisionOf { c(4) and first() }(2))
-        assertEquals(3, ceilingDivisionOf { c(5) and first() }(2))
+        assertEquals(0, ceilingDivision(42, 0))
+        assertEquals(2, ceilingDivisionOf { c(4) and first }(2))
+        assertEquals(3, ceilingDivisionOf { c(5) and first }(2))
     }
 
     @Test
     fun testFloorDivision() {
-        assertEquals(0, floorDivision()(42, 0))
-        assertEquals(2, floorDivisionOf { c(4) and first() }(2))
-        assertEquals(2, floorDivisionOf { c(5) and first() }(2))
+        assertEquals(0, floorDivision(42, 0))
+        assertEquals(2, floorDivisionOf { c(4) and first }(2))
+        assertEquals(2, floorDivisionOf { c(5) and first }(2))
     }
 
     @Test
     fun testDivision() {
-        assertEquals(0, division()(42, 0))
-        assertEquals(2, divisionOf { c(4) and first() }(2))
-        assertEquals(0, divisionOf { c(5) and first() }(2))
+        assertEquals(0, division(42, 0))
+        assertEquals(2, divisionOf { c(4) and first }(2))
+        assertEquals(0, divisionOf { c(5) and first }(2))
     }
 
     @Test

@@ -19,7 +19,7 @@ class RecursionTests {
     fun testRecursions() {
         assertEquals(6, (
                 recursive { Successor() andThen Successor() }
-                        withBaseCase { one() andThen Successor() }
+                        withBaseCase { one andThen Successor() }
                 )(2))
     }
 }

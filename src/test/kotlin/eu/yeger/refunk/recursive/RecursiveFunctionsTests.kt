@@ -23,7 +23,7 @@ class RecursiveFunctionsTests {
 
         //g: N³ -> N
         //(x,y,z) -> x * y + z
-        val g = additionOf { multiplication() and third() }
+        val g = additionOf { multiplication and third }
 
         assertEquals(42, g(2, 12, 18))
 
@@ -32,7 +32,7 @@ class RecursiveFunctionsTests {
 
         //h: N³ -> N
         //(x,y,z) -> x * y * z
-        val h = multiplicationOf { multiplication() and third() }
+        val h = multiplicationOf { multiplication and third }
 
         assertEquals(42, h(2, 3, 7))
 
@@ -41,7 +41,7 @@ class RecursiveFunctionsTests {
 
         //i: N² -> N
         //(x,y) -> 2x - y
-        val i = subtractionOf { multiplyBy(2) and second() }
+        val i = subtractionOf { multiplyBy(2) and second }
 
         assertEquals(42, i(25, 8))
 
@@ -50,7 +50,7 @@ class RecursiveFunctionsTests {
 
         //j: N -> N
         //x -> (2x + 42) - x²
-        val j = subtractionOf { multiplyBy(2) andThen add(42) and square() }
+        val j = subtractionOf { multiplyBy(2) andThen add(42) and square }
 
         assertEquals(42, j(0))
 
@@ -80,7 +80,7 @@ class RecursiveFunctionsTests {
         //m: N² -> N
         //(x,y) -> 2 * x / y; if y != 0
         //(x,y) -> 0; else
-        val m = floorDivision() andThen multiplyBy(2)
+        val m = floorDivision andThen multiplyBy(2)
 
         assertEquals(42, m(84, 4))
 
@@ -90,7 +90,7 @@ class RecursiveFunctionsTests {
         //n: N² -> N
         //(x,y) -> 2 * x / y + 42; if y != 0
         //(x,y) -> 42; else
-        val n = floorDivision() andThen multiplyBy(2) andThen add(42)
+        val n = floorDivision andThen multiplyBy(2) andThen add(42)
 
         assertEquals(42, n(10, 0))
     }

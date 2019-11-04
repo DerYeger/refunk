@@ -16,9 +16,11 @@ fun addition() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = arguments[0] add arguments[1]
 }
 
-inline fun additionOf(collector: () -> Array<Function>) = addition().of(collector)
+val addition by lazy { addition() }
 
-fun add(value: Long) = additionOf { first() and c(value) }
+inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
+
+fun add(value: Long) = additionOf { first and c(value) }
 
 fun predecessor() = object : Function() {
     init {
@@ -28,6 +30,8 @@ fun predecessor() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - 1)
 }
 
+val predecessor by lazy { predecessor() }
+
 fun subtraction() = object : Function() {
     init {
         arity = 2
@@ -36,13 +40,17 @@ fun subtraction() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - arguments[1].evaluated())
 }
 
-inline fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
+val subtraction by lazy { subtraction() }
 
-fun subtract(value: Long) = subtractionOf { first() and c(value) }
+inline fun subtractionOf(arguments: () -> Array<Function>) = subtraction of arguments
 
-fun subtractFrom(value: Long) = subtractionOf { c(value) and first() }
+fun subtract(value: Long) = subtractionOf { first and c(value) }
+
+fun subtractFrom(value: Long) = subtractionOf { c(value) and first }
 
 fun not() = subtractFrom(1)
+
+val not by lazy { not() }
 
 fun multiplication() = object : Function() {
     init {
@@ -52,11 +60,15 @@ fun multiplication() = object : Function() {
     override fun evaluate(arguments: Array<Argument>) = arguments[0] multiplyBy arguments[1]
 }
 
-inline fun multiplicationOf(collector: () -> Array<Function>) = multiplication().of(collector)
+val multiplication by lazy { multiplication() }
 
-fun multiplyBy(value: Long) = multiplicationOf { first() and c(value) }
+inline fun multiplicationOf(arguments: () -> Array<Function>) = multiplication of arguments
 
-fun square() = multiplicationOf { first() and first() }
+fun multiplyBy(value: Long) = multiplicationOf { first and c(value) }
+
+fun square() = multiplicationOf { first and first }
+
+val square by lazy { square() }
 
 fun exp() = object : Function() {
     init {
@@ -74,10 +86,11 @@ fun exp() = object : Function() {
         else
             throw OverflowException()
     }
-
 }
 
-inline fun expOf(collector: () -> Array<Function>) = exp().of(collector)
+val exp by lazy { exp() }
+
+inline fun expOf(arguments: () -> Array<Function>) = exp of arguments
 
 fun caseDifferentiation(
     differentiator: Function,
@@ -117,8 +130,8 @@ fun boundedMuOperator(function: Function) = object : Function() {
     }
 }
 
-inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) =
-    boundedMuOperator(function).of(collector)
+inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array<Function>) =
+    boundedMuOperator(function).of(arguments)
 
 fun ceilingDivision() = object : Function() {
     init {
@@ -131,7 +144,9 @@ fun ceilingDivision() = object : Function() {
     }
 }
 
-inline fun ceilingDivisionOf(collector: () -> Array<Function>) = ceilingDivision().of(collector)
+val ceilingDivision by lazy { ceilingDivision() }
+
+inline fun ceilingDivisionOf(arguments: () -> Array<Function>) = ceilingDivision of arguments
 
 fun floorDivision() = object : Function() {
     init {
@@ -144,7 +159,9 @@ fun floorDivision() = object : Function() {
     }
 }
 
-inline fun floorDivisionOf(collector: () -> Array<Function>) = floorDivision().of(collector)
+val floorDivision by lazy { floorDivision() }
+
+inline fun floorDivisionOf(arguments: () -> Array<Function>) = floorDivision of arguments
 
 fun division() = object : Function() {
     init {
@@ -163,7 +180,9 @@ fun division() = object : Function() {
     }
 }
 
-inline fun divisionOf(collector: () -> Array<Function>) = division().of(collector)
+val division by lazy { division() }
+
+inline fun divisionOf(arguments: () -> Array<Function>) = division of arguments
 
 fun log(base: Long) = object : Function() {
     init {

@@ -14,20 +14,20 @@ infix fun Array<Function>.and(function: Function): Array<Function> = this.plus(f
 
 fun c(value: Long) = Constant(value)
 
-fun zero() = Constant(0)
+val zero by lazy { Constant(0) }
 
-fun one() = Constant(1)
+val one by lazy { Constant(1) }
 
 fun p(index: Int) = Projection(index)
 
-fun first() = Projection(0)
+val first by lazy { Projection(0) }
 
-fun second() = Projection(1)
+val second by lazy { Projection(1) }
 
-fun third() = Projection(2)
+val third by lazy { Projection(2) }
 
-inline fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(index).of(collector)
+inline fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(index) of collector
 
-fun s(): Successor = Successor()
+val successor by lazy { Successor() }
 
-fun successorOf(function: Function) = Successor().of(function)
+fun successorOf(function: Function) = Successor() of function

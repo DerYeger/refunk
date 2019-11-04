@@ -25,9 +25,9 @@ class BaseMacroTests {
 
     @Test
     fun testSuccessorMacro() {
-        Assert.assertEquals(1, s()(0))
-        Assert.assertEquals(42, s()(41))
-        Assert.assertEquals(42, s()(41, 10, 20))
+        Assert.assertEquals(1, successor(0))
+        Assert.assertEquals(42, successor(41))
+        Assert.assertEquals(42, successor(41, 10, 20))
     }
 
     @Test
