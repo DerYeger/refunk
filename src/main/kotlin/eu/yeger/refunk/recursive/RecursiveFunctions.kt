@@ -4,9 +4,9 @@ import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 
 //(x,y) -> x + y
-fun addition(): Function = recursive { successor of recursionResult } withBaseCase firstBaseCaseArgument
-
-val addition by lazy { addition() }
+val addition by lazy {
+    recursive { successor of recursionResult } withBaseCase firstBaseCaseArgument
+}
 
 inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
 
@@ -14,15 +14,14 @@ inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
 fun add(value: Long) = additionOf { first and constant(value) }
 
 //x -> x - 1
-fun predecessor() = recursive { recursionParameter } withBaseCase zero
-
-val predecessor by lazy { predecessor() }
+val predecessor by lazy {
+    recursive { recursionParameter } withBaseCase zero
+}
 
 //(x,y) -> x - y
-fun subtraction(): Function =
+val subtraction by lazy {
     recursive { predecessor of recursionResult } withBaseCase firstBaseCaseArgument of { second and first }
-
-val subtraction by lazy { subtraction() }
+}
 
 inline fun subtractionOf(arguments: () -> Array<Function>) = subtraction of arguments
 
@@ -32,14 +31,12 @@ fun subtract(value: Long) = subtractionOf { first and constant(value) }
 //x -> value - x
 fun subtractFrom(value: Long) = subtractionOf { constant(value) and first }
 
-fun not() = subtractFrom(1)
-
-val not by lazy { not() }
+val not by lazy { subtractFrom(1) }
 
 //(x,y) -> x * y
-fun multiplication() = recursive(additionOf { recursionResult and firstRecursionArgument }) withBaseCase zero
-
-val multiplication by lazy { multiplication() }
+val multiplication by lazy {
+    recursive(additionOf { recursionResult and firstRecursionArgument }) withBaseCase zero
+}
 
 inline fun multiplicationOf(arguments: () -> Array<Function>) = multiplication of arguments
 
@@ -47,15 +44,18 @@ inline fun multiplicationOf(arguments: () -> Array<Function>) = multiplication o
 fun multiplyBy(value: Long) = multiplicationOf { first and constant(value) }
 
 //x -> x²
-fun square() = multiplicationOf { first and first }
-
-val square by lazy { square() }
+val square by lazy {
+    multiplicationOf { first and first }
+}
 
 //(x,y) -> x^y
-fun exp() =
-    recursive(multiplicationOf { recursionResult and firstRecursionArgument }) withBaseCase one of { second and first }
-
-val exp by lazy { exp() }
+val exp by lazy {
+    recursive {
+        multiplicationOf { recursionResult and firstRecursionArgument }
+    } withBaseCase {
+        one
+    } of { second and first }
+}
 
 inline fun expOf(arguments: () -> Array<Function>) = exp of arguments
 
@@ -65,11 +65,11 @@ fun caseDifferentiation(
     otherCase: Function
 ): Function {
     val zeroCaseTestFunction = multiplicationOf {
-        zeroCase and (differentiator andThen not())
+        zeroCase and (differentiator andThen not)
     }
 
     val otherCaseTestFunction = multiplicationOf {
-        otherCase and (differentiator andThen not() andThen not())
+        otherCase and (differentiator andThen not andThen not)
     }
 
     return additionOf { zeroCaseTestFunction and otherCaseTestFunction }
@@ -104,53 +104,44 @@ internal fun boundedMuOperatorDifferentiationFunction(function: Function): Funct
 }
 
 //(x,y) -> ceiling(x / y)
-fun ceilingDivision(): Function {
+val ceilingDivision by lazy {
     //(n,x,y) -> x - n * y
     val g = subtractionOf { second and multiplicationOf { first and third } }
-
-    return boundedMuOperatorOf(g) { first and first and second }
+    boundedMuOperatorOf(g) { first and first and second }
 }
-
-val ceilingDivision by lazy { ceilingDivision() }
 
 inline fun ceilingDivisionOf(arguments: () -> Array<Function>) = ceilingDivision of arguments
 
 //(x,y) -> floor(x / y)
 //or 0 if y == 0
-fun floorDivision(): Function {
-    val ceilingDivision = ceilingDivision()
-
+val floorDivision by lazy {
     val differentiationFunction = subtractionOf {
         multiplicationOf { ceilingDivision and second } and first
     }
 
-    return caseDifferentiation(
+    caseDifferentiation(
         differentiationFunction,
         ceilingDivision,
-        ceilingDivision andThen predecessor()
+        ceilingDivision andThen predecessor
     )
 }
-
-val floorDivision by lazy { floorDivision() }
 
 inline fun floorDivisionOf(arguments: () -> Array<Function>) = floorDivision of arguments
 
 //(x,y) -> x / y; if x / y is a natural number
 //(x,y) -> 0; else
-fun division(): Function {
+val division by lazy {
     //(n,x,y) -> (x - n * y) + (n * y - x)
     val g = additionOf {
         subtractionOf {
             second and multiplicationOf { first and third }
         } and subtractionOf {
-            multiplication() of { first and third } and second
+            multiplication of { first and third } and second
         }
     }
 
-    return boundedMuOperatorOf(g) { first and first and second }
+    boundedMuOperatorOf(g) { first and first and second }
 }
-
-val division by lazy { division() }
 
 inline fun divisionOf(arguments: () -> Array<Function>) = division of arguments
 

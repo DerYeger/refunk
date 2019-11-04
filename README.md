@@ -58,12 +58,12 @@ dependencies {
 ### Basic functions
 
 - `val c = Constant(value)` with macros `constant(value)`, `zero` and `one`.
-- `val s = successor()` with macro `successor`
+- `val s = Successor()` with macro `successor`.
 - `val p = Projection(index)` with macros `projection(index)`, `first`, `second`, `third`, `fourth` and `fifth`.
 
 ### Composition
 
-Composed functions like `(args) -> f(g1(args), ..., gn(args))` can be created with the `Composition` class and various extension methods.
+Function composition is handled by the `Composition` class and various wrapper methods.
 ```
 val f = ... 
 val g1 = ... 
@@ -78,7 +78,7 @@ val myComposition = myFunction andThen myUnaryFunction
 
 ### Recursion
 
-Recursions can be created using multiple extension methods.
+Recursions can be defined using multiple extension methods.
 ```
 val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunction                
 ...             = recursive { 
@@ -87,14 +87,22 @@ val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunc
                         someFunction andThen someOtherFunction 
                   }
 ```
+Named projections help using the recursion results, parameters and arguments as well.
+```          
+val addition = recursive { successor of recursionResult } withBaseCase firstBaseCaseArgument
+val predecessor = recursive { recursionParameter } withBaseCase zero
+```
 
 ### Invocation
 
-`Function::invoke` evaluates the function for the given arguments.
+The operator `Function::invoke` evaluates the function for the given arguments.
 ```
 val addTwo = successor andThen successor
 println(addTwo(0)) //prints 2
 println(addTwo(40)) //prints 42
+
+val myFunction = predecessor of addition
+println(myFunction(3, 40)) //prints 42
 ```
 
 ### Additional information
