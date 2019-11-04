@@ -57,9 +57,9 @@ dependencies {
 
 ### Basic functions
 
-- `val c = Constant(value)` with macros `c(value)`, `zero()` and `one()`.
+- `val c = Constant(value)` with macros `c(value)`, `zero` and `one`.
 - `val s = Successor()`
-- `val p = Projection(index)` with macros `p(index)`, `first()`, `second()` and `third()`.
+- `val p = Projection(index)` with macros `p(index)`, `first`, `second` and `third`.
 
 ### Composition
 
@@ -90,11 +90,11 @@ val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunc
 
 ### Evaluation
 
-`Function::apply` evaluates the function for the given arguments.
+`Function::invoke` evaluates the function for the given arguments.
 ```
-val plusTwo = Successor() andThen Successor()
-println(plusTwo.apply(0)) //prints 2
-println(plusTwo.apply(40)) //prints 42
+val addTwo = successor andThen successor
+println(addTwo(0)) //prints 2
+println(addTwo(40)) //prints 42
 ```
 
 ### Additional information
@@ -113,7 +113,7 @@ Using the non-recursive implementations of macros is highly **recommended**.
 - Setting the arity of a function to a negative value will throw an `ArityException`.
 - Projecting a negative index will throw a `ProjectionException`.
 - Composing functions will throw a `CompositionException` if the arity of the evaluating function and the number of provided functions do not match.
-- Applying or creating constants with negative values will throw a `NaturalNumberException`.
+- Invoking functions or creating constants with negative values will throw a `NaturalNumberException`.
 - Any provided method will throw an `OverflowException` if an overflow occurs during evaluation.
 
 ## Disclaimer
