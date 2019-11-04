@@ -1,6 +1,9 @@
 package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.base.*
+import eu.yeger.refunk.base.and
+import eu.yeger.refunk.base.andThen
+import eu.yeger.refunk.base.second
+import eu.yeger.refunk.base.third
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -13,7 +16,7 @@ class RecursiveFunctionsTests {
         //x -> 3x + 6
         val f = multiplyBy(3) andThen add(6)
 
-        assertEquals(42, f.apply(12))
+        assertEquals(42, f(12))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -22,7 +25,7 @@ class RecursiveFunctionsTests {
         //(x,y,z) -> x * y + z
         val g = additionOf { multiplication() and third() }
 
-        assertEquals(42, g.apply(2, 12, 18))
+        assertEquals(42, g(2, 12, 18))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -31,7 +34,7 @@ class RecursiveFunctionsTests {
         //(x,y,z) -> x * y * z
         val h = multiplicationOf { multiplication() and third() }
 
-        assertEquals(42, h.apply(2, 3, 7))
+        assertEquals(42, h(2, 3, 7))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -40,7 +43,7 @@ class RecursiveFunctionsTests {
         //(x,y) -> 2x - y
         val i = subtractionOf { multiplyBy(2) and second() }
 
-        assertEquals(42, i.apply(25, 8))
+        assertEquals(42, i(25, 8))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -49,7 +52,7 @@ class RecursiveFunctionsTests {
         //x -> (2x + 42) - x²
         val j = subtractionOf { multiplyBy(2) andThen add(42) and square() }
 
-        assertEquals(42, j.apply(0))
+        assertEquals(42, j(0))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -59,7 +62,7 @@ class RecursiveFunctionsTests {
         //x -> 34; else
         val k = boundedMuOperator(j) andThen add(34)
 
-        assertEquals(42, k.apply(8))
+        assertEquals(42, k(8))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -69,7 +72,7 @@ class RecursiveFunctionsTests {
         //x -> 42; else
         val l = boundedMuOperator(j) andThen add(42)
 
-        assertEquals(42, l.apply(7))
+        assertEquals(42, l(7))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -79,7 +82,7 @@ class RecursiveFunctionsTests {
         //(x,y) -> 0; else
         val m = floorDivision() andThen multiplyBy(2)
 
-        assertEquals(42, m.apply(84, 4))
+        assertEquals(42, m(84, 4))
 
         //------------------------------------------------------------------------------
         //------------------------------------------------------------------------------
@@ -89,6 +92,6 @@ class RecursiveFunctionsTests {
         //(x,y) -> 42; else
         val n = floorDivision() andThen multiplyBy(2) andThen add(42)
 
-        assertEquals(42, n.apply(10, 0))
+        assertEquals(42, n(10, 0))
     }
 }

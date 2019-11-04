@@ -8,6 +8,7 @@ inline fun recursive(provider: () -> Function) = RecursionBuilder(provider.invok
 
 fun recursive(function: Function) = RecursionBuilder(function)
 
-inline infix fun RecursionBuilder.withBaseCase(provider: () -> Function) = Recursion(provider.invoke(), this.recursiveCase)
+inline infix fun RecursionBuilder.withBaseCase(provider: () -> Function) =
+    Recursion(provider.invoke(), this.recursiveCase)
 
 infix fun RecursionBuilder.withBaseCase(base: Function) = Recursion(base, this.recursiveCase)

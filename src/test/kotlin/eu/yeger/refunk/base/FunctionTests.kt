@@ -14,10 +14,13 @@ class FunctionTests {
     fun testArityException() {
         try {
             object : Function() {
-                init { arity = -1 }
+                init {
+                    arity = -1
+                }
+
                 override fun evaluate(arguments: Array<Argument>) = 0L
             }
-        } catch (e : ArityException) {
+        } catch (e: ArityException) {
             return
         }
         fail()
@@ -26,8 +29,8 @@ class FunctionTests {
     @Test
     fun testArgumentArityException() {
         try {
-            Projection(0).apply()
-        } catch (e : ArityException) {
+            Projection(0)()
+        } catch (e: ArityException) {
             return
         }
         fail()
@@ -36,8 +39,8 @@ class FunctionTests {
     @Test
     fun testApplyException() {
         try {
-            Successor().apply(-1)
-        } catch (e : NaturalNumberException) {
+            Successor()(-1)
+        } catch (e: NaturalNumberException) {
             return
         }
         fail()
@@ -47,7 +50,7 @@ class FunctionTests {
     fun testTooFewCompositionException() {
         try {
             Successor().compose()
-        } catch (e : CompositionException) {
+        } catch (e: CompositionException) {
             return
         }
         fail()
@@ -57,7 +60,7 @@ class FunctionTests {
     fun testTooManyCompositionException() {
         try {
             Successor().compose(Successor(), Successor())
-        } catch (e : CompositionException) {
+        } catch (e: CompositionException) {
             return
         }
         fail()
@@ -67,7 +70,7 @@ class FunctionTests {
     fun testAndThenException() {
         try {
             Successor() andThen Projection(1)
-        } catch (e : CompositionException) {
+        } catch (e: CompositionException) {
             return
         }
         fail()
@@ -76,8 +79,8 @@ class FunctionTests {
     @Test
     fun testNegativeReturn() {
         try {
-            Successor().apply(Long.MAX_VALUE)
-        } catch (e : OverflowException) {
+            Successor()(Long.MAX_VALUE)
+        } catch (e: OverflowException) {
             return
         }
         fail()
@@ -92,6 +95,6 @@ class FunctionTests {
             }
         }
 
-        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true).apply())
+        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true)())
     }
 }

@@ -15,7 +15,8 @@ fun add(value: Long) = additionOf { first() and c(value) }
 fun predecessor() = recursive(second()) withBaseCase zero()
 
 //(x,y) -> x - y
-fun subtraction(): Function = recursive { first() andThen predecessor() } withBaseCase first() of { second() and first() }
+fun subtraction(): Function =
+    recursive { first() andThen predecessor() } withBaseCase first() of { second() and first() }
 
 inline fun subtractionOf(collector: () -> Array<Function>) = subtraction().of(collector)
 
@@ -65,9 +66,11 @@ fun boundedMuOperator(function: Function) =
             boundedMuOperatorDifferentiationFunction(function),
             second() andThen s(),
             first()
-        )) withBaseCase zero()
+        )
+    ) withBaseCase zero()
 
-inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) = boundedMuOperator(function).of(collector)
+inline fun boundedMuOperatorOf(function: Function, collector: () -> Array<Function>) =
+    boundedMuOperator(function).of(collector)
 
 internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
     val firstTestArguments = Array<Function>(function.arity) { p(it + 1) }

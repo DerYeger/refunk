@@ -13,7 +13,7 @@ abstract class Function {
                 throw ArityException("Function $this can not have a negative arity")
         }
 
-    fun apply(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
+    operator fun invoke(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
 
     internal fun applyArguments(arguments: Array<Argument>) =
         when {

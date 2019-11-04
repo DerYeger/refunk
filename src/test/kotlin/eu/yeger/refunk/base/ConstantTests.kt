@@ -9,15 +9,15 @@ class ConstantTests {
 
     @Test
     fun testConstant() {
-        assertEquals(10, Constant(10).apply())
-        assertEquals(10, Constant(10).apply(1, 2, 3, 4, 5))
+        assertEquals(10, Constant(10)())
+        assertEquals(10, Constant(10)(1, 2, 3, 4, 5))
     }
 
     @Test
     fun testConstantException() {
         try {
             c(-42)
-        } catch (e : NaturalNumberException) {
+        } catch (e: NaturalNumberException) {
             return
         }
         Assert.fail()
