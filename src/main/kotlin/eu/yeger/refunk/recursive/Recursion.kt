@@ -1,6 +1,6 @@
 package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.base.*
+import eu.yeger.refunk.base.Argument
 import eu.yeger.refunk.base.Function
 import eu.yeger.refunk.base.asArgument
 import eu.yeger.refunk.base.toNaturalNumber
@@ -12,11 +12,9 @@ class Recursion(
     private val lazy: Boolean = true
 ) : Function() {
 
-    init {
-        arity = max(baseCase.arity + 1, recursiveCase.arity - 1)
-    }
+    override val arity = max(baseCase.arity + 1, recursiveCase.arity - 1)
 
-    override fun evaluate(arguments: Array<Argument>): Long = when(arguments[0].evaluated()) {
+    override fun evaluate(arguments: Array<Argument>): Long = when (arguments[0].evaluated()) {
         0L -> baseCase.applyArguments(arguments.slice(1 until arguments.size).toTypedArray())
         else -> recursiveCase.applyArguments(recursiveCaseFunctionArguments(arguments))
     }

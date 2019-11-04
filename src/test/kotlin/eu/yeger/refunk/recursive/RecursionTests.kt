@@ -1,22 +1,22 @@
 package eu.yeger.refunk.recursive
 
-import eu.yeger.refunk.base.*
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import eu.yeger.refunk.base.constant
+import eu.yeger.refunk.base.of
+import eu.yeger.refunk.base.one
+import eu.yeger.refunk.base.successor
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class RecursionTests {
 
     @Test
     fun testRecursion() {
-        assertEquals(10, Recursion(c(10), c(42)).apply(0))
-        assertEquals(42, Recursion(c(10), c(42)).apply(1))
+        assertEquals(10, Recursion(constant(10), constant(42))(0))
+        assertEquals(42, Recursion(constant(10), constant(42))(1))
     }
 
     @Test
     fun testRecursions() {
-        assertEquals(6, (
-                recursive {Successor() andThen Successor() }
-                        withBaseCase { one() andThen Successor() }
-                ).apply(2))
+        assertEquals(6, (recursive { successor of successor } withBaseCase { successor of one })(2))
     }
 }

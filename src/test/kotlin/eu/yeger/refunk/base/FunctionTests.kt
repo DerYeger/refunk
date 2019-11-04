@@ -4,94 +4,83 @@ import eu.yeger.refunk.exception.ArityException
 import eu.yeger.refunk.exception.CompositionException
 import eu.yeger.refunk.exception.NaturalNumberException
 import eu.yeger.refunk.exception.OverflowException
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class FunctionTests {
 
     @Test
-    fun testArityException() {
-        try {
-            object : Function() {
-                init { arity = -1 }
-                override fun evaluate(arguments: Array<Argument>) = 0L
-            }
-        } catch (e : ArityException) {
-            return
-        }
-        fail()
-    }
-
-    @Test
     fun testArgumentArityException() {
         try {
-            Projection(0).apply()
-        } catch (e : ArityException) {
+            Projection(0)()
+        } catch (e: ArityException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
     fun testApplyException() {
         try {
-            Successor().apply(-1)
-        } catch (e : NaturalNumberException) {
+            Successor()(-1)
+        } catch (e: NaturalNumberException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
     fun testTooFewCompositionException() {
         try {
             Successor().compose()
-        } catch (e : CompositionException) {
+        } catch (e: CompositionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
     fun testTooManyCompositionException() {
         try {
             Successor().compose(Successor(), Successor())
-        } catch (e : CompositionException) {
+        } catch (e: CompositionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
     fun testAndThenException() {
         try {
             Successor() andThen Projection(1)
-        } catch (e : CompositionException) {
+        } catch (e: CompositionException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
     fun testNegativeReturn() {
         try {
-            Successor().apply(Long.MAX_VALUE)
-        } catch (e : OverflowException) {
+            Successor()(Long.MAX_VALUE)
+        } catch (e: OverflowException) {
             return
         }
-        fail()
+        fail<Any>()
     }
 
     @Test
     fun testLazyEvaluation() {
         val failingFunction = object : Function() {
+            override val arity = 0
+
             override fun evaluate(arguments: Array<Argument>): Long {
-                fail()
+                fail<Any>()
                 return 0
             }
         }
 
-        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true).apply())
+        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true)())
     }
 }

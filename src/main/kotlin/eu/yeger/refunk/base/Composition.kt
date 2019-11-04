@@ -8,9 +8,10 @@ class Composition(
     private val lazy: Boolean = false
 ) : Function() {
 
+    override val arity = functions.map { it.arity }.max() ?: 0
+
     init {
         if (evaluator.arity != functions.size) throw CompositionException(evaluator, functions.size)
-        arity = functions.map { it.arity }.max() ?: 0
     }
 
     override fun evaluate(arguments: Array<Argument>) =

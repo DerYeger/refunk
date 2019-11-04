@@ -57,13 +57,13 @@ dependencies {
 
 ### Basic functions
 
-- `val c = Constant(value)` with macros `c(value)`, `zero()` and `one()`.
-- `val s = Successor()`
-- `val p = Projection(index)` with macros `p(index)`, `first()`, `second()` and `third()`.
+- `val c = Constant(value)` with macros `constant(value)`, `zero` and `one`.
+- `val s = Successor()` with macro `successor`.
+- `val p = Projection(index)` with macros `projection(index)`, `first`, `second`, `third`, `fourth` and `fifth`.
 
 ### Composition
 
-Composed functions like `(args) -> f(g1(args), ..., gn(args))` can be created with the `Composition` class and various extension methods.
+Function composition is handled by the `Composition` class and various wrapper methods.
 ```
 val f = ... 
 val g1 = ... 
@@ -78,7 +78,7 @@ val myComposition = myFunction andThen myUnaryFunction
 
 ### Recursion
 
-Recursions can be created using multiple extension methods.
+Recursions can be defined using multiple extension methods.
 ```
 val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunction                
 ...             = recursive { 
@@ -87,14 +87,22 @@ val myRecursion = recursive(myRecursiveCaseFunction) withBaseCase myBaseCaseFunc
                         someFunction andThen someOtherFunction 
                   }
 ```
-
-### Evaluation
-
-`Function::apply` evaluates the function for the given arguments.
+Named projections help using the recursion results, parameters and arguments as well.
+```          
+val addition = recursive { successor of recursionResult } withBaseCase firstBaseCaseArgument
+val predecessor = recursive { recursionParameter } withBaseCase zero
 ```
-val plusTwo = Successor() andThen Successor()
-println(plusTwo.apply(0)) //prints 2
-println(plusTwo.apply(40)) //prints 42
+
+### Invocation
+
+The operator `Function::invoke` evaluates the function for the given arguments.
+```
+val addTwo = successor andThen successor
+println(addTwo(0)) //prints 2
+println(addTwo(40)) //prints 42
+
+val myFunction = predecessor of addition
+println(myFunction(3, 40)) //prints 42
 ```
 
 ### Additional information
@@ -109,11 +117,10 @@ Using the non-recursive implementations of macros is highly **recommended**.
 
 ## Exceptions and error handling
 
-- Evaluating a function will throw an `ArityException` if not enough arguments were passed.
-- Setting the arity of a function to a negative value will throw an `ArityException`.
+- Invoking a function will throw an `ArityException` for invalid amounts of arguments.
 - Projecting a negative index will throw a `ProjectionException`.
 - Composing functions will throw a `CompositionException` if the arity of the evaluating function and the number of provided functions do not match.
-- Applying or creating constants with negative values will throw a `NaturalNumberException`.
+- Invoking functions or creating constants with negative values will throw a `NaturalNumberException`.
 - Any provided method will throw an `OverflowException` if an overflow occurs during evaluation.
 
 ## Disclaimer
