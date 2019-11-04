@@ -18,7 +18,7 @@ val addition by lazy { addition() }
 
 inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
 
-fun add(value: Long) = additionOf { first and c(value) }
+fun add(value: Long) = additionOf { first and constant(value) }
 
 fun predecessor() = object : Function() {
     override val arity = 1
@@ -38,9 +38,9 @@ val subtraction by lazy { subtraction() }
 
 inline fun subtractionOf(arguments: () -> Array<Function>) = subtraction of arguments
 
-fun subtract(value: Long) = subtractionOf { first and c(value) }
+fun subtract(value: Long) = subtractionOf { first and constant(value) }
 
-fun subtractFrom(value: Long) = subtractionOf { c(value) and first }
+fun subtractFrom(value: Long) = subtractionOf { constant(value) and first }
 
 fun not() = subtractFrom(1)
 
@@ -56,7 +56,7 @@ val multiplication by lazy { multiplication() }
 
 inline fun multiplicationOf(arguments: () -> Array<Function>) = multiplication of arguments
 
-fun multiplyBy(value: Long) = multiplicationOf { first and c(value) }
+fun multiplyBy(value: Long) = multiplicationOf { first and constant(value) }
 
 fun square() = multiplicationOf { first and first }
 

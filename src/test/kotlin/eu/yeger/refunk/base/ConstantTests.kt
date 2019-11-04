@@ -16,7 +16,7 @@ class ConstantTests {
     @Test
     fun testConstantException() {
         try {
-            c(-42)
+            constant(-42)
         } catch (e: NaturalNumberException) {
             return
         }

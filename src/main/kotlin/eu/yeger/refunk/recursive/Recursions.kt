@@ -1,16 +1,18 @@
 package eu.yeger.refunk.recursive
 
+import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
-import eu.yeger.refunk.base.first
-import eu.yeger.refunk.base.second
-import eu.yeger.refunk.base.third
 
 val recursionResult by lazy { first }
-
 val recursionParameter by lazy { second }
 
-//projects the FIRST recursion argument
-val recursionArgument by lazy { third }
+val firstRecursionArgument by lazy { third }
+val secondRecursionArgument by lazy { fourth }
+val thirdRecursionArgument by lazy { fifth }
+
+val firstBaseCaseArgument by lazy { first }
+val secondBaseCaseArgument by lazy { second }
+val thirdBaseCaseArgument by lazy { third }
 
 class RecursionBuilder(val recursiveCase: Function)
 

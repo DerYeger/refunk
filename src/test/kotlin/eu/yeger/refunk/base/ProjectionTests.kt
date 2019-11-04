@@ -17,7 +17,7 @@ class ProjectionTests {
     @Test
     fun testProjectionException() {
         try {
-            p(-1)(10)
+            projection(-1)(10)
         } catch (e: ProjectionException) {
             return
         }

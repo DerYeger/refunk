@@ -7,20 +7,20 @@ class BaseMacroTests {
 
     @Test
     fun testConstantMacro() {
-        assertEquals(10, c(10)())
-        assertEquals(10, c(10)(1, 2, 3, 4, 5))
+        assertEquals(10, constant(10)())
+        assertEquals(10, constant(10)(1, 2, 3, 4, 5))
     }
 
     @Test
     fun testProjectionMacro() {
-        assertEquals(5, p(0)(5, 10, 20))
-        assertEquals(10, p(1)(5, 10, 20))
-        assertEquals(20, p(2)(5, 10, 20))
+        assertEquals(5, projection(0)(5, 10, 20))
+        assertEquals(10, projection(1)(5, 10, 20))
+        assertEquals(20, projection(2)(5, 10, 20))
     }
 
     @Test
     fun testProjectionOfMacro() {
-        assertEquals(42, projectionOf(1) { c(10) and c(42) }(0))
+        assertEquals(42, projectionOf(1) { constant(10) and constant(42) }(0))
     }
 
     @Test
@@ -32,6 +32,6 @@ class BaseMacroTests {
 
     @Test
     fun testSuccessorOfMacro() {
-        assertEquals(42, successorOf(c(41))(0))
+        assertEquals(42, successorOf(constant(41))(0))
     }
 }
