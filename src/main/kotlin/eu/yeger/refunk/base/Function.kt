@@ -5,13 +5,7 @@ import eu.yeger.refunk.exception.NaturalNumberException
 
 abstract class Function {
 
-    internal var arity = 0
-        internal set(value) {
-            if (value >= 0)
-                field = value
-            else
-                throw ArityException("Function $this can not have a negative arity")
-        }
+    internal abstract val arity: Int
 
     operator fun invoke(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
 

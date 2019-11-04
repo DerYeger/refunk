@@ -9,9 +9,7 @@ import kotlin.math.max
 import kotlin.math.pow
 
 fun addition() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>) = arguments[0] add arguments[1]
 }
@@ -23,9 +21,7 @@ inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
 fun add(value: Long) = additionOf { first and c(value) }
 
 fun predecessor() = object : Function() {
-    init {
-        arity = 1
-    }
+    override val arity = 1
 
     override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - 1)
 }
@@ -33,9 +29,7 @@ fun predecessor() = object : Function() {
 val predecessor by lazy { predecessor() }
 
 fun subtraction() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - arguments[1].evaluated())
 }
@@ -53,9 +47,7 @@ fun not() = subtractFrom(1)
 val not by lazy { not() }
 
 fun multiplication() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>) = arguments[0] multiplyBy arguments[1]
 }
@@ -71,9 +63,7 @@ fun square() = multiplicationOf { first and first }
 val square by lazy { square() }
 
 fun exp() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>): Long {
         val first = arguments[0].evaluated()
@@ -97,9 +87,7 @@ fun caseDifferentiation(
     zeroCase: Function,
     otherCase: Function
 ) = object : Function() {
-    init {
-        arity = maxOf(differentiator.arity, zeroCase.arity, otherCase.arity)
-    }
+    override val arity = maxOf(differentiator.arity, zeroCase.arity, otherCase.arity)
 
     override fun evaluate(arguments: Array<Argument>) = when (differentiator.applyArguments(arguments)) {
         0L -> zeroCase.applyArguments(arguments)
@@ -108,9 +96,7 @@ fun caseDifferentiation(
 }
 
 fun boundedMuOperator(function: Function) = object : Function() {
-    init {
-        arity = function.arity
-    }
+    override val arity = function.arity
 
     override fun evaluate(arguments: Array<Argument>): Long {
         for (x in 0..arguments[0].evaluated()) {
@@ -134,9 +120,7 @@ inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array<Functi
     boundedMuOperator(function).of(arguments)
 
 fun ceilingDivision() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>) = with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
         if (second == 0L) return 0L
@@ -149,9 +133,7 @@ val ceilingDivision by lazy { ceilingDivision() }
 inline fun ceilingDivisionOf(arguments: () -> Array<Function>) = ceilingDivision of arguments
 
 fun floorDivision() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>) = with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
         if (second == 0L) return 0L
@@ -164,9 +146,7 @@ val floorDivision by lazy { floorDivision() }
 inline fun floorDivisionOf(arguments: () -> Array<Function>) = floorDivision of arguments
 
 fun division() = object : Function() {
-    init {
-        arity = 2
-    }
+    override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>): Long {
         val a = arguments[0].evaluated()
@@ -185,9 +165,7 @@ val division by lazy { division() }
 inline fun divisionOf(arguments: () -> Array<Function>) = division of arguments
 
 fun log(base: Long) = object : Function() {
-    init {
-        arity = 1
-    }
+    override val arity = 1
 
     override fun evaluate(arguments: Array<Argument>) = log(arguments[0].evaluated(), base)
 }

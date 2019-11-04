@@ -11,22 +11,6 @@ import org.junit.Test
 class FunctionTests {
 
     @Test
-    fun testArityException() {
-        try {
-            object : Function() {
-                init {
-                    arity = -1
-                }
-
-                override fun evaluate(arguments: Array<Argument>) = 0L
-            }
-        } catch (e: ArityException) {
-            return
-        }
-        fail()
-    }
-
-    @Test
     fun testArgumentArityException() {
         try {
             Projection(0)()
@@ -89,6 +73,8 @@ class FunctionTests {
     @Test
     fun testLazyEvaluation() {
         val failingFunction = object : Function() {
+            override val arity = 0
+
             override fun evaluate(arguments: Array<Argument>): Long {
                 fail()
                 return 0
