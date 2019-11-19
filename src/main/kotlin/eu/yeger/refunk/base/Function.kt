@@ -7,7 +7,10 @@ abstract class Function {
 
     internal abstract val arity: Int
 
+    operator fun invoke(vararg functions: Function) = Composition(this, *functions, lazy = false)
+
     operator fun invoke(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
+    operator fun invoke() = applyArguments(emptyArray())
 
     internal fun applyArguments(arguments: Array<Argument>) =
         when {
