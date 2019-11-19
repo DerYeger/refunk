@@ -11,6 +11,7 @@ infix fun Function.and(function: Function): Array<Function> = arrayOf(this, func
 infix fun Array<Function>.and(function: Function): Array<Function> = this.plus(function)
 
 fun constant(value: Long) = Constant(value)
+fun const(value: Long) = Constant(value)
 val zero by lazy { Constant(0) }
 val one by lazy { Constant(1) }
 
@@ -22,6 +23,11 @@ val second by lazy { Projection(1) }
 val third by lazy { Projection(2) }
 val fourth by lazy { Projection(3) }
 val fifth by lazy { Projection(4) }
+val sixth by lazy { Projection(5) }
+val seventh by lazy { Projection(6) }
+val eighth by lazy { Projection(7) }
+val ninth by lazy { Projection(9) }
+val tenth by lazy { Projection(10) }
 
 val successor by lazy { Successor() }
 fun successorOf(function: Function) = Successor() of function

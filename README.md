@@ -58,9 +58,9 @@ dependencies {
 
 ### Basic functions
 
-- `val c = Constant(value)` with macros `constant(value)`, `zero` and `one`.
+- `val c = Constant(value)` with macros `constant(value)`, `const(value)`, `zero` and `one`.
 - `val s = Successor()` with macro `successor`.
-- `val p = Projection(index)` with macros `projection(index)`, `first`, `second`, `third`, `fourth` and `fifth`.
+- `val p = Projection(index)` with macros `projection(index)` and `first` to `tenth`.
 
 ### Composition
 
@@ -72,6 +72,12 @@ val g1 = ...
 val gn = ...
 val myComposition = f of { g1 and ... and gn }
 val myAltComp = f(g1, ..., gn)
+```
+The example below demonstrates simple composition using the, in this case optional, projections `first` and `second`.
+```
+// f(x, y) = 2 * (x + y)
+val f = multiplication(const(2), addition(first, second)) // `addition(first, second)` is equal to `addition`
+val result = f(10, 11) // = 42
 ```
 Unary functions can be composed with `Function::andThen`
 ```
