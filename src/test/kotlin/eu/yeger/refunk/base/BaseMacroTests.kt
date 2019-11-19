@@ -16,6 +16,16 @@ class BaseMacroTests {
         assertEquals(5, projection(0)(5, 10, 20))
         assertEquals(10, projection(1)(5, 10, 20))
         assertEquals(20, projection(2)(5, 10, 20))
+        assertEquals(0, first(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(1, second(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(2, third(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(3, fourth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(4, fifth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(5, sixth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(6, seventh(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(7, eighth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(8, ninth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        assertEquals(9, tenth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
     }
 
     @Test

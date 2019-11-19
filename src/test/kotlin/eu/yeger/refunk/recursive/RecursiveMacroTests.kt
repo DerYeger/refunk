@@ -42,6 +42,13 @@ class RecursiveMacroTests {
     }
 
     @Test
+    fun testNot() {
+        assertEquals(1, not(0))
+        assertEquals(0, not(1))
+        assertEquals(0, not(42))
+    }
+
+    @Test
     fun testMultiplication() {
         assertEquals(42, multiplication(2, 21))
     }

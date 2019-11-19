@@ -44,6 +44,14 @@ class NonRecursiveMacroTests {
     }
 
     @Test
+    fun testNot() {
+        assertEquals(1, not(0))
+        assertEquals(0, not(1))
+        assertEquals(0, not(42))
+        assertEquals(0, not(Long.MAX_VALUE))
+    }
+
+    @Test
     fun testMultiplication() {
         assertEquals(42, multiplication(2, 21))
     }
