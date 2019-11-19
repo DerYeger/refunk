@@ -26,8 +26,8 @@ val fifth by lazy { Projection(4) }
 val sixth by lazy { Projection(5) }
 val seventh by lazy { Projection(6) }
 val eighth by lazy { Projection(7) }
-val ninth by lazy { Projection(9) }
-val tenth by lazy { Projection(10) }
+val ninth by lazy { Projection(8) }
+val tenth by lazy { Projection(9) }
 
 val successor by lazy { Successor() }
 fun successorOf(function: Function) = Successor() of function
