@@ -1,7 +1,7 @@
 plugins {
     maven
     jacoco
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.3.60"
 }
 
 group = "eu.yeger"
