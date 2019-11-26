@@ -1,5 +1,5 @@
 plugins {
-    maven
+    `maven-publish`
     jacoco
     kotlin("jvm") version "1.3.60"
 }
