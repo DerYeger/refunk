@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
 }
 
-val junit5Version = "5.5.2"
+val junit5Version = "5.6.1"
 
 dependencies {
     implementation(kotlin("stdlib"))
