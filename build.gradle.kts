@@ -1,8 +1,11 @@
 plugins {
     `maven-publish`
     jacoco
-    kotlin("jvm") version "1.3.60"
+    kotlin("jvm") version "1.3.71"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
+
+val junit_version: String by project
 
 group = "eu.yeger"
 version = "3.2.0"
@@ -11,13 +14,11 @@ repositories {
     mavenCentral()
 }
 
-val junit5Version = "5.6.1"
-
 dependencies {
     implementation(kotlin("stdlib"))
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit5Version")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junit5Version")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit_version")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junit_version")
 }
 
 tasks {
