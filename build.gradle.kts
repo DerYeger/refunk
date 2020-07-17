@@ -2,7 +2,7 @@ plugins {
     `maven-publish`
     jacoco
     kotlin("jvm") version "1.3.71"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
 }
 
 val junit_version: String by project
