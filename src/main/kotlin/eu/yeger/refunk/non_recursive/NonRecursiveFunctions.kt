@@ -93,13 +93,13 @@ fun boundedMuOperator(function: Function) = object : Function() {
     override fun evaluate(arguments: Array<Argument>): Long {
         for (x in 0..arguments[0].evaluated()) {
             if (function.applyArguments(
-                    arrayOf(
-                        toNaturalNumber(x),
-                        *arguments
-                            .slice(1 until arguments.size)
-                            .toTypedArray()
-                    )
-                ) == 0L
+                arrayOf(
+                    toNaturalNumber(x),
+                    *arguments
+                        .slice(1 until arguments.size)
+                        .toTypedArray()
+                )
+            ) == 0L
             ) {
                 return x
             }
