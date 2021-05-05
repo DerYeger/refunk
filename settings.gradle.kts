@@ -3,6 +3,8 @@ pluginManagement {
     val ktlintVersion: String by settings
 
     plugins {
+        `maven-publish`
+        jacoco
         kotlin("jvm") version kotlinVersion
         id("org.jlleitschuh.gradle.ktlint") version ktlintVersion
     }

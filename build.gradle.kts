@@ -7,11 +7,27 @@ plugins {
 
 val junitVersion: String by project
 
-group = "eu.yeger"
-version = "4.0.0"
+val groupName = "eu.yeger"
+val libraryName = "refunk"
+val libraryVersion = "4.0.1"
+
+group = groupName
+version = libraryVersion
 
 kotlin {
     explicitApi()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = groupName
+            artifactId = libraryName
+            version = libraryVersion
+
+            from(components["java"])
+        }
+    }
 }
 
 repositories {
