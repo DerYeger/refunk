@@ -4,12 +4,14 @@
     <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="License" src="https://img.shields.io/github/license/DerYeger/refunk?color=40aef6&style=for-the-badge"></a>
     <a href="https://jitpack.io/#eu.yeger/refunk"><img alt="JitPack" src="https://img.shields.io/jitpack/v/github/DerYeger/refunk?color=7963dc&style=for-the-badge"></a>
     <img alt="Contributions" src="https://img.shields.io/badge/contributions-welcome-da4c99?style=for-the-badge">
-    <a href="https://codecov.io/gh/DerYeger/refunk"><img alt="Downloads" src="https://img.shields.io/codecov/c/github/deryeger/refunk?color=eaa232&style=for-the-badge"></a>
-    <a href="https://travis-ci.com/DerYeger/refunk"><img alt="Build" src="https://img.shields.io/travis/com/deryeger/refunk/develop?color=40aef6&style=for-the-badge"></a>
+    <a href="https://codecov.io/gh/DerYeger/refunk"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/deryeger/refunk?color=eaa232&style=for-the-badge"></a>
+    <a href="https://travis-ci.com/DerYeger/refunk"><img alt="Build" src="https://img.shields.io/travis/com/deryeger/refunk/master?color=40aef6&style=for-the-badge"></a>
 </p>
 
 ***REFUNK*** is small and lightweight library for studying and evaluating **primitive recursive functions** in Kotlin.\
 It provides a rich set of methods for defining functions in a more **natural** way than other functional frameworks and libraries.
+
+An interactive playground is available at https://refunk.yeger.eu.
 
 ## Installation
 
@@ -58,9 +60,9 @@ dependencies {
 
 ### Basic functions
 
-- `val c = Constant(value)` with macros `constant(value)`, `const(value)`, `zero` and `one`.
+- `val c = constant(value)` with macros `const(value)`, `zero` and `one`.
 - `val s = Successor()` with macro `successor`.
-- `val p = Projection(index)` with macros `projection(index)` and `first` to `tenth`.
+- `val p = projection(index)` with macros `first` to `tenth`.
 
 ### Composition
 
@@ -79,7 +81,7 @@ The example below demonstrates simple composition using the, in this case option
 val f = multiplication(const(2), addition(first, second)) // `addition(first, second)` is equal to `addition`
 val result = f(10, 11) // = 42
 ```
-Unary functions can be composed with `Function::andThen`
+Unary functions can be composed with `Function::andThen`.
 ```
 val myComposition = myFunction andThen myUnaryFunction
 ```
