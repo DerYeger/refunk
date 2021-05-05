@@ -2,7 +2,8 @@ package eu.yeger.refunk.base
 
 import eu.yeger.refunk.exception.CompositionException
 
-public class Composition(
+public class Composition
+internal constructor(
     private val evaluator: Function,
     private vararg val functions: Function,
     private val lazy: Boolean = false

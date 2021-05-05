@@ -4,33 +4,31 @@ import eu.yeger.refunk.base.constant
 import eu.yeger.refunk.base.of
 import eu.yeger.refunk.base.one
 import eu.yeger.refunk.base.successor
-import org.junit.jupiter.api.Assertions.assertEquals
+import eu.yeger.refunk.shouldBe
 import org.junit.jupiter.api.Test
 
 class RecursionTests {
 
     @Test
     fun testRecursionMacros() {
-        assertEquals(0, recursionResult(0, 1, 2, 3, 4))
-        assertEquals(1, recursionParameter(0, 1, 2, 3, 4))
-
-        assertEquals(2, firstRecursionArgument(0, 1, 2, 3, 4))
-        assertEquals(3, secondRecursionArgument(0, 1, 2, 3, 4))
-        assertEquals(4, thirdRecursionArgument(0, 1, 2, 3, 4))
-
-        assertEquals(2, firstBaseCaseArgument(2, 3, 4))
-        assertEquals(3, secondBaseCaseArgument(2, 3, 4))
-        assertEquals(4, thirdBaseCaseArgument(2, 3, 4))
+        recursionResult(0, 1, 2, 3, 4) shouldBe 0
+        recursionParameter(0, 1, 2, 3, 4) shouldBe 1
+        firstRecursionArgument(0, 1, 2, 3, 4) shouldBe 2
+        secondRecursionArgument(0, 1, 2, 3, 4) shouldBe 3
+        thirdRecursionArgument(0, 1, 2, 3, 4) shouldBe 4
+        firstBaseCaseArgument(2, 3, 4) shouldBe 2
+        secondBaseCaseArgument(2, 3, 4) shouldBe 3
+        thirdBaseCaseArgument(2, 3, 4) shouldBe 4
     }
 
     @Test
     fun testRecursion() {
-        assertEquals(10, Recursion(constant(10), constant(42))(0))
-        assertEquals(42, Recursion(constant(10), constant(42))(1))
+        Recursion(constant(10), constant(42))(0) shouldBe 10
+        Recursion(constant(10), constant(42))(1) shouldBe 42
     }
 
     @Test
     fun testRecursions() {
-        assertEquals(6, (recursive { successor of successor } withBaseCase { successor of one })(2))
+        (recursive { successor of successor } withBaseCase { successor of one })(2) shouldBe 6
     }
 }

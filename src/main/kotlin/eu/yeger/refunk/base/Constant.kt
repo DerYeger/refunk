@@ -1,14 +1,6 @@
 package eu.yeger.refunk.base
 
-import eu.yeger.refunk.exception.NaturalNumberException
-
-public class Constant(private val value: Long) : Function() {
-
+public class Constant internal constructor(private val value: ULong) : Function() {
     override val arity = 0
-
-    init {
-        if (value < 0) throw NaturalNumberException()
-    }
-
     override fun evaluate(arguments: Array<Argument>) = value
 }

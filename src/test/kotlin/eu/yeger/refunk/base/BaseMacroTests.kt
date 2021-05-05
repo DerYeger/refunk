@@ -1,47 +1,47 @@
 package eu.yeger.refunk.base
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import eu.yeger.refunk.shouldBe
 import org.junit.jupiter.api.Test
 
 class BaseMacroTests {
 
     @Test
     fun testConstantMacro() {
-        assertEquals(10, constant(10)())
-        assertEquals(10, constant(10)(1, 2, 3, 4, 5))
+        constant(10)() shouldBe 10
+        constant(10)(1, 2, 3, 4, 5) shouldBe 10
     }
 
     @Test
     fun testProjectionMacro() {
-        assertEquals(5, projection(0)(5, 10, 20))
-        assertEquals(10, projection(1)(5, 10, 20))
-        assertEquals(20, projection(2)(5, 10, 20))
-        assertEquals(0, first(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(1, second(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(2, third(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(3, fourth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(4, fifth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(5, sixth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(6, seventh(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(7, eighth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(8, ninth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-        assertEquals(9, tenth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+        projection(0)(5, 10, 20) shouldBe 5
+        projection(1)(5, 10, 20) shouldBe 10
+        projection(2)(5, 10, 20) shouldBe 20
+        first(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 0
+        second(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 1
+        third(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 2
+        fourth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 3
+        fifth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 4
+        sixth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 5
+        seventh(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 6
+        eighth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 7
+        ninth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 8
+        tenth(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) shouldBe 9
     }
 
     @Test
     fun testProjectionOfMacro() {
-        assertEquals(42, projectionOf(1) { constant(10) and constant(42) }(0))
+        projectionOf(1) { constant(10) and constant(42) }(0) shouldBe 42
     }
 
     @Test
     fun testSuccessorMacro() {
-        assertEquals(1, successor(0))
-        assertEquals(42, successor(41))
-        assertEquals(42, successor(41, 10, 20))
+        successor(0) shouldBe 1
+        successor(41) shouldBe 42
+        successor(41, 10, 20) shouldBe 42
     }
 
     @Test
     fun testSuccessorOfMacro() {
-        assertEquals(42, successorOf(constant(41))(0))
+        successorOf(constant(41))(0) shouldBe 42
     }
 }

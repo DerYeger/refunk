@@ -19,12 +19,27 @@ public fun add(value: Long): Function = additionOf { first and constant(value) }
 
 public val predecessor: Function = object : Function() {
     override val arity = 1
-    override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - 1)
+    override fun evaluate(arguments: Array<Argument>): ULong {
+        val argument = arguments[0].evaluated()
+        return if (argument > 0UL) {
+            argument - 1UL
+        } else {
+            0UL
+        }
+    }
 }
 
 public val subtraction: Function = object : Function() {
     override val arity = 2
-    override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - arguments[1].evaluated())
+    override fun evaluate(arguments: Array<Argument>): ULong {
+        val minuend = arguments[0].evaluated()
+        val subtrahend = arguments[1].evaluated()
+        return if (minuend >= subtrahend) {
+            minuend - subtrahend
+        } else {
+            0UL
+        }
+    }
 }
 
 public inline fun subtractionOf(arguments: () -> Array<Function>): Function = subtraction of arguments
@@ -49,11 +64,11 @@ public val square: Function = multiplicationOf { first and first }
 public val exp: Function = object : Function() {
     override val arity = 2
 
-    override fun evaluate(arguments: Array<Argument>): Long {
+    override fun evaluate(arguments: Array<Argument>): ULong {
         val first = arguments[0].evaluated()
         val second = arguments[1].evaluated()
-        if (second == 0L) return 1L
-        val result = first.toDouble().pow(second.toDouble()).toLong()
+        if (second == 0UL) return 1UL
+        val result = first.toDouble().pow(second.toDouble()).toULong()
 
         return if (log(result, first) == second)
             result
@@ -72,7 +87,7 @@ public fun caseDifferentiation(
     override val arity = maxOf(differentiator.arity, zeroCase.arity, otherCase.arity)
 
     override fun evaluate(arguments: Array<Argument>) = when (differentiator.applyArguments(arguments)) {
-        0L -> zeroCase.applyArguments(arguments)
+        0UL -> zeroCase.applyArguments(arguments)
         else -> otherCase.applyArguments(arguments)
     }
 }
@@ -80,21 +95,21 @@ public fun caseDifferentiation(
 public fun boundedMuOperator(function: Function): Function = object : Function() {
     override val arity = function.arity
 
-    override fun evaluate(arguments: Array<Argument>): Long {
-        for (x in 0..arguments[0].evaluated()) {
+    override fun evaluate(arguments: Array<Argument>): ULong {
+        for (x in ULongRange(0UL, arguments[0].evaluated())) {
             if (function.applyArguments(
                     arrayOf(
-                        toNaturalNumber(x),
+                        x.toNaturalNumber(),
                         *arguments
                             .slice(1 until arguments.size)
                             .toTypedArray()
                     )
-                ) == 0L
+                ) == 0UL
             ) {
                 return x
             }
         }
-        return 0
+        return 0UL
     }
 }
 
@@ -104,11 +119,12 @@ public inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array
 public val ceilingDivision: Function = object : Function() {
     override val arity = 2
 
-    override fun evaluate(arguments: Array<Argument>) =
-        with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
-            if (second == 0L) return 0L
-            ceil(first.toDouble() / second.toDouble()).toLong()
+    override fun evaluate(arguments: Array<Argument>): ULong {
+        return with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+            if (second == 0UL) return 0UL
+            ceil(first.toDouble() / second.toDouble()).toULong()
         }
+    }
 }
 
 public inline fun ceilingDivisionOf(arguments: () -> Array<Function>): Function = ceilingDivision of arguments
@@ -116,11 +132,12 @@ public inline fun ceilingDivisionOf(arguments: () -> Array<Function>): Function 
 public val floorDivision: Function = object : Function() {
     override val arity = 2
 
-    override fun evaluate(arguments: Array<Argument>) =
-        with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
-            if (second == 0L) return 0L
-            floor(first.toDouble() / second.toDouble()).toLong()
+    override fun evaluate(arguments: Array<Argument>): ULong {
+        return with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+            if (second == 0UL) return 0UL
+            floor(first.toDouble() / second.toDouble()).toULong()
         }
+    }
 }
 
 public inline fun floorDivisionOf(arguments: () -> Array<Function>): Function = floorDivision of arguments
@@ -128,14 +145,14 @@ public inline fun floorDivisionOf(arguments: () -> Array<Function>): Function = 
 public val division: Function = object : Function() {
     override val arity = 2
 
-    override fun evaluate(arguments: Array<Argument>): Long {
+    override fun evaluate(arguments: Array<Argument>): ULong {
         val a = arguments[0].evaluated()
         val b = arguments[1].evaluated()
 
         return when {
-            b == 0L -> 0
-            a % b == 0L -> a / b
-            else -> 0
+            b == 0UL -> 0UL
+            a % b == 0UL -> a / b
+            else -> 0UL
         }
     }
 }
@@ -144,36 +161,38 @@ public inline fun divisionOf(arguments: () -> Array<Function>): Function = divis
 
 public fun log(base: Long): Function = object : Function() {
     override val arity = 1
-    override fun evaluate(arguments: Array<Argument>) = log(arguments[0].evaluated(), base)
+    override fun evaluate(arguments: Array<Argument>) =
+        log(arguments[0].evaluated(), base.toNaturalNumber().evaluated())
 }
-
-private fun bounded(value: Long) = if (value >= 0) value else 0
 
 private infix operator fun Argument.plus(other: Argument) = add(evaluated(), other.evaluated())
 
-private fun add(first: Long, second: Long) =
+private fun add(first: ULong, second: ULong) =
     if (first + second < max(first, second))
         throw OverflowException()
     else
         first + second
 
-private infix fun Argument.multiplyBy(other: Argument) = multiply(this.evaluated(), other.evaluated())
+private infix fun Argument.multiplyBy(other: Argument): ULong = multiply(this.evaluated(), other.evaluated())
 
-private fun multiply(first: Long, second: Long) =
-    if (first == 0L || second == 0L)
-        0L
-    else if (first * second / first != second)
+private fun multiply(first: ULong, second: ULong): ULong {
+    return if (first == 0UL || second == 0UL) {
+        0UL
+    } else if (first * second / first != second) {
         throw OverflowException()
-    else
+    } else {
         first * second
+    }
+}
 
-private fun log(x: Long, base: Long): Long {
-    if (x < 0L || base <= 0L) return 0L
+
+private fun log(x: ULong, base: ULong): ULong {
+    if (x < 0UL || base <= 0UL) return 0UL
 
     val result = kotlin.math.log(x.toDouble(), base.toDouble())
 
     return when {
-        result != floor(result) -> 0L
-        else -> result.toLong()
+        result != floor(result) -> 0UL
+        else -> result.toULong()
     }
 }

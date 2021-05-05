@@ -4,7 +4,7 @@ import eu.yeger.refunk.exception.ArityException
 import eu.yeger.refunk.exception.CompositionException
 import eu.yeger.refunk.exception.NaturalNumberException
 import eu.yeger.refunk.exception.OverflowException
-import org.junit.jupiter.api.Assertions.assertEquals
+import eu.yeger.refunk.shouldBe
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
@@ -23,7 +23,7 @@ class FunctionTests {
     @Test
     fun testApplyException() {
         try {
-            Successor()(-1)
+            successor(-1)
         } catch (e: NaturalNumberException) {
             return
         }
@@ -33,7 +33,7 @@ class FunctionTests {
     @Test
     fun testTooFewCompositionException() {
         try {
-            Successor().compose()
+            successor.compose()
         } catch (e: CompositionException) {
             return
         }
@@ -43,7 +43,7 @@ class FunctionTests {
     @Test
     fun testTooManyCompositionException() {
         try {
-            Successor().compose(Successor(), Successor())
+            successor.compose(successor, successor)
         } catch (e: CompositionException) {
             return
         }
@@ -53,7 +53,7 @@ class FunctionTests {
     @Test
     fun testAndThenException() {
         try {
-            Successor() andThen Projection(1)
+            successor andThen Projection(1)
         } catch (e: CompositionException) {
             return
         }
@@ -63,7 +63,7 @@ class FunctionTests {
     @Test
     fun testNegativeReturn() {
         try {
-            Successor()(Long.MAX_VALUE)
+            successor(ULong.MAX_VALUE)
         } catch (e: OverflowException) {
             return
         }
@@ -75,12 +75,12 @@ class FunctionTests {
         val failingFunction = object : Function() {
             override val arity = 0
 
-            override fun evaluate(arguments: Array<Argument>): Long {
+            override fun evaluate(arguments: Array<Argument>): ULong {
                 fail<Any>()
-                return 0
+                return 0UL
             }
         }
 
-        assertEquals(42, Projection(1).compose(failingFunction, Constant(42), lazy = true)())
+        Projection(1).compose(failingFunction, constant(42), lazy = true)() shouldBe 42
     }
 }

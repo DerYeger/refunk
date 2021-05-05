@@ -2,7 +2,7 @@ package eu.yeger.refunk.base
 
 import eu.yeger.refunk.exception.ProjectionException
 
-public class Projection(private val index: Int) : Function() {
+public class Projection internal constructor(private val index: Int) : Function() {
 
     override val arity = index + 1
 

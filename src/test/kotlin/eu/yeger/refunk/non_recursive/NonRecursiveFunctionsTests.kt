@@ -4,7 +4,7 @@ import eu.yeger.refunk.base.and
 import eu.yeger.refunk.base.andThen
 import eu.yeger.refunk.base.second
 import eu.yeger.refunk.base.third
-import org.junit.jupiter.api.Assertions.assertEquals
+import eu.yeger.refunk.shouldBe
 import org.junit.jupiter.api.Test
 
 class NonRecursiveFunctionsTests {
@@ -16,7 +16,7 @@ class NonRecursiveFunctionsTests {
         // x -> 3x + 6
         val f = multiplyBy(3) andThen add(6)
 
-        assertEquals(42, f(12))
+        f(12) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ class NonRecursiveFunctionsTests {
         // (x,y,z) -> x * y + z
         val g = additionOf { multiplication and third }
 
-        assertEquals(42, g(2, 12, 18))
+        g(2, 12, 18) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ class NonRecursiveFunctionsTests {
         // (x,y,z) -> x * y * z
         val h = multiplicationOf { multiplication and third }
 
-        assertEquals(42, h(2, 3, 7))
+        h(2, 3, 7) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ class NonRecursiveFunctionsTests {
         // (x,y) -> 2x - y
         val i = subtractionOf { multiplyBy(2) and second }
 
-        assertEquals(42, i(25, 8))
+        i(25, 8) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class NonRecursiveFunctionsTests {
         // x -> (2x + 42) - x²
         val j = subtractionOf { multiplyBy(2) andThen add(42) and square }
 
-        assertEquals(42, j(0))
+        j(0) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ class NonRecursiveFunctionsTests {
         // x -> 34; else
         val k = boundedMuOperator(j) andThen add(34)
 
-        assertEquals(42, k(8))
+        k(8) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ class NonRecursiveFunctionsTests {
         // x -> 42; else
         val l = boundedMuOperator(j) andThen add(42)
 
-        assertEquals(42, l(7))
+        l(7) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ class NonRecursiveFunctionsTests {
         // (x,y) -> 0; else
         val m = floorDivision andThen multiplyBy(2)
 
-        assertEquals(42, m(84, 4))
+        m(84, 4) shouldBe 42
 
         // ------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------
@@ -92,6 +92,6 @@ class NonRecursiveFunctionsTests {
         // (x,y) -> 42; else
         val n = floorDivision andThen multiplyBy(2) andThen add(42)
 
-        assertEquals(42, n(10, 0))
+        n(10, 0) shouldBe 42
     }
 }
