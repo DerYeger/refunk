@@ -20,7 +20,7 @@ public fun add(value: Long): Function = additionOf { first and constant(value) }
 public val predecessor: Function = object : Function() {
     override val arity = 1
     override fun evaluate(arguments: Array<Argument>): ULong {
-        val argument = arguments[0].evaluated()
+        val argument = arguments[0].value
         return if (argument > 0UL) {
             argument - 1UL
         } else {
@@ -32,8 +32,8 @@ public val predecessor: Function = object : Function() {
 public val subtraction: Function = object : Function() {
     override val arity = 2
     override fun evaluate(arguments: Array<Argument>): ULong {
-        val minuend = arguments[0].evaluated()
-        val subtrahend = arguments[1].evaluated()
+        val minuend = arguments[0].value
+        val subtrahend = arguments[1].value
         return if (minuend >= subtrahend) {
             minuend - subtrahend
         } else {
@@ -65,8 +65,8 @@ public val exp: Function = object : Function() {
     override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>): ULong {
-        val first = arguments[0].evaluated()
-        val second = arguments[1].evaluated()
+        val first = arguments[0].value
+        val second = arguments[1].value
         if (second == 0UL) return 1UL
         val result = first.toDouble().pow(second.toDouble()).toULong()
 
@@ -96,7 +96,7 @@ public fun boundedMuOperator(function: Function): Function = object : Function()
     override val arity = function.arity
 
     override fun evaluate(arguments: Array<Argument>): ULong {
-        for (x in ULongRange(0UL, arguments[0].evaluated())) {
+        for (x in ULongRange(0UL, arguments[0].value)) {
             if (function.applyArguments(
                     arrayOf(
                         x.toNaturalNumber(),
@@ -120,7 +120,7 @@ public val ceilingDivision: Function = object : Function() {
     override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>): ULong {
-        return with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+        return with(Pair(arguments[0].value, arguments[1].value)) {
             if (second == 0UL) return 0UL
             ceil(first.toDouble() / second.toDouble()).toULong()
         }
@@ -133,7 +133,7 @@ public val floorDivision: Function = object : Function() {
     override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>): ULong {
-        return with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+        return with(Pair(arguments[0].value, arguments[1].value)) {
             if (second == 0UL) return 0UL
             floor(first.toDouble() / second.toDouble()).toULong()
         }
@@ -146,8 +146,8 @@ public val division: Function = object : Function() {
     override val arity = 2
 
     override fun evaluate(arguments: Array<Argument>): ULong {
-        val a = arguments[0].evaluated()
-        val b = arguments[1].evaluated()
+        val a = arguments[0].value
+        val b = arguments[1].value
 
         return when {
             b == 0UL -> 0UL
@@ -162,10 +162,10 @@ public inline fun divisionOf(arguments: () -> Array<Function>): Function = divis
 public fun log(base: Long): Function = object : Function() {
     override val arity = 1
     override fun evaluate(arguments: Array<Argument>) =
-        log(arguments[0].evaluated(), base.toNaturalNumber().evaluated())
+        log(arguments[0].value, base.toNaturalNumber().value)
 }
 
-private infix operator fun Argument.plus(other: Argument) = add(evaluated(), other.evaluated())
+private infix operator fun Argument.plus(other: Argument) = add(value, other.value)
 
 private fun add(first: ULong, second: ULong) =
     if (first + second < max(first, second))
@@ -173,7 +173,7 @@ private fun add(first: ULong, second: ULong) =
     else
         first + second
 
-private infix fun Argument.multiplyBy(other: Argument): ULong = multiply(this.evaluated(), other.evaluated())
+private infix fun Argument.multiplyBy(other: Argument): ULong = multiply(this.value, other.value)
 
 private fun multiply(first: ULong, second: ULong): ULong {
     return if (first == 0UL || second == 0UL) {

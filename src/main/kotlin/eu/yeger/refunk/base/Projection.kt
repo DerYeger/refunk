@@ -10,5 +10,5 @@ public class Projection internal constructor(private val index: Int) : Function(
         if (index < 0) throw ProjectionException("Projection index can not be negative")
     }
 
-    override fun evaluate(arguments: Array<Argument>) = arguments[index].evaluated()
+    override fun evaluate(arguments: Array<Argument>) = arguments[index].value
 }

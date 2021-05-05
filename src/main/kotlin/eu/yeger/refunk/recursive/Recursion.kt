@@ -14,14 +14,14 @@ public class Recursion(
 
     override val arity = max(baseCase.arity + 1, recursiveCase.arity - 1)
 
-    override fun evaluate(arguments: Array<Argument>): ULong = when (arguments[0].evaluated()) {
+    override fun evaluate(arguments: Array<Argument>): ULong = when (arguments[0].value) {
         0UL -> baseCase.applyArguments(arguments.slice(1 until arguments.size).toTypedArray())
         else -> recursiveCase.applyArguments(recursiveCaseFunctionArguments(arguments))
     }
 
     private fun recursiveCaseFunctionArguments(arguments: Array<Argument>): Array<Argument> {
         val recursionArguments = arguments.clone()
-        recursionArguments[0] = (recursionArguments[0].evaluated() - 1UL).toNaturalNumber()
+        recursionArguments[0] = (recursionArguments[0].value - 1UL).toNaturalNumber()
 
         return arrayOf(this.asArgument(recursionArguments, lazy), *recursionArguments)
     }

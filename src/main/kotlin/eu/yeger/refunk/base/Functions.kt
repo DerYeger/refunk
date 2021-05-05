@@ -13,8 +13,8 @@ public infix fun Function.of(function: Function): Composition = Composition(this
 public infix fun Function.and(function: Function): Array<Function> = arrayOf(this, function)
 public infix fun Array<Function>.and(function: Function): Array<Function> = this.plus(function)
 
-public fun constant(value: Long): Constant = Constant(value.toNaturalNumber().evaluated())
-public fun const(value: Long): Constant = Constant(value.toNaturalNumber().evaluated())
+public fun constant(value: Long): Constant = Constant(value.toNaturalNumber().value)
+public fun const(value: Long): Constant = Constant(value.toNaturalNumber().value)
 public val zero: Constant = Constant(0UL)
 public val one: Constant = Constant(1UL)
 
