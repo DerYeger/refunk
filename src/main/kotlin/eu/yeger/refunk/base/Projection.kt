@@ -1,14 +1,6 @@
 package eu.yeger.refunk.base
 
-import eu.yeger.refunk.exception.ProjectionException
-
-public class Projection internal constructor(private val index: Int) : Function() {
-
-    override val arity = index + 1
-
-    init {
-        if (index < 0) throw ProjectionException("Projection index can not be negative")
-    }
-
-    override fun evaluate(arguments: Array<Argument>) = arguments[index].value
+public data class Projection internal constructor(private val index: UInt) : Function() {
+    override val arity = index + 1U
+    override fun evaluate(arguments: Array<Argument>) = arguments[index.toInt()].value
 }

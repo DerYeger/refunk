@@ -9,7 +9,7 @@ import kotlin.math.max
 import kotlin.math.pow
 
 public val addition: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
     override fun evaluate(arguments: Array<Argument>) = arguments[0] + arguments[1]
 }
 
@@ -18,7 +18,7 @@ public inline fun additionOf(arguments: () -> Array<Function>): Function = addit
 public fun add(value: Long): Function = additionOf { first and constant(value) }
 
 public val predecessor: Function = object : Function() {
-    override val arity = 1
+    override val arity = 1U
     override fun evaluate(arguments: Array<Argument>): ULong {
         val argument = arguments[0].value
         return if (argument > 0UL) {
@@ -30,7 +30,7 @@ public val predecessor: Function = object : Function() {
 }
 
 public val subtraction: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
     override fun evaluate(arguments: Array<Argument>): ULong {
         val minuend = arguments[0].value
         val subtrahend = arguments[1].value
@@ -51,7 +51,7 @@ public fun subtractFrom(value: Long): Function = subtractionOf { constant(value)
 public val not: Function = subtractFrom(1)
 
 public val multiplication: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
     override fun evaluate(arguments: Array<Argument>) = arguments[0] multiplyBy arguments[1]
 }
 
@@ -62,7 +62,7 @@ public fun multiplyBy(value: Long): Function = multiplicationOf { first and cons
 public val square: Function = multiplicationOf { first and first }
 
 public val exp: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
 
     override fun evaluate(arguments: Array<Argument>): ULong {
         val first = arguments[0].value
@@ -117,7 +117,7 @@ public inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array
     boundedMuOperator(function).of(arguments)
 
 public val ceilingDivision: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
 
     override fun evaluate(arguments: Array<Argument>): ULong {
         return with(Pair(arguments[0].value, arguments[1].value)) {
@@ -130,7 +130,7 @@ public val ceilingDivision: Function = object : Function() {
 public inline fun ceilingDivisionOf(arguments: () -> Array<Function>): Function = ceilingDivision of arguments
 
 public val floorDivision: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
 
     override fun evaluate(arguments: Array<Argument>): ULong {
         return with(Pair(arguments[0].value, arguments[1].value)) {
@@ -143,7 +143,7 @@ public val floorDivision: Function = object : Function() {
 public inline fun floorDivisionOf(arguments: () -> Array<Function>): Function = floorDivision of arguments
 
 public val division: Function = object : Function() {
-    override val arity = 2
+    override val arity = 2U
 
     override fun evaluate(arguments: Array<Argument>): ULong {
         val a = arguments[0].value
@@ -160,7 +160,7 @@ public val division: Function = object : Function() {
 public inline fun divisionOf(arguments: () -> Array<Function>): Function = division of arguments
 
 public fun log(base: Long): Function = object : Function() {
-    override val arity = 1
+    override val arity = 1U
     override fun evaluate(arguments: Array<Argument>) =
         log(arguments[0].value, base.toNaturalNumber().value)
 }

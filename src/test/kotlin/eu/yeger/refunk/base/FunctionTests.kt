@@ -13,7 +13,7 @@ class FunctionTests {
     @Test
     fun testArgumentArityException() {
         try {
-            Projection(0)()
+            Projection(0U)()
         } catch (e: ArityException) {
             return
         }
@@ -53,7 +53,7 @@ class FunctionTests {
     @Test
     fun testAndThenException() {
         try {
-            successor andThen Projection(1)
+            successor andThen Projection(1U)
         } catch (e: CompositionException) {
             return
         }
@@ -73,7 +73,7 @@ class FunctionTests {
     @Test
     fun testLazyEvaluation() {
         val failingFunction = object : Function() {
-            override val arity = 0
+            override val arity = 0U
 
             override fun evaluate(arguments: Array<Argument>): ULong {
                 fail<Any>()
@@ -81,6 +81,6 @@ class FunctionTests {
             }
         }
 
-        Projection(1).compose(failingFunction, constant(42), lazy = true)() shouldBe 42
+        Projection(1U).compose(failingFunction, constant(42), lazy = true)() shouldBe 42
     }
 }

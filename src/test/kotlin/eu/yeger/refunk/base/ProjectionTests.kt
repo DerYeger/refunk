@@ -9,9 +9,9 @@ class ProjectionTests {
 
     @Test
     fun testProjection() {
-        Projection(0)(5, 10, 20) shouldBe 5
-        Projection(1)(5, 10, 20) shouldBe 10
-        Projection(2)(5, 10, 20) shouldBe 20
+        Projection(0U)(5, 10, 20) shouldBe 5
+        Projection(1U)(5, 10, 20) shouldBe 10
+        Projection(2U)(5, 10, 20) shouldBe 20
     }
 
     @Test

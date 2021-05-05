@@ -4,7 +4,7 @@ import eu.yeger.refunk.exception.ArityException
 
 public abstract class Function {
 
-    internal abstract val arity: Int
+    internal abstract val arity: UInt
 
     public operator fun invoke(vararg functions: Function, lazy: Boolean = false): Composition =
         Composition(this, *functions, lazy = lazy)
@@ -19,7 +19,7 @@ public abstract class Function {
 
     internal fun applyArguments(arguments: Array<Argument>): ULong =
         when {
-            arity > arguments.size -> throw ArityException(arity, arguments.size)
+            arity > arguments.size.toUInt() -> throw ArityException(arity, arguments.size)
             else -> evaluate(arguments)
         }
 

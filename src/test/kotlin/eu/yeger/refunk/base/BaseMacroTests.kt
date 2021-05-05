@@ -9,6 +9,7 @@ class BaseMacroTests {
     fun testConstantMacro() {
         constant(10)() shouldBe 10
         constant(10)(1, 2, 3, 4, 5) shouldBe 10
+        println(constant(10))
     }
 
     @Test

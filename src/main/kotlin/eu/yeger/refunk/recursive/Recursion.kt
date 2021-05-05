@@ -12,7 +12,7 @@ public class Recursion(
     private val lazy: Boolean = true
 ) : Function() {
 
-    override val arity = max(baseCase.arity + 1, recursiveCase.arity - 1)
+    override val arity = max(baseCase.arity + 1U, recursiveCase.arity.coerceAtLeast(1U) - 1U)
 
     override fun evaluate(arguments: Array<Argument>): ULong = when (arguments[0].value) {
         0UL -> baseCase.applyArguments(arguments.slice(1 until arguments.size).toTypedArray())

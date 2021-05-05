@@ -79,7 +79,7 @@ public inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array
     boundedMuOperator(function) of arguments
 
 internal fun boundedMuOperatorDifferentiationFunction(function: Function): Function {
-    val firstTestArguments = Array<Function>(function.arity) { projection(it + 1) }
+    val firstTestArguments = Array<Function>(function.arity.toInt()) { projection(it + 1) }
     firstTestArguments[0] = second andThen successor
     val firstTestFunction = function of { firstTestArguments }
 

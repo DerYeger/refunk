@@ -3,7 +3,7 @@ package eu.yeger.refunk.exception
 internal class ArityException(message: String) : FunctionException(message) {
 
     internal constructor(
-        arity: Int,
+        arity: UInt,
         argumentCount: Int
     ) : this("Function requires $arity argument(s) but received $argumentCount")
 }

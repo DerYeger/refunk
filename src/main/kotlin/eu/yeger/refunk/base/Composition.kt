@@ -9,10 +9,10 @@ internal constructor(
     private val lazy: Boolean = false
 ) : Function() {
 
-    override val arity = functions.map { it.arity }.maxOrNull() ?: 0
+    override val arity = functions.map(Function::arity).maxOrNull() ?: 0U
 
     init {
-        if (evaluator.arity != functions.size) throw CompositionException(evaluator, functions.size)
+        if (evaluator.arity != functions.size.toUInt()) throw CompositionException(evaluator, functions.size)
     }
 
     override fun evaluate(arguments: Array<Argument>) =
