@@ -3,7 +3,7 @@ package eu.yeger.refunk.base
 import eu.yeger.refunk.exception.NaturalNumberException
 import eu.yeger.refunk.exception.OverflowException
 
-interface Argument {
+internal interface Argument {
     fun evaluated(): Long
 }
 
@@ -24,7 +24,8 @@ internal fun Function.asArgument(arguments: Array<Argument>, lazy: Boolean) =
     else
         toNaturalNumber(this.applyArguments(arguments))
 
-internal inline class NaturalNumber(private val value: Long) : Argument {
+@JvmInline
+internal value class NaturalNumber(private val value: Long) : Argument {
     override fun evaluated() = value
 }
 

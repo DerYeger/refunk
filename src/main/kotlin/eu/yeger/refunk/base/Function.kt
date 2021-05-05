@@ -3,16 +3,19 @@ package eu.yeger.refunk.base
 import eu.yeger.refunk.exception.ArityException
 import eu.yeger.refunk.exception.NaturalNumberException
 
-abstract class Function {
+public abstract class Function {
 
     internal abstract val arity: Int
 
-    operator fun invoke(vararg functions: Function, lazy: Boolean = false) = Composition(this, *functions, lazy = lazy)
+    public operator fun invoke(vararg functions: Function, lazy: Boolean = false): Composition =
+        Composition(this, *functions, lazy = lazy)
 
-    operator fun invoke(vararg arguments: Long) = applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
-    operator fun invoke() = applyArguments(emptyArray())
+    public operator fun invoke(vararg arguments: Long): Long =
+        applyArguments(arguments.map { toNaturalNumber(it) }.toTypedArray())
 
-    internal fun applyArguments(arguments: Array<Argument>) =
+    public operator fun invoke(): Long = applyArguments(emptyArray())
+
+    internal fun applyArguments(arguments: Array<Argument>): Long =
         when {
             arity > arguments.size -> throw ArityException(arity, arguments.size)
             else -> {
@@ -21,5 +24,5 @@ abstract class Function {
             }
         }
 
-    protected abstract fun evaluate(arguments: Array<Argument>): Long
+    internal abstract fun evaluate(arguments: Array<Argument>): Long
 }

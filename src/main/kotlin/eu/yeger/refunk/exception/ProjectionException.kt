@@ -1,3 +1,3 @@
 package eu.yeger.refunk.exception
 
-class ProjectionException(message: String) : FunctionException(message)
+internal class ProjectionException(message: String) : FunctionException(message)

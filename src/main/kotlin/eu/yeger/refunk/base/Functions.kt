@@ -1,33 +1,37 @@
 package eu.yeger.refunk.base
 
-fun Function.compose(vararg functions: Function, lazy: Boolean = false) = Composition(this, *functions, lazy = lazy)
+public fun Function.compose(vararg functions: Function, lazy: Boolean = false): Composition =
+    Composition(this, *functions, lazy = lazy)
 
-infix fun Function.andThen(function: Function) = function.compose(this, lazy = true)
+public infix fun Function.andThen(function: Function): Composition = function.compose(this, lazy = true)
 
-inline infix fun Function.of(collector: () -> Array<Function>) = Composition(this, *collector.invoke(), lazy = false)
-infix fun Function.of(function: Function) = Composition(this, function, lazy = false)
+public inline infix fun Function.of(collector: () -> Array<Function>): Composition =
+    Composition(this, *collector.invoke(), lazy = false)
 
-infix fun Function.and(function: Function): Array<Function> = arrayOf(this, function)
-infix fun Array<Function>.and(function: Function): Array<Function> = this.plus(function)
+public infix fun Function.of(function: Function): Composition = Composition(this, function, lazy = false)
 
-fun constant(value: Long) = Constant(value)
-fun const(value: Long) = Constant(value)
-val zero by lazy { Constant(0) }
-val one by lazy { Constant(1) }
+public infix fun Function.and(function: Function): Array<Function> = arrayOf(this, function)
+public infix fun Array<Function>.and(function: Function): Array<Function> = this.plus(function)
 
-fun projection(index: Int) = Projection(index)
-inline fun projectionOf(index: Int, collector: () -> Array<Function>) = Projection(index) of collector
+public fun constant(value: Long): Constant = Constant(value)
+public fun const(value: Long): Constant = Constant(value)
+public val zero: Constant = Constant(0)
+public val one: Constant = Constant(1)
 
-val first by lazy { Projection(0) }
-val second by lazy { Projection(1) }
-val third by lazy { Projection(2) }
-val fourth by lazy { Projection(3) }
-val fifth by lazy { Projection(4) }
-val sixth by lazy { Projection(5) }
-val seventh by lazy { Projection(6) }
-val eighth by lazy { Projection(7) }
-val ninth by lazy { Projection(8) }
-val tenth by lazy { Projection(9) }
+public fun projection(index: Int): Projection = Projection(index)
+public inline fun projectionOf(index: Int, collector: () -> Array<Function>): Composition =
+    Projection(index) of collector
 
-val successor by lazy { Successor() }
-fun successorOf(function: Function) = Successor() of function
+public val first: Projection = Projection(0)
+public val second: Projection = Projection(1)
+public val third: Projection = Projection(2)
+public val fourth: Projection = Projection(3)
+public val fifth: Projection = Projection(4)
+public val sixth: Projection = Projection(5)
+public val seventh: Projection = Projection(6)
+public val eighth: Projection = Projection(7)
+public val ninth: Projection = Projection(8)
+public val tenth: Projection = Projection(9)
+
+public val successor: Successor = Successor()
+public fun successorOf(function: Function): Composition = Successor() of function

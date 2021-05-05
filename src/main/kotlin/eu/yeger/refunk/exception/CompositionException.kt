@@ -2,7 +2,7 @@ package eu.yeger.refunk.exception
 
 import eu.yeger.refunk.base.Function
 
-class CompositionException(message: String) : FunctionException(message) {
+internal class CompositionException(message: String) : FunctionException(message) {
 
     constructor(
         function: Function,

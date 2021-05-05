@@ -3,24 +3,24 @@ package eu.yeger.refunk.recursive
 import eu.yeger.refunk.base.*
 import eu.yeger.refunk.base.Function
 
-val recursionResult by lazy { first }
-val recursionParameter by lazy { second }
+public val recursionResult: Projection = first
+public val recursionParameter: Projection = second
 
-val firstRecursionArgument by lazy { third }
-val secondRecursionArgument by lazy { fourth }
-val thirdRecursionArgument by lazy { fifth }
+public val firstRecursionArgument: Projection = third
+public val secondRecursionArgument: Projection = fourth
+public val thirdRecursionArgument: Projection = fifth
 
-val firstBaseCaseArgument by lazy { first }
-val secondBaseCaseArgument by lazy { second }
-val thirdBaseCaseArgument by lazy { third }
+public val firstBaseCaseArgument: Projection = first
+public val secondBaseCaseArgument: Projection = second
+public val thirdBaseCaseArgument: Projection = third
 
-class RecursionBuilder(val recursiveCase: Function)
+public data class RecursionBuilder(val recursiveCase: Function)
 
-inline fun recursive(function: () -> Function) = RecursionBuilder(function())
+public inline fun recursive(function: () -> Function): RecursionBuilder = RecursionBuilder(function())
 
-fun recursive(function: Function) = RecursionBuilder(function)
+public fun recursive(function: Function): RecursionBuilder = RecursionBuilder(function)
 
-inline infix fun RecursionBuilder.withBaseCase(function: () -> Function) =
+public inline infix fun RecursionBuilder.withBaseCase(function: () -> Function): Recursion =
     Recursion(function(), this.recursiveCase)
 
-infix fun RecursionBuilder.withBaseCase(base: Function) = Recursion(base, this.recursiveCase)
+public infix fun RecursionBuilder.withBaseCase(base: Function): Recursion = Recursion(base, this.recursiveCase)

@@ -1,6 +1,6 @@
 package eu.yeger.refunk.base
 
-class Successor : Function() {
+public class Successor : Function() {
 
     override val arity = 1
 

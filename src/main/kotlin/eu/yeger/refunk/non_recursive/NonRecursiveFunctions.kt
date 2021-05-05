@@ -8,77 +8,67 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.pow
 
-val addition by lazy {
-    object : Function() {
-        override val arity = 2
-        override fun evaluate(arguments: Array<Argument>) = arguments[0] + arguments[1]
+public val addition: Function = object : Function() {
+    override val arity = 2
+    override fun evaluate(arguments: Array<Argument>) = arguments[0] + arguments[1]
+}
+
+public inline fun additionOf(arguments: () -> Array<Function>): Function = addition of arguments
+
+public fun add(value: Long): Function = additionOf { first and constant(value) }
+
+public val predecessor: Function = object : Function() {
+    override val arity = 1
+    override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - 1)
+}
+
+public val subtraction: Function = object : Function() {
+    override val arity = 2
+    override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - arguments[1].evaluated())
+}
+
+public inline fun subtractionOf(arguments: () -> Array<Function>): Function = subtraction of arguments
+
+public fun subtract(value: Long): Function = subtractionOf { first and constant(value) }
+
+public fun subtractFrom(value: Long): Function = subtractionOf { constant(value) and first }
+
+public val not: Function = subtractFrom(1)
+
+public val multiplication: Function = object : Function() {
+    override val arity = 2
+    override fun evaluate(arguments: Array<Argument>) = arguments[0] multiplyBy arguments[1]
+}
+
+public inline fun multiplicationOf(arguments: () -> Array<Function>): Function = multiplication of arguments
+
+public fun multiplyBy(value: Long): Function = multiplicationOf { first and constant(value) }
+
+public val square: Function = multiplicationOf { first and first }
+
+public val exp: Function = object : Function() {
+    override val arity = 2
+
+    override fun evaluate(arguments: Array<Argument>): Long {
+        val first = arguments[0].evaluated()
+        val second = arguments[1].evaluated()
+        if (second == 0L) return 1L
+        val result = first.toDouble().pow(second.toDouble()).toLong()
+
+        return if (log(result, first) == second)
+            result
+        else
+            throw OverflowException()
     }
 }
 
-inline fun additionOf(arguments: () -> Array<Function>) = addition of arguments
+public inline fun expOf(arguments: () -> Array<Function>): Function = exp of arguments
 
-fun add(value: Long) = additionOf { first and constant(value) }
-
-val predecessor by lazy {
-    object : Function() {
-        override val arity = 1
-        override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - 1)
-    }
-}
-
-val subtraction by lazy {
-    object : Function() {
-        override val arity = 2
-        override fun evaluate(arguments: Array<Argument>) = bounded(arguments[0].evaluated() - arguments[1].evaluated())
-    }
-}
-
-inline fun subtractionOf(arguments: () -> Array<Function>) = subtraction of arguments
-
-fun subtract(value: Long) = subtractionOf { first and constant(value) }
-
-fun subtractFrom(value: Long) = subtractionOf { constant(value) and first }
-
-val not by lazy { subtractFrom(1) }
-
-val multiplication by lazy {
-    object : Function() {
-        override val arity = 2
-        override fun evaluate(arguments: Array<Argument>) = arguments[0] multiplyBy arguments[1]
-    }
-}
-
-inline fun multiplicationOf(arguments: () -> Array<Function>) = multiplication of arguments
-
-fun multiplyBy(value: Long) = multiplicationOf { first and constant(value) }
-
-val square by lazy { multiplicationOf { first and first } }
-
-val exp by lazy {
-    object : Function() {
-        override val arity = 2
-
-        override fun evaluate(arguments: Array<Argument>): Long {
-            val first = arguments[0].evaluated()
-            val second = arguments[1].evaluated()
-            if (second == 0L) return 1L
-            val result = first.toDouble().pow(second.toDouble()).toLong()
-
-            return if (log(result, first) == second)
-                result
-            else
-                throw OverflowException()
-        }
-    }
-}
-
-inline fun expOf(arguments: () -> Array<Function>) = exp of arguments
-
-fun caseDifferentiation(
+public fun caseDifferentiation(
     differentiator: Function,
     zeroCase: Function,
     otherCase: Function
-) = object : Function() {
+): Function = object : Function() {
     override val arity = maxOf(differentiator.arity, zeroCase.arity, otherCase.arity)
 
     override fun evaluate(arguments: Array<Argument>) = when (differentiator.applyArguments(arguments)) {
@@ -87,19 +77,19 @@ fun caseDifferentiation(
     }
 }
 
-fun boundedMuOperator(function: Function) = object : Function() {
+public fun boundedMuOperator(function: Function): Function = object : Function() {
     override val arity = function.arity
 
     override fun evaluate(arguments: Array<Argument>): Long {
         for (x in 0..arguments[0].evaluated()) {
             if (function.applyArguments(
-                arrayOf(
-                    toNaturalNumber(x),
-                    *arguments
-                        .slice(1 until arguments.size)
-                        .toTypedArray()
-                )
-            ) == 0L
+                    arrayOf(
+                        toNaturalNumber(x),
+                        *arguments
+                            .slice(1 until arguments.size)
+                            .toTypedArray()
+                    )
+                ) == 0L
             ) {
                 return x
             }
@@ -108,57 +98,51 @@ fun boundedMuOperator(function: Function) = object : Function() {
     }
 }
 
-inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array<Function>) =
+public inline fun boundedMuOperatorOf(function: Function, arguments: () -> Array<Function>): Function =
     boundedMuOperator(function).of(arguments)
 
-val ceilingDivision by lazy {
-    object : Function() {
-        override val arity = 2
+public val ceilingDivision: Function = object : Function() {
+    override val arity = 2
 
-        override fun evaluate(arguments: Array<Argument>) =
-            with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
-                if (second == 0L) return 0L
-                ceil(first.toDouble() / second.toDouble()).toLong()
-            }
-    }
+    override fun evaluate(arguments: Array<Argument>) =
+        with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+            if (second == 0L) return 0L
+            ceil(first.toDouble() / second.toDouble()).toLong()
+        }
 }
 
-inline fun ceilingDivisionOf(arguments: () -> Array<Function>) = ceilingDivision of arguments
+public inline fun ceilingDivisionOf(arguments: () -> Array<Function>): Function = ceilingDivision of arguments
 
-val floorDivision by lazy {
-    object : Function() {
-        override val arity = 2
+public val floorDivision: Function = object : Function() {
+    override val arity = 2
 
-        override fun evaluate(arguments: Array<Argument>) =
-            with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
-                if (second == 0L) return 0L
-                floor(first.toDouble() / second.toDouble()).toLong()
-            }
-    }
+    override fun evaluate(arguments: Array<Argument>) =
+        with(Pair(arguments[0].evaluated(), arguments[1].evaluated())) {
+            if (second == 0L) return 0L
+            floor(first.toDouble() / second.toDouble()).toLong()
+        }
 }
 
-inline fun floorDivisionOf(arguments: () -> Array<Function>) = floorDivision of arguments
+public inline fun floorDivisionOf(arguments: () -> Array<Function>): Function = floorDivision of arguments
 
-val division by lazy {
-    object : Function() {
-        override val arity = 2
+public val division: Function = object : Function() {
+    override val arity = 2
 
-        override fun evaluate(arguments: Array<Argument>): Long {
-            val a = arguments[0].evaluated()
-            val b = arguments[1].evaluated()
+    override fun evaluate(arguments: Array<Argument>): Long {
+        val a = arguments[0].evaluated()
+        val b = arguments[1].evaluated()
 
-            return when {
-                b == 0L -> 0
-                a % b == 0L -> a / b
-                else -> 0
-            }
+        return when {
+            b == 0L -> 0
+            a % b == 0L -> a / b
+            else -> 0
         }
     }
 }
 
-inline fun divisionOf(arguments: () -> Array<Function>) = division of arguments
+public inline fun divisionOf(arguments: () -> Array<Function>): Function = division of arguments
 
-fun log(base: Long) = object : Function() {
+public fun log(base: Long): Function = object : Function() {
     override val arity = 1
     override fun evaluate(arguments: Array<Argument>) = log(arguments[0].evaluated(), base)
 }

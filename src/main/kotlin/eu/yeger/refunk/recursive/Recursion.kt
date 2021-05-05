@@ -6,7 +6,7 @@ import eu.yeger.refunk.base.asArgument
 import eu.yeger.refunk.base.toNaturalNumber
 import kotlin.math.max
 
-class Recursion(
+public class Recursion(
     private val baseCase: Function,
     private val recursiveCase: Function,
     private val lazy: Boolean = true

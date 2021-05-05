@@ -1,14 +1,18 @@
 plugins {
     `maven-publish`
     jacoco
-    kotlin("jvm") version "1.3.71"
-    id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
+    kotlin("jvm")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
-val junit_version: String by project
+val junitVersion: String by project
 
 group = "eu.yeger"
-version = "3.2.0"
+version = "4.0.0"
+
+kotlin {
+    explicitApi()
+}
 
 repositories {
     mavenCentral()
@@ -17,14 +21,13 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit_version")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junit_version")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
 }
 
 tasks {
     compileKotlin {
         kotlinOptions {
-            freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
             jvmTarget = "1.8"
         }
     }
