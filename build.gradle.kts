@@ -2,7 +2,7 @@ plugins {
     `maven-publish`
     jacoco
     kotlin("jvm")
-    id("org.jlleitschuh.gradle.ktlint")
+    //id("org.jlleitschuh.gradle.ktlint")
 }
 
 val junitVersion: String by project
