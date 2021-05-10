@@ -1,4 +1,4 @@
-<p align="center"><img alt="REFUNK" src="doc/logo_transparent.png"></p>
+<p align="center"><img alt="REFUNK" src="doc/logo.png"></p>
 
 <p align="center">
     <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="License" src="https://img.shields.io/github/license/DerYeger/refunk?color=40aef6&style=for-the-badge"></a>
