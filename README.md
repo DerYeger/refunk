@@ -11,7 +11,7 @@
 ***REFUNK*** is small and lightweight library for studying and evaluating **primitive recursive functions** in Kotlin.\
 It provides a rich set of methods for defining functions in a more **natural** way than other functional frameworks and libraries.
 
-An interactive playground is available at https://refunk.yeger.eu.
+An interactive playground is available at https://refunk.janmueller.dev.
 
 ## Installation
 
